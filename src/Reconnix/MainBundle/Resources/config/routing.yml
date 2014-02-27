@@ -1,0 +1,3 @@
+reconnix_main_index:
+    pattern:  /page/{name}
+    defaults: { _controller: ReconnixMainBundle:Page:index }

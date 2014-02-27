@@ -1,0 +1,7 @@
+parameters:
+#    reconnix_main.example.class: Reconnix\MainBundle\Example
+
+services:
+#    reconnix_main.example:
+#        class: %reconnix_main.example.class%
+#        arguments: [@service_id, "plain_value", %parameter%]

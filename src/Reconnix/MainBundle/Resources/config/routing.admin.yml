@@ -1,0 +1,11 @@
+reconnix_main_admin_index:
+	pattern:  /
+	defaults: { _controller: ReconnixMainBundle:Admin/Admin:index }
+
+reconnix_main_admin_pages:
+    resource: "@ReconnixMainBundle/Resources/config/routing.admin.pages.yml"
+    prefix: /pages
+
+reconnix_main_admin_blocks:
+    resource: "@ReconnixMainBundle/Resources/config/routing.admin.blocks.yml"
+    prefix: /blocks
