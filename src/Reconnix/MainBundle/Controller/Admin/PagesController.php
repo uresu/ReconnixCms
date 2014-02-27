@@ -3,6 +3,8 @@
 namespace Reconnix\MainBundle\Controller\Admin;
 
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Component\HttpFoundation\Request;
+
 
 class PagesController extends Controller
 {
@@ -11,7 +13,7 @@ class PagesController extends Controller
         return $this->render('ReconnixMainBundle:Admin/Pages:admin.pages.index.html.twig');
     }
 
-    public function addAction(){
+    public function addAction(Request $request){
 
     	return $this->render('ReconnixMainBundle:Admin/Pages:admin.pages.add.html.twig');
     }

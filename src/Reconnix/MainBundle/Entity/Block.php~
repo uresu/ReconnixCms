@@ -1,0 +1,33 @@
+<?php
+
+namespace Reconnix\MainBundle\Entity;
+
+use Doctrine\ORM\Mapping as ORM;
+
+/**
+ * Block
+ *
+ * @ORM\Table()
+ * @ORM\Entity
+ */
+class Block
+{
+    /**
+     * @var integer
+     *
+     * @ORM\Column(name="id", type="integer")
+     * @ORM\Id
+     * @ORM\GeneratedValue(strategy="AUTO")
+     */
+    private $id;
+
+    /**
+     * @ORM\Column(name="name", length=32)
+     */
+    private $name;
+
+    /**
+     * @ORM\Column(name="content", type="string")
+     */
+    private $content;
+}
