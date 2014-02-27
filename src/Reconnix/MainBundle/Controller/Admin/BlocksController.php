@@ -4,7 +4,6 @@ namespace Reconnix\MainBundle\Controller\Admin;
 
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\HttpFoundation\Response;
 use Reconnix\MainBundle\Entity\Block;
 
 class BlocksController extends Controller
@@ -36,7 +35,7 @@ class BlocksController extends Controller
 
     private function buildBlockForm(Block $block){
         $form = $this->createFormBuilder($block)
-            ->add('name', 'text', array('attr' => array('required' => 'true')))
+            ->add('name', 'text')
             ->add('content', 'textarea', array('attr' => array('cols' => '100', 'rows' => '5')))
             ->add('save', 'submit')
             ->getForm();
