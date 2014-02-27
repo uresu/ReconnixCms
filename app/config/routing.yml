@@ -3,5 +3,5 @@ reconnix_main:
     prefix:   /
 
 reconnix_main_admin:
-	resource: "@ReconnixMainBundle/Resources/config/routing.admin.yml"
-	prefix:	  /admin
+    resource: "@ReconnixMainBundle/Resources/config/routing.admin.yml"
+    prefix:	  /admin
