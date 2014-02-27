@@ -16,7 +16,7 @@ class PagesController extends Controller
     public function addAction(Request $request){
         // create an empty object to store the submitted data
         $page = new Page();
-        // create Block form and return a handle to it
+        // create Page form and return a handle to it
         $form = self::buildPageForm($page);
         // handle form submission
         $form->handleRequest($request);
@@ -27,18 +27,27 @@ class PagesController extends Controller
             return $this->redirect($this->generateUrl('reconnix_main_admin_pages_index'));
         }
 
-        // no submission detected, or invalid submission
+        // no submission detected, or invalid submission, display the form
+
         return $this->render('ReconnixMainBundle:Admin/Pages:admin.pages.add.html.twig',
-            array('form' => $form->createView())
+            array(
+                'form' => $form->createView(),
+            )
         );
-    	return $this->render('ReconnixMainBundle:Admin/Pages:admin.pages.add.html.twig');
     }
 
     private function buildPageForm(Page $page){
+
         $form = $this->createFormBuilder($page)
             ->add('name', 'text')
             ->add('title', 'text')
             ->add('tagline', 'text')
+            ->add('blocks', 'entity', array(
+                'class' => 'ReconnixMainBundle:Block',
+                'multiple' => true,
+                'expanded' => true,
+                'property' => 'name',
+            ))
             ->add('save', 'submit')
             ->getForm();
 
