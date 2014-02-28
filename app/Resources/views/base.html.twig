@@ -1,15 +1,52 @@
 <!DOCTYPE html>
 <html>
     <head>
-        <meta charset="UTF-8" />
-        <title>{% block title %}Welcome!{% endblock %}</title>
-        {% block stylesheets %}{% endblock %}
-        <link rel="icon" type="image/x-icon" href="{{ asset('favicon.ico') }}" />
+        <meta http-equiv="Content-Type" content="text/html" charset="utf-8" />
+        <title>{% block title %}Reconnix{% endblock %} - Reconnix</title>
+
+        {% block stylesheets %}
+            <link href="{{  asset('css/html5reset.css') }}" rel="stylesheet" media="all" />
+            <link href="{{  asset('css/responsivegridsystem.css') }}" rel="stylesheet" media="all" />
+            <link href="{{  asset('css/normalize.min.css') }}" rel="stylesheet" media="all" />
+            <link href="{{  asset('css/main.css') }}" rel="stylesheet" media="all"/>
+            <link href="{{  asset('css/col.css') }}" rel="stylesheet" media="all"/>
+            <link href="{{  asset('css/2cols.css') }}" rel="stylesheet" media="all"/>
+            <link href="{{  asset('css/3cols.css') }}" rel="stylesheet" media="all"/>
+            <link href="{{  asset('css/4cols.css') }}" rel="stylesheet" media="all"/>
+            <link href="{{  asset('css/5cols.css') }}" rel="stylesheet" media="all"/>
+            <link href="{{  asset('css/6cols.css') }}" rel="stylesheet" media="all"/>
+            <link href="{{  asset('css/7cols.css') }}" rel="stylesheet" media="all"/>
+            <link href="{{  asset('css/8cols.css') }}" rel="stylesheet" media="all"/>
+            <link href="{{  asset('css/9cols.css') }}" rel="stylesheet" media="all"/>
+            <link href="{{  asset('css/10cols.css') }}" rel="stylesheet" media="all"/>
+            <link href="{{  asset('css/11cols.css') }}" rel="stylesheet" media="all"/>
+            <link href="{{  asset('css/12cols.css') }}" rel="stylesheet" media="all"/>
+        {% endblock %}
     </head>
     <body>
-        {% block body %}
-            <div>{% block inner %}Inner stuff{% endblock %}</div>
-        {% endblock %}
+        <div id="wrapper">
+            <div id='header-container'>
+                {% block  header %}
+                    {{ include('ReconnixMainBundle::header.html.twig') }}
+                {% endblock %}
+                <div id='tagline'>
+                    <div class='inner-content'>
+                        {% block tagline %}{% endblock %}
+                    </div>
+                </div>
+            </div>
+
+            <div id="main-container">
+                {% block body %}{% endblock %}
+                {% block social %}{% endblock %}
+            </div>
+
+            {% block footer %}
+                {{ include('ReconnixMainBundle::footer.html.twig') }}
+            {% endblock %}
+        </div>
+
         {% block javascripts %}{% endblock %}
+
     </body>
 </html>

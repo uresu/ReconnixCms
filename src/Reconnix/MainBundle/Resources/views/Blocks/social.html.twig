@@ -1,0 +1,120 @@
+{% block social %}
+<div class='main-dark-grey social-area'>
+<div class='inner-content'>
+
+<div class='col span_1_of_3 social-box latest-news'>
+<div class="inner">
+<h3>Latest News</h3>
+<ul>
+
+<li>
+<div class='col span_1_of_8'>
+<img src="{{ asset('images/darkGray_arrow_20x28.png') }}" alt=''>
+</div>
+<div class='col span_7_of_8'>
+<a href="/news/will-linux-ever-win-on-the-desktop/" class='social-link'>
+<span class='social-title'>
+Will Linux ever win on the Desktop?
+</span>
+<br>
+<span class='social-date'>
+28 Jan 2014
+</span>
+</a>
+</div>
+</li>
+
+<li>
+<div class='col span_1_of_8'>
+<img src="{{ asset('images/darkGray_arrow_20x28.png') }}" alt=''>
+</div>
+<div class='col span_7_of_8'>
+<a href="/news/happy-birthday-to-the-macintosh/" class='social-link'>
+<span class='social-title'>
+Happy birthday to the macintosh
+</span>
+<br>
+<span class='social-date'>
+27 Jan 2014
+</span>
+</a>
+</div>
+</li>
+
+
+</ul>
+</div>
+</div><!-- latest-news -->
+
+<div class='col span_1_of_3 social-box press-releases'>
+<div class="inner">
+<h3>Press Releases</h3>
+<ul>
+
+<li>
+<div class='col span_1_of_8'>
+<img src="{{ asset('images/darkGray_arrow_20x28.png') }}" alt=''>
+</div>
+<div class='col span_7_of_8'>
+<a href="/press-release/reconnix-ceo-named-as-finalist/" class='social-link'>
+<span class='social-title'>
+Reconnix CEO named as finalist
+</span>
+<br>
+<span class='social-date'>
+10 Feb 2014
+</span>
+</a>
+</div>
+</li>
+
+<li>
+<div class='col span_1_of_8'>
+<img src="{{ asset('images/darkGray_arrow_20x28.png') }}" alt=''>
+</div>
+<div class='col span_7_of_8'>
+<a href="/press-release/reconnix-predicts-the-2014-technology-landscape/" class='social-link'>
+<span class='social-title'>
+Reconnix predicts the 2014 technology landscape
+</span>
+<br>
+<span class='social-date'>
+11 Dec 2013
+</span>
+</a>
+</div>
+</li>
+
+<li>
+<div class='col span_1_of_8'>
+<img src="{{ asset('images/darkGray_arrow_20x28.png') }}" alt=''>
+</div>
+<div class='col span_7_of_8'>
+<a href="/press-release/more-than-meets-the-eye/" class='social-link'>
+<span class='social-title'>
+More than meets the eye: How some of the latest tech trends are saving lives
+</span>
+<br>
+<span class='social-date'>
+10 Dec 2013
+</span>
+</a>
+</div>
+</li>
+
+</ul>
+</div>
+</div><!-- press-releases -->
+
+<div class='col span_1_of_3 social-box latest-tweets'>
+<div class="inner">
+<h3>Latest Tweets</h3>
+<div id="tweetlist">
+</div>
+</div>
+</div><!-- latest-tweets -->
+
+</div><!-- inner-content (main-dark-grey) -->
+</div><!-- main-dark-grey -->
+<script src="{{ asset('js/twitterfetch.js') }}"></script>
+{% endblock %}

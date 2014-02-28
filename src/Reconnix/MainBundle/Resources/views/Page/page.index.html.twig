@@ -1,1 +1,27 @@
-Main page for audience
+{% extends '::base.html.twig' %} 
+
+{% block title %}
+	{{ title }}
+{% endblock %}
+
+{% block header %}
+	{% for block in blocks if block.name == 'Header' %}
+		{{ block.content }}
+	{% endfor %}
+{% endblock %}
+
+{% block tagline %}
+	{{ tagline }}
+{% endblock %}
+
+{% block social %}
+	{% for block in blocks if block.name == 'Social' %}
+		{{ block.content }}
+	{% endfor %}
+{% endblock %}
+
+{% block footer %}
+	{% for block in blocks if block.name == 'Footer' %}
+		{{ block.content }}
+	{% endfor %}
+{% endblock %}
