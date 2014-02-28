@@ -5,6 +5,7 @@ namespace Reconnix\MainBundle\Controller\Admin;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use Reconnix\MainBundle\Entity\Block;
+use Reconnix\MainBundle\Form\Type\BlockType;
 
 class BlocksController extends Controller
 {
@@ -16,8 +17,7 @@ class BlocksController extends Controller
     public function addAction(Request $request){
         // create an empty object to store the submitted data
         $block = new Block();
-        // create Block form and return a handle to it
-        $form = self::buildBlockForm($block);
+        $form = $this->createForm(new BlockType(), $block);
         // handle form submission
         $form->handleRequest($request);
         if($form->isValid()){
@@ -31,16 +31,6 @@ class BlocksController extends Controller
         return $this->render('ReconnixMainBundle:Admin/Blocks:admin.blocks.add.html.twig',
             array('form' => $form->createView())
         );
-    }
-
-    private function buildBlockForm(Block $block){
-        $form = $this->createFormBuilder($block)
-            ->add('name', 'text')
-            ->add('content', 'textarea', array('attr' => array('cols' => '100', 'rows' => '5')))
-            ->add('save', 'submit')
-            ->getForm();
-
-        return $form;
     }
 
     private function persistFormData(Block $block){

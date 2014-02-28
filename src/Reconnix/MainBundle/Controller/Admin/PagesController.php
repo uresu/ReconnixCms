@@ -5,6 +5,7 @@ namespace Reconnix\MainBundle\Controller\Admin;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use Reconnix\MainBundle\Entity\Page;
+use Reconnix\MainBundle\Form\Type\PageType;
 
 class PagesController extends Controller
 {
@@ -14,10 +15,11 @@ class PagesController extends Controller
     }
 
     public function addAction(Request $request){
+
         // create an empty object to store the submitted data
         $page = new Page();
-        // create Page form and return a handle to it
-        $form = self::buildPageForm($page);
+        $form = $this->createForm(new PageType(), $page);
+
         // handle form submission
         $form->handleRequest($request);
         if($form->isValid()){
@@ -28,30 +30,11 @@ class PagesController extends Controller
         }
 
         // no submission detected, or invalid submission, display the form
-
         return $this->render('ReconnixMainBundle:Admin/Pages:admin.pages.add.html.twig',
             array(
                 'form' => $form->createView(),
             )
         );
-    }
-
-    private function buildPageForm(Page $page){
-
-        $form = $this->createFormBuilder($page)
-            ->add('name', 'text')
-            ->add('title', 'text')
-            ->add('tagline', 'text')
-            ->add('blocks', 'entity', array(
-                'class' => 'ReconnixMainBundle:Block',
-                'multiple' => true,
-                'expanded' => true,
-                'property' => 'name',
-            ))
-            ->add('save', 'submit')
-            ->getForm();
-
-        return $form;
     }
 
     private function persistFormData(Page $page){
