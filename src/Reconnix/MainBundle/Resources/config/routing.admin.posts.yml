@@ -1,0 +1,11 @@
+reconnix_main_admin_posts_index:
+    pattern:  /
+    defaults: { _controller: ReconnixMainBundle:Admin/Posts:index }
+
+reconnix_main_admin_posts_add:
+    pattern:  /add
+    defaults: { _controller: ReconnixMainBundle:Admin/Posts:add }
+
+reconnix_main_admin_posts_edit:
+    pattern:  /edit/{id}
+    defaults: { _controller: ReconnixMainBundle:Admin/Posts:edit }

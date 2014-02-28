@@ -9,3 +9,7 @@ reconnix_main_admin_pages:
 reconnix_main_admin_blocks:
     resource: "@ReconnixMainBundle/Resources/config/routing.admin.blocks.yml"
     prefix: /blocks
+
+reconnix_main_admin_posts:
+    resource: "@ReconnixMainBundle/Resources/config/routing.admin.posts.yml"
+    prefix: /posts
