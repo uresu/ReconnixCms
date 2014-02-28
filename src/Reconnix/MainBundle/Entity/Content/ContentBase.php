@@ -35,7 +35,7 @@ class ContentBase{
     private $title; 
 
     /**
-     * @ORM\Column(name="content", type="string")
+     * @ORM\Column(name="content", type="text")
      */
     private $content;
 
