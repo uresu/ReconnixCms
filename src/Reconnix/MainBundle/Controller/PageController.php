@@ -17,7 +17,7 @@ class PageController extends Controller
 {
 
     /**
-     * @return Repsonse HTTP Repsonse 
+     * @return Reponse HTTP Repsonse 
      */
     public function indexAction($name){
     	

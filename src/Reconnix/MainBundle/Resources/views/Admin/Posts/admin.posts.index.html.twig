@@ -1,3 +1,10 @@
-Posts Index <br>
+<a href="{{ path('reconnix_main_admin_blocks_index') }}">Blocks</a>
+<a href="{{ path('reconnix_main_admin_pages_index') }}">Pages</a>
+<a href="{{ path('reconnix_main_admin_posts_index') }}">Posts</a><hr>
 
-<a href="{{ path('reconnix_main_admin_posts_add') }}">Add</a>
+Posts<br>
+
+{% for post in posts %}
+	<a href="{{ path('reconnix_main_admin_posts_edit', {'id': post.id }) }}">{{post.title}}</a><br>
+{% endfor %}
+<br><a href="{{ path('reconnix_main_admin_posts_add') }}">Add</a>
