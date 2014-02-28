@@ -14,7 +14,7 @@ class BlockType extends AbstractType{
 
 	public function getDefaultOptions(array $options){
 		return array(
-			'data_class' => 'Reconnix\MainBundle\Entity\Block'
+			'data_class' => 'Reconnix\MainBundle\Entity\Content\Block'
 		);
 	}
 

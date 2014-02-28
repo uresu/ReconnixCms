@@ -4,7 +4,7 @@ namespace Reconnix\MainBundle\Controller\Admin;
 
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
-use Reconnix\MainBundle\Entity\Block;
+use Reconnix\MainBundle\Entity\Content\Block;
 use Reconnix\MainBundle\Form\Type\BlockType;
 
 class BlocksController extends Controller

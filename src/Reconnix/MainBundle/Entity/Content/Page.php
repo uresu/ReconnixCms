@@ -1,37 +1,17 @@
 <?php
 
-namespace Reconnix\MainBundle\Entity;
+namespace Reconnix\MainBundle\Entity\Content;
 
 use Doctrine\ORM\Mapping as ORM;
 use Doctrine\Common\Collections\ArrayCollection;
+use Reconnix\MainBundle\Entity\Content\ContentBase;
 
 /**
- * Page
- *
- * @ORM\Table()
+ * Represent a Page piece of Content
  * @ORM\Entity
  */
-class Page
+class Page extends ContentBase
 {
-    /**
-     * @var integer
-     *
-     * @ORM\Column(name="id", type="integer")
-     * @ORM\Id
-     * @ORM\GeneratedValue(strategy="AUTO")
-     */
-    private $id;
-
-    /**
-     * @ORM\Column(name="name", length=32)
-     */
-    private $name;
-
-    /**
-     * @ORM\Column(name="title", length=32)
-     */
-    private $title;  
-
     /**
      * @ORM\Column(name="tagline", length=128)
      */
@@ -52,36 +32,26 @@ class Page
     }
 
     /**
-     * Get id
+     * Set tagline
      *
-     * @return integer 
-     */
-    public function getId()
-    {
-        return $this->id;
-    }
-
-    /**
-     * Set name
-     *
-     * @param string $name
+     * @param string $tagline
      * @return Page
      */
-    public function setName($name)
+    public function setTagline($tagline)
     {
-        $this->name = $name;
+        $this->tagline = $tagline;
 
         return $this;
     }
 
     /**
-     * Get name
+     * Get tagline
      *
      * @return string 
      */
-    public function getName()
+    public function getTagline()
     {
-        return $this->name;
+        return $this->tagline;
     }
 
     /**
@@ -115,51 +85,5 @@ class Page
     public function getBlocks()
     {
         return $this->blocks;
-    }
-
-    /**
-     * Set title
-     *
-     * @param string $title
-     * @return Page
-     */
-    public function setTitle($title)
-    {
-        $this->title = $title;
-
-        return $this;
-    }
-
-    /**
-     * Get title
-     *
-     * @return string 
-     */
-    public function getTitle()
-    {
-        return $this->title;
-    }
-
-    /**
-     * Set tagline
-     *
-     * @param string $tagline
-     * @return Page
-     */
-    public function setTagline($tagline)
-    {
-        $this->tagline = $tagline;
-
-        return $this;
-    }
-
-    /**
-     * Get tagline
-     *
-     * @return string 
-     */
-    public function getTagline()
-    {
-        return $this->tagline;
     }
 }

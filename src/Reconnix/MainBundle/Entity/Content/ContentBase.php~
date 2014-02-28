@@ -1,0 +1,41 @@
+<?php
+
+namespace Reconnix\MainBundle\Entity\Content;
+
+use Doctrine\ORM\Mapping as ORM;
+
+/** 
+ * ContentBase
+ *
+ * @ORM\Entity 
+ * @ORM\Table(name="content")
+ * @ORM\InheritanceType("SINGLE_TABLE")
+ * @ORM\DiscriminatorColumn(name="content_type", type="string")
+ * @ORM\DiscriminatorMap({"post" = "Post", "page" = "Page"}) 
+ */
+class ContentBase{
+    
+    /**
+     * @var integer
+     *
+     * @ORM\Column(name="id", type="integer")
+     * @ORM\Id
+     * @ORM\GeneratedValue(strategy="AUTO")
+     */
+    private $id;
+
+    /**
+     * @ORM\Column(name="name", length=32)
+     */
+    private $name;
+
+    /**
+     * @ORM\Column(name="title", length=32)
+     */
+    private $title; 
+
+    /**
+     * @ORM\Column(name="content", type="string")
+     */
+    private $content;
+}

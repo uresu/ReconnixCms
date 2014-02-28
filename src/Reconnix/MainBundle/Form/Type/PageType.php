@@ -10,8 +10,9 @@ class PageType extends AbstractType{
 		$builder->add('name', 'text');
         $builder->add('title', 'text');
         $builder->add('tagline', 'text');
+        $builder->add('content', 'textarea', array('attr' => array('cols' => '100', 'rows' => '5')));
         $builder->add('blocks', 'entity', array(
-            'class' => 'ReconnixMainBundle:Block',
+            'class' => 'ReconnixMainBundle:Content\Block',
             'multiple' => true,
             'expanded' => true,
             'property' => 'name',
@@ -21,7 +22,7 @@ class PageType extends AbstractType{
 
 	public function getDefaultOptions(array $options){
 		return array(
-			'data_class' => 'Reconnix\MainBundle\Entity\Page'
+			'data_class' => 'Reconnix\MainBundle\Entity\Content\Page'
 		);
 	}
 

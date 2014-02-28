@@ -1,6 +1,6 @@
 <?php
 
-namespace Reconnix\MainBundle\Entity;
+namespace Reconnix\MainBundle\Entity\Content;
 
 use Doctrine\ORM\Mapping as ORM;
 

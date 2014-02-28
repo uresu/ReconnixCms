@@ -4,7 +4,7 @@ namespace Reconnix\MainBundle\Controller\Admin;
 
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
-use Reconnix\MainBundle\Entity\Page;
+use Reconnix\MainBundle\Entity\Content\Page;
 use Reconnix\MainBundle\Form\Type\PageType;
 
 class PagesController extends Controller

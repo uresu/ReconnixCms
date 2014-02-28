@@ -1,17 +1,20 @@
 <?php
 
-namespace Reconnix\MainBundle\Entity;
+namespace Reconnix\MainBundle\Entity\Content;
 
 use Doctrine\ORM\Mapping as ORM;
 
-/**
- * Block
+/** 
+ * ContentBase
  *
- * @ORM\Table()
- * @ORM\Entity
+ * @ORM\Entity 
+ * @ORM\Table(name="content")
+ * @ORM\InheritanceType("SINGLE_TABLE")
+ * @ORM\DiscriminatorColumn(name="content_type", type="string")
+ * @ORM\DiscriminatorMap({"post" = "Post", "page" = "Page"}) 
  */
-class Block
-{
+class ContentBase{
+    
     /**
      * @var integer
      *
@@ -25,6 +28,11 @@ class Block
      * @ORM\Column(name="name", length=32)
      */
     private $name;
+
+    /**
+     * @ORM\Column(name="title", length=32)
+     */
+    private $title; 
 
     /**
      * @ORM\Column(name="content", type="string")
@@ -45,7 +53,7 @@ class Block
      * Set name
      *
      * @param string $name
-     * @return Block
+     * @return ContentBase
      */
     public function setName($name)
     {
@@ -65,10 +73,33 @@ class Block
     }
 
     /**
+     * Set title
+     *
+     * @param string $title
+     * @return ContentBase
+     */
+    public function setTitle($title)
+    {
+        $this->title = $title;
+
+        return $this;
+    }
+
+    /**
+     * Get title
+     *
+     * @return string 
+     */
+    public function getTitle()
+    {
+        return $this->title;
+    }
+
+    /**
      * Set content
      *
      * @param string $content
-     * @return Block
+     * @return ContentBase
      */
     public function setContent($content)
     {
