@@ -6,7 +6,7 @@
 
 {% block header %}
 	{% for block in blocks if block.name == 'Header' %}
-		{{ block.content }}
+		{{ block.content | raw }}
 	{% endfor %}
 {% endblock %}
 
@@ -14,14 +14,19 @@
 	{{ tagline }}
 {% endblock %}
 
+{% block body %}
+	{{ body | raw }}
+{% endblock %}
+
 {% block social %}
 	{% for block in blocks if block.name == 'Social' %}
-		{{ block.content }}
+		{{ block.content | raw }}
 	{% endfor %}
 {% endblock %}
 
 {% block footer %}
 	{% for block in blocks if block.name == 'Footer' %}
-		{{ block.content }}
+		{{ block.content | raw }}
 	{% endfor %}
 {% endblock %}
+

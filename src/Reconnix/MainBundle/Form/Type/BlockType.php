@@ -22,7 +22,7 @@ class BlockType extends AbstractType{
 	 */
 	public function buildForm(FormBuilderInterface $builder, array $options){
         $builder->add('name', 'text');
-        $builder->add('content', 'textarea', array('attr' => array('cols' => '100', 'rows' => '5')));
+        $builder->add('content', 'textarea', array('attr' => array('cols' => '115', 'rows' => '25')));
         $builder->add('save', 'submit');
 	}
 

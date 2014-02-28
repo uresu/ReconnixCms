@@ -27,7 +27,7 @@ class Block
     private $name;
 
     /**
-     * @ORM\Column(name="content", type="string")
+     * @ORM\Column(name="content", type="text")
      */
     private $content;
 

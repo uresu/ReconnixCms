@@ -41,10 +41,13 @@
                 {% block social %}{% endblock %}
             </div>
 
-            {% block footer %}
-                {{ include('ReconnixMainBundle::footer.html.twig') }}
-            {% endblock %}
+            <div id='footer-container'>
+                {% block footer %}
+                    {{ include('ReconnixMainBundle::footer.html.twig') }}
+                {% endblock %}
+            </div>
         </div>
+
 
         {% block javascripts %}{% endblock %}
 

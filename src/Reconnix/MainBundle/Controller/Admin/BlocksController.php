@@ -71,6 +71,7 @@ class BlocksController extends Controller
     public function editAction($id){
         // fetch the Block object
         $block = $this->getDoctrine()->getRepository('ReconnixMainBundle:Content\Block')->find($id);
+        $block->setContent(html_entity_decode($block->getContent()));
         // create a pre-populated form
         $form = $this->createForm(new BlockType(), $block);
 
@@ -80,6 +81,7 @@ class BlocksController extends Controller
             return $this->redirect($this->generateUrl('reconnix_main_admin_blocks_index'));
         }
 
+        
         // no submission detected, or invalid submission, display the pre-populated
     	return $this->render('ReconnixMainBundle:Admin/Blocks:admin.blocks.edit.html.twig',
     		array(
@@ -99,10 +101,12 @@ class BlocksController extends Controller
         // handle form submission
         $form->handleRequest(Request::createFromGlobals());
         if($form->isValid()){
+
             // valid form submission
             $em = $this->getDoctrine()->getManager();
             $em->persist($block);
             $em->flush(); 
+
             return true;
         }         
 
