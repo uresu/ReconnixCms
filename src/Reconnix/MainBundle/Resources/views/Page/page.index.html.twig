@@ -14,9 +14,17 @@
 	{{ tagline }}
 {% endblock %}
 
-{% block body %}
-	{{ body | raw }}
+{% block subtagline %}
+	{{ subtagline }}
 {% endblock %}
+
+{% block body %}
+	{% if name == 'newsroom' %}
+		{{ include('ReconnixMainBundle::newsroom.html.twig') }}
+	{% else %}
+		{{ body | raw }}
+	{% endif %}
+{% endblock %}	
 
 {% block social %}
 	{% for block in blocks if block.name == 'Social' %}

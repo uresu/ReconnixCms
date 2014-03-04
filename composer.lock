@@ -3,7 +3,7 @@
         "This file locks the dependencies of your project to a known state",
         "Read more about it at http://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file"
     ],
-    "hash": "7bdac76b4f7fde67c2729b30381e6433",
+    "hash": "8f214fe25daf18bf603682c70192afc9",
     "packages": [
         {
             "name": "doctrine/annotations",
@@ -1058,16 +1058,16 @@
         },
         {
             "name": "phpunit/php-token-stream",
-            "version": "1.2.1",
+            "version": "1.2.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/sebastianbergmann/php-token-stream.git",
-                "reference": "5220af2a7929aa35cf663d97c89ad3d50cf5fa3e"
+                "reference": "ad4e1e23ae01b483c16f600ff1bebec184588e32"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/sebastianbergmann/php-token-stream/zipball/5220af2a7929aa35cf663d97c89ad3d50cf5fa3e",
-                "reference": "5220af2a7929aa35cf663d97c89ad3d50cf5fa3e",
+                "url": "https://api.github.com/repos/sebastianbergmann/php-token-stream/zipball/ad4e1e23ae01b483c16f600ff1bebec184588e32",
+                "reference": "ad4e1e23ae01b483c16f600ff1bebec184588e32",
                 "shasum": ""
             },
             "require": {
@@ -1104,7 +1104,7 @@
             "keywords": [
                 "tokenizer"
             ],
-            "time": "2013-09-13 04:58:23"
+            "time": "2014-03-03 05:10:30"
         },
         {
             "name": "phpunit/phpunit",
@@ -1415,6 +1415,64 @@
             ],
             "description": "This bundle generates code for you",
             "time": "2013-08-21 18:09:35"
+        },
+        {
+            "name": "stfalcon/tinymce-bundle",
+            "version": "dev-master",
+            "target-dir": "Stfalcon/Bundle/TinymceBundle",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/stfalcon/TinymceBundle.git",
+                "reference": "435bced3dd39cb2fcc2de26ea2a14c8573abbdbb"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/stfalcon/TinymceBundle/zipball/435bced3dd39cb2fcc2de26ea2a14c8573abbdbb",
+                "reference": "435bced3dd39cb2fcc2de26ea2a14c8573abbdbb",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.3.0",
+                "symfony/symfony": ">=2.1"
+            },
+            "type": "symfony-bundle",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "0.3.x-dev"
+                }
+            },
+            "autoload": {
+                "psr-0": {
+                    "Stfalcon\\Bundle\\TinymceBundle": ""
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Stepan Tanasiychuk",
+                    "email": "ceo@stfalcon.com",
+                    "homepage": "http://blog.stfalcon.com"
+                },
+                {
+                    "name": "Igor Negrutsa",
+                    "email": "progi2007@gmail.com",
+                    "homepage": "http://igor-negrutsa.info"
+                },
+                {
+                    "name": "Symfony Community",
+                    "homepage": "https://github.com/stfalcon/TinymceBundle/contributors"
+                }
+            ],
+            "description": "This Bundle integrates TinyMCE WYSIWYG editor into a Symfony2 project.",
+            "keywords": [
+                "editor",
+                "tinymce",
+                "wysiwyg"
+            ],
+            "time": "2014-01-29 13:57:45"
         },
         {
             "name": "swiftmailer/swiftmailer",
@@ -1919,9 +1977,9 @@
 
     ],
     "minimum-stability": "stable",
-    "stability-flags": [
-
-    ],
+    "stability-flags": {
+        "stfalcon/tinymce-bundle": 20
+    },
     "platform": {
         "php": ">=5.3.3"
     },

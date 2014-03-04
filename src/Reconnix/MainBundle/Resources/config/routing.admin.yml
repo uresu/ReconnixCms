@@ -13,3 +13,7 @@ reconnix_main_admin_blocks:
 reconnix_main_admin_posts:
     resource: "@ReconnixMainBundle/Resources/config/routing.admin.posts.yml"
     prefix: /posts
+
+reconnix_main_admin_content_wizard:
+    resource: "@ReconnixMainBundle/Resources/config/routing.admin.content_wizard.yml"
+    prefix: /content-wizard

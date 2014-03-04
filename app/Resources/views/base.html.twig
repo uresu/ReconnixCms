@@ -31,7 +31,8 @@
                 {% endblock %}
                 <div id='tagline'>
                     <div class='inner-content'>
-                        {% block tagline %}{% endblock %}
+                        <h1>{% block tagline %}{% endblock %}</h1>
+                        <p>{% block subtagline %}{% endblock %}</p>
                     </div>
                 </div>
             </div>
@@ -49,7 +50,9 @@
         </div>
 
 
-        {% block javascripts %}{% endblock %}
+        {% block javascripts %}
+            {{ include('ReconnixMainBundle::Blocks/javascripts.html.twig') }}
+        {% endblock %}
 
     </body>
 </html>

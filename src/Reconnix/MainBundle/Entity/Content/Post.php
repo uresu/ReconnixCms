@@ -20,7 +20,11 @@ class Post extends ContentBase
      /**
      * @ORM\Column(name="author", length=32)
      */
-    private $author;        
+    private $author;    
+
+    protected function create(){
+        print "Creating a post";
+    }    
 
     /**
      * Set tagline

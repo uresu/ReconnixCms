@@ -28,13 +28,22 @@ class PageController extends Controller
     		$blockContent[] = array('name' => $block->getName(), 'content' => $block->getContent());
     	}
 
+        if($page->getName() == 'newsroom'){
+            // fetch the posts 
+            $posts = $this->getDoctrine()->getRepository('ReconnixMainBundle:Content\Post')->findAll();
+        }
+
+        
     	
-        return $this->render('ReconnixMainBundle:Page:page.index.html.twig',
+        return $this->render('ReconnixMainBundle:Page:newsroom.html.twig',
         	array(
         		'blocks' => $blockContent,
-        		'title' => 'dummyTitle',
+                'name' => $page->getName(),
+        		'title' => $page->getTitle(),
         		'tagline' => $page->getTagline(),
+                'subtagline' => $page->getSubtagline(),
         		'body' => $page->getContent(),
+                'posts' => $posts,
         	)
         );
     }

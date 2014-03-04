@@ -1,0 +1,70 @@
+{% extends 'ReconnixMainBundle:Page:page.index.html.twig' %} 
+
+{% block body %}
+	
+
+
+
+
+
+	<div class="main-light-grey news-area no-bottom-border">
+		<div class="inner-content">
+			{% for post in posts | slice(0, 1) %}
+				<div class="col span_3_of_3 news-item news-large press-release">
+					<div class="inner">
+						<a href="/press-release/reconnix-ceo-named-as-finalist/">
+							<h1 class='news-title'>{{post.title}}</h1>
+						</a>
+						<a href="/press-release/reconnix-ceo-named-as-finalist/">
+							<span class='news-date'>{{post.date | date('Y-m-d') }}</span>
+						</a>
+						<p>
+							{{post.content | slice(0, 512)}}...
+							<a href='/press-release/reconnix-ceo-named-as-finalist/'>
+								<span class='read-more'> Read more</span>
+							</a>
+						</p>
+					</div>
+				</div><!-- news-large -->
+			{% endfor %}
+			{% for post in posts | slice(1, 1) %}
+				<div class="col span_1_of_3 news-item news-top-right news-small news">
+					<div class="inner">
+						<a href="/news/will-linux-ever-win-on-the-desktop/">
+							<h3 class='news-title'>{{post.title}}</h3>
+						</a>
+						<a href="/news/will-linux-ever-win-on-the-desktop/">
+							<span class='news-date'>{{post.date | date('Y-m-d') }}</span>
+						</a>
+						<p>
+							{{post.content | slice(0, 512)}}... 
+							<a href='/news/will-linux-ever-win-on-the-desktop/'>
+								<span class='read-more'> Read more</span>
+							</a>
+						</p>
+					</div>				
+				</div><!-- news-top-right -->
+			{% endfor %}
+			<div class="section news-bottom">
+				{% for post in posts | slice(2) %}
+					<div class="col span_1_of_3 news-item news-small news">
+						<div class="inner">
+							<a href="/news/happy-birthday-to-the-macintosh/">
+								<h3 class='news-title'>{{post.title}}</h3>
+							</a>
+							<a href="/news/happy-birthday-to-the-macintosh/">
+								<span class='news-date'>{{post.date | date('Y-m-d') }}</span>
+							</a>
+							<p>
+								{{post.content | slice(0, 450)}}... 
+								<a href='/news/happy-birthday-to-the-macintosh/'>
+									<span class='read-more'> Read more</span>
+								</a>
+							</p>				
+						</div>								
+					</div><!-- 1_of_3 -->											
+				{% endfor %}
+			</div><!-- news-bottom -->
+		</div><!-- inner-content (main-light-grey) -->
+	</div><!-- main-light-grey -->		
+{% endblock %}

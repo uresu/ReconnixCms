@@ -22,7 +22,8 @@ class BlockType extends AbstractType{
 	 */
 	public function buildForm(FormBuilderInterface $builder, array $options){
         $builder->add('name', 'text');
-        $builder->add('content', 'textarea', array('attr' => array('cols' => '115', 'rows' => '25')));
+        $builder->add('content', 'textarea', array('attr' => array('rows' => '35', 'cols' => '150')));
+        //$builder->add('content', 'textarea', array('attr' => array('rows' => '35', 'class' => 'tinymce', 'data-theme' => 'advanced')));
         $builder->add('save', 'submit');
 	}
 

@@ -1,0 +1,3 @@
+reconnix_main_admin_content_wizard_index:
+    pattern:  /
+    defaults: { _controller: ReconnixMainBundle:Admin/ContentWizard:index }
