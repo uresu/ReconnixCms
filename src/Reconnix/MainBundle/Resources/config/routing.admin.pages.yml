@@ -1,11 +1,11 @@
 reconnix_main_admin_pages_index:
     pattern:  /
-    defaults: { _controller: ReconnixMainBundle:Admin/Pages:index }
+    defaults: { _controller: reconnix_main_admin.pages:indexAction}
 
 reconnix_main_admin_pages_add:
     pattern:  /add
-    defaults: { _controller: ReconnixMainBundle:Admin/Pages:add }
+    defaults: { _controller: reconnix_main_admin.pages:addAction}
 
 reconnix_main_admin_pages_edit:
     pattern:  /edit/{id}
-    defaults: { _controller: ReconnixMainBundle:Admin/Pages:edit }
+    defaults: { _controller: reconnix_main_admin.pages:editAction}

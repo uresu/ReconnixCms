@@ -5,3 +5,6 @@ services:
 #    reconnix_main.example:
 #        class: %reconnix_main.example.class%
 #        arguments: [@service_id, "plain_value", %parameter%]
+    reconnix_main_admin.pages:
+        class: 			Reconnix\MainBundle\Controller\Admin\PagesController
+        arguments:		['@doctrine', '@form.factory', '@templating', '@request_stack', '@router']

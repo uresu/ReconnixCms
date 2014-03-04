@@ -8,17 +8,41 @@
 
 namespace Reconnix\MainBundle\Controller\Admin;
 
-use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Doctrine\Bundle\DoctrineBundle\Registry;
+use Symfony\Bundle\FrameworkBundle\Templating\EngineInterface;
+use Symfony\Component\Form\FormFactoryInterface;
+use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\Form\Form;
+use Symfony\Component\HttpFoundation\RequestStack;
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
+use Symfony\Component\Routing\RouterInterface;
+
 use Reconnix\MainBundle\Entity\Content\Page;
 use Reconnix\MainBundle\Form\Type\PageType;
 
 /**
  * PagesController
  */
-class PagesController extends Controller
+class PagesController 
 {
+
+    protected $doctrine;
+    protected $formFactory;
+    protected $templating;
+    protected $request;
+    protected $router;
+
+    public function __construct(Registry $doctrine,
+                                FormFactoryInterface $formFactory,
+                                EngineInterface $templating,
+                                RequestStack $request,
+                                RouterInterface $router){
+        $this->doctrine    = $doctrine;
+        $this->formFactory = $formFactory;
+        $this->templating  = $templating;
+        $this->request     = $request;
+        $this->router      = $router;
+    }
 
     /**
      * Display list of existing Pages
@@ -27,7 +51,8 @@ class PagesController extends Controller
      */
     public function indexAction(){
         // fetch all Pages
-        $pageObjs = $this->getDoctrine()->getRepository('ReconnixMainBundle:Content\Page')->findAll();
+        //$pageObjs = $this->getDoctrine()->getRepository('ReconnixMainBundle:Content\Page')->findAll();
+        $pageObjs = $this->doctrine->getRepository('ReconnixMainBundle:Content\Page')->findAll();
         // disect out the id and name of each Page object for passing to the view
         $pages = array();
         foreach($pageObjs as $pageObj){
@@ -37,7 +62,7 @@ class PagesController extends Controller
             );
         }
 
-        return $this->render('ReconnixMainBundle:Admin/Pages:admin.pages.index.html.twig', 
+        return $this->templating->renderResponse('ReconnixMainBundle:Admin/Pages:admin.pages.index.html.twig', 
             array('pages' => $pages)
         );
     }
@@ -51,16 +76,16 @@ class PagesController extends Controller
         // create an empty object to store the submitted data
         $page = new Page();
         // build the form, pass the empty object to store the user input
-        $form = $this->createForm(new PageType(), $page);
+        $form = $this->formFactory->create(new PageType(), $page);
         
         // check for a submitted form
         if(self::submitFormOk($form, $page)){
             // succesfull update, return to page index
-            return $this->redirect($this->generateUrl('reconnix_main_admin_pages_index'));
+            return new RedirectResponse($this->router->generate('reconnix_main_admin_pages_index'));
         }
 
         // no submission detected, or invalid submission, display the form
-        return $this->render('ReconnixMainBundle:Admin/Pages:admin.pages.add.html.twig',
+        return $this->templating->renderResponse('ReconnixMainBundle:Admin/Pages:admin.pages.add.html.twig',
             array(
                 'form' => $form->createView(),
             )
@@ -74,18 +99,19 @@ class PagesController extends Controller
      */ 
     public function editAction($id){
         // fetch the Page object
-        $page = $this->getDoctrine()->getRepository('ReconnixMainBundle:Content\Page')->find($id);
+        //$page = $this->getDoctrine()->getRepository('ReconnixMainBundle:Content\Page')->find($id);
+        $page = $this->doctrine->getRepository('ReconnixMainBundle:Content\Page')->find($id);
         // create a pre-populated form
-        $form = $this->createForm(new PageType(), $page);
+        $form = $this->formFactory->create(new PageType(), $page);
 
         // check for a submitted form
         if(self::submitFormOk($form, $page)){
             // succesfull update, return to page index
-            return $this->redirect($this->generateUrl('reconnix_main_admin_pages_index'));
+            return new RedirectResponse($this->router->generate('reconnix_main_admin_pages_index'));
         }
 
         // no submission detected, or invalid submission, display the pre-populated
-        return $this->render('ReconnixMainBundle:Admin/Pages:admin.pages.edit.html.twig',
+        return $this->templating->renderResponse('ReconnixMainBundle:Admin/Pages:admin.pages.edit.html.twig',
             array(
                 'id' => $id,
                 'form' => $form->createView()
@@ -99,12 +125,13 @@ class PagesController extends Controller
      *
      * @return Boolean true for success
      */
-    private function submitFormOk(Form $form, Page $page){
+    private function submitFormOk($form, Page $page){
         // handle form submission
         $form->handleRequest(Request::createFromGlobals());
         if($form->isValid()){
             // valid form submission
-            $em = $this->getDoctrine()->getManager();
+            //$em = $this->getDoctrine()->getManager();
+            $em = $this->doctrine->getManager();
             $em->persist($page);
             $em->flush(); 
             return true;
