@@ -23,7 +23,7 @@ class Post extends ContentBase
     private $author;    
 
     protected function create(){
-        print "Creating a post";
+        // return the post form object
     }    
 
     /**

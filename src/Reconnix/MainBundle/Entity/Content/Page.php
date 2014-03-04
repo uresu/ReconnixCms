@@ -9,6 +9,7 @@ use Reconnix\MainBundle\Form\Type\PageType;
 use Symfony\Component\Form\Forms;
 use Reconnix\MainBundle\Entity\Content\Page;
 use Symfony\Component\Form\FormFactoryInterface;
+use Symfony\Component\DependencyInjection\ContainerAware;
 
 /**
  * Represent a Page piece of Content
@@ -41,10 +42,7 @@ class Page extends ContentBase
     }
 
     protected function create(){
-        //print '<pre>';
-        //print_r($this);
-        $formFactory = Forms::createFormFactory();
-        
+        // return the page form object
     }
 
 

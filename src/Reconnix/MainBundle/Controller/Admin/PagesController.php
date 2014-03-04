@@ -13,7 +13,6 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Form\Form;
 use Reconnix\MainBundle\Entity\Content\Page;
 use Reconnix\MainBundle\Form\Type\PageType;
-use Symfony\Component\Form\FormFactoryInterface;
 
 /**
  * PagesController

@@ -27,10 +27,12 @@ class ContentWizardController extends Controller{
      * @return Reponse HTTP Repsonse 
      */
     public function indexAction(){
+    	// create a content object whose type is based on input
     	$content = new ContentBase();
     	$content->setType('page');
+    	// fetch the form object to work with and process
     	$form = $content->createForm();
-    	print $form;
+    
 
     	return new Response('done');
     }
