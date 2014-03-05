@@ -37,13 +37,7 @@ class Page extends ContentBase
      */
     private $blocks;
 
-    public function __construct(){
-        $this->blocks = new ArrayCollection();
-    }
 
-    protected function create(){
-        // return the page form object
-    }
 
 
 

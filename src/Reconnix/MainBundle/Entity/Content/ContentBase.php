@@ -5,9 +5,9 @@ namespace Reconnix\MainBundle\Entity\Content;
 use Doctrine\ORM\Mapping as ORM;
 use Reconnix\MainBundle\Entity\Content\Page;
 use Reconnix\MainBundle\Entity\Content\Post;
-use Symfony\Component\DependencyInjection\ContainerAware;
-use Symfony\Component\DependencyInjection\Container;
-use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+
+
+use Symfony\Component\Form\FormFactoryInterface;
 
 /** 
  * ContentBase
@@ -19,7 +19,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
  * @ORM\DiscriminatorColumn(name="content_type", type="string")
  * @ORM\DiscriminatorMap({"post" = "Post", "page" = "Page"}) 
  */
-class ContentBase extends ContainerAware{
+class ContentBase{
     
     /**
      * @var integer
@@ -49,27 +49,6 @@ class ContentBase extends ContainerAware{
      * @ORM\Column(name="content", type="text")
      */
     private $content;
-
-    /**
-     * 
-     */
-    protected $contentCreator;
-
-    public function setType($contentType){
-        switch($contentType){
-            case 'page':
-                $this->contentCreator = new Page();
-                break;
-            case 'post':
-                $this->contentCreator = new Post();
-                break;               
-        }        
-    }
-
-    public function createForm(){
-        // return the relevant form object
-        //return $this->contentCreator->create();
-    }
 
     /**
      * Get id

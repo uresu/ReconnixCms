@@ -8,3 +8,7 @@ services:
     reconnix_main_admin.pages:
         class: 			Reconnix\MainBundle\Controller\Admin\PagesController
         arguments:		['@doctrine', '@form.factory', '@templating', '@request_stack', '@router']
+
+    content_base:
+        class: Reconnix\MainBundle\Classes\ContentCreator
+        arguments:		['@form.factory']
