@@ -1,7 +1,8 @@
 imports:
     - { resource: parameters.yml }
     - { resource: security.yml }
-    - { resource: "@ReconnixMainBundle/Resources/config/services.yml"}
+    - { resource: "@ReconnixContentWizardBundle/Resources/config/services.php"}
+
 
 framework:
     #esi:             ~

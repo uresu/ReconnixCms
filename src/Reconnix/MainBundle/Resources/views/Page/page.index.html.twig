@@ -21,8 +21,11 @@
 {% block body %}
 	{% if name == 'newsroom' %}
 		{{ include('ReconnixMainBundle::Page/newsroom.html.twig') }}
+	{% elseif name == 'post' %}
+		{{ include('ReconnixMainBundle::Page/post.index.html.twig') }}		
 	{% else %}
 		{{ body | raw }}
+	}
 	{% endif %}
 {% endblock %}	
 

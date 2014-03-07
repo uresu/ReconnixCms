@@ -8,19 +8,12 @@
 
 namespace Reconnix\MainBundle\Controller\Admin;
 
+//use Symfony\Component\DependencyInjection\ContainerAware;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
-use Symfony\Bundle\FrameworkBundle\Templating\EngineInterface;
-use Symfony\Component\Form\FormFactoryInterface;
-use Symfony\Component\Routing\RouterInterface;
 use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\Form\Form;
-use Reconnix\MainBundle\Entity\Content\Block;
-use Reconnix\MainBundle\Entity\Content\ContentBase;
-use Reconnix\MainBundle\Entity\Content\Page;
-use Reconnix\MainBundle\Form\Type\BlockType;
 
-use Reconnix\MainBundle\Classes\ContentCreator;
+use Reconnix\ContentWizardBundle\Classes\FormManager\FormManagerFactory;
+use Reconnix\ContentWizardBundle\Classes\ContentBuilder\ContentBuilderFactory;
 
 /**
  * ContentWizardController
@@ -31,30 +24,67 @@ class ContentWizardController extends Controller{
      *
      * @return Reponse HTTP Repsonse 
      */
-    public function indexAction(Request $request){
-    	// create a content object whose type is based on input
-    	$contentCreator = new ContentCreator($this->get('form.factory'));
-    	$contentCreator->setType('post');
-    	// fetch the form object to work with and process
-        //$page = new Page();
-    	list($form, $content) = $contentCreator->createForm();
+    public function indexAction(Request $request)
+    {
+
+        $form = $this->createFormBuilder()
+            ->add('type', 'choice', array(
+                'choices' => array(
+                    'page' => 'Page',
+                    'post' => 'Post',
+                    'block' => 'Block',
+                ),
+                'required' => true,
+            ))
+            ->add('begin', 'submit')
+            ->getForm();
+
         $form->handleRequest($request);
+
+
         if($form->isValid()){
-            // valid form submission
-            //$em = $this->getDoctrine()->getManager();
-            $em = $this->getDoctrine()->getManager();
-            $em->persist($content);
-            $em->flush(); 
-            return $this->redirect($this->generateUrl('reconnix_main_admin_content_wizard_index'));
-        }   
+            return $this->redirect($this->generateUrl('reconnix_main_admin_content_wizard_add',
+                array(
+                    'type' => $form['type']->getData()
+                )
+            ));
+        }
 
-
-        // no submission detected, or invalid submission, display the form
-        return $this->render('ReconnixMainBundle:Admin/ContentWizard:admin.content_wizard.add.html.twig',
+        return $this->render('ReconnixMainBundle:Admin/ContentWizard:admin.content_wizard.index.html.twig',
             array(
                 'form' => $form->createView(),
             )
         );
+    }
 
+    public function addAction(Request $request, $type){
+
+
+        $page = $this->getDoctrine()->getRepository('ReconnixContentWizardBundle:Content\Page')->find(8);
+        $blocks = $page->getBlocks();
+        print '<pre>';
+        foreach($blocks as $block){
+            print_r($block);
+        }
+        $formManagerFactory = $this->container->get('form_manager_factory');
+        $contentBuilderFactory = $this->container->get('content_factory');
+
+        $formManager = $formManagerFactory->getFormManager($type);
+        $content = $contentBuilderFactory->getContent($type);
+
+        $form = $formManager->build($content);
+
+
+
+        $form->handleRequest($request);
+        if($form->isValid()){
+            $formManager->submit($content);
+        }
+
+        return $this->render('ReconnixMainBundle:Admin/ContentWizard:admin.content_wizard.add.html.twig',
+            array(
+                'form' => $form->createView()
+            )
+        );
     }
 }

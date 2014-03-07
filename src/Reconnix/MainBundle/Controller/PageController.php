@@ -49,4 +49,36 @@ class PageController extends Controller
         	)
         );
     }
+
+    /**
+     * @return Response HTTP Response
+     */
+    public function newsroomAction($tag, $name){
+
+        $page = $this->getDoctrine()->getRepository('ReconnixMainBundle:Content\Page')->findOneByName('post');
+        $blocks = $page->getBlocks();
+        $blockContent = array();
+        foreach($blocks as $block){
+            $blockContent[] = array('name' => $block->getName(), 'content' => $block->getContent());
+        }
+        
+        // get the content for this particular news article
+        $contentObj = $this->getDoctrine()->getRepository('ReconnixMainBundle:Content\Post')->findOneByName($name);
+        $content = $contentObj->getContent();
+
+
+        return $this->render('ReconnixMainBundle:Page:page.index.html.twig',
+            array(
+                'blocks' => $blockContent,
+                'name' => $page->getName(),
+                'title' => $page->getTitle(),
+                'tagline' => $page->getTagline(),
+                'subtagline' => $page->getSubtagline(),
+                'post_title' => $contentObj->getTitle(),
+                'post_date' => $contentObj->getDate(),
+                'body' => $content,
+            )
+        );
+    }
+
 }

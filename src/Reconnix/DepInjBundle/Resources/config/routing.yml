@@ -1,0 +1,3 @@
+reconnix_dep_inj_homepage:
+    pattern:  /
+    defaults: { _controller: ReconnixDepInjBundle:Default:index }
