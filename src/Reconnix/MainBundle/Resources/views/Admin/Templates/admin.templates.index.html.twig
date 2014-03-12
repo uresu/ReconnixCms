@@ -4,3 +4,11 @@
 <a href="{{ path('reconnix_main_admin_posts_index') }}">Posts</a>
 <a href="{{ path('reconnix_main_admin_content_wizard_index') }}">Wizard</a>
 <a href="{{ path('reconnix_main_admin_templates_index') }}">Templates</a><hr>
+
+Templates<br>
+
+{% for template in templates %}
+	<a href="{{ path('reconnix_main_admin_templates_edit', {'id': template.id }) }}">{{template.title}}</a><br>
+{% endfor %}
+
+<br><a href="{{ path('reconnix_main_admin_templates_add') }}">Add</a>

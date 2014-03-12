@@ -14,7 +14,7 @@ use Symfony\Component\Form\FormBuilderInterface;
 /**
  * Configuration to render the Add Block form
  */
-class BlockType extends AbstractType{
+class TemplateType extends AbstractType{
 
 	/**
 	 * @param FormBuilderInterface $builder
@@ -22,19 +22,8 @@ class BlockType extends AbstractType{
 	 */
 	public function buildForm(FormBuilderInterface $builder, array $options){
         $builder->add('name', 'text');
+        $builder->add('title', 'text');
         $builder->add('content', 'textarea', array('attr' => array('rows' => '35', 'cols' => '150')));
-        $builder->add('region', 'choice', array(
-        		'label' => false,
-        		'expanded' => true,
-        		'choices' => array(
-        			'header' => 'Header',
-        			'top' => 'Top', 
-        			'middle' => 'Middle', 
-        			'bottom' => 'Bottom',
-        			'footer' => 'Footer',
-        		)
-        	)
-        );
         //$builder->add('content', 'textarea', array('attr' => array('rows' => '35', 'class' => 'tinymce', 'data-theme' => 'advanced')));
         $builder->add('save', 'submit');
 	}
@@ -46,7 +35,7 @@ class BlockType extends AbstractType{
      */
 	public function getDefaultOptions(array $options){
 		return array(
-			'data_class' => 'Reconnix\MainBundle\Entity\Content\Block'
+			'data_class' => 'Reconnix\MainBundle\Entity\Content\Template'
 		);
 	}
 
@@ -54,6 +43,6 @@ class BlockType extends AbstractType{
      * @return string 
      */
 	public function getName(){
-		return 'block';
+		return 'template';
 	}
 }

@@ -17,3 +17,7 @@ reconnix_main_admin_posts:
 reconnix_main_admin_content_wizard:
     resource: "@ReconnixMainBundle/Resources/config/routing.admin.content_wizard.yml"
     prefix: /content-wizard
+
+reconnix_main_admin_templates:
+    resource: "@ReconnixMainBundle/Resources/config/routing.admin.templates.yml"
+    prefix: /templates

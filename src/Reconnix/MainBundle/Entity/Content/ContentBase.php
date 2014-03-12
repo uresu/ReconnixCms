@@ -16,8 +16,8 @@ use Symfony\Component\Form\FormFactoryInterface;
  * @ORM\Table(name="content")
  * @ORM\HasLifecycleCallbacks()
  * @ORM\InheritanceType("SINGLE_TABLE")
- * @ORM\DiscriminatorColumn(name="content_type", type="string")
- * @ORM\DiscriminatorMap({"post" = "Post", "page" = "Page"}) 
+ * @ORM\DiscriminatorColumn(name="contentType", type="string")
+ * @ORM\DiscriminatorMap({"post" = "Post", "page" = "Page", "template" = "Template"}) 
  */
 class ContentBase{
     

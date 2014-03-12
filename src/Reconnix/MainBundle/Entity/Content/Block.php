@@ -32,6 +32,11 @@ class Block
     private $content;
 
     /**
+     * @ORM\Column(name="region", length = 8)
+     */
+    private $region;
+
+    /**
      * Get id
      *
      * @return integer 
@@ -85,5 +90,28 @@ class Block
     public function getContent()
     {
         return $this->content;
+    }
+
+    /**
+     * Set region
+     *
+     * @param string $region
+     * @return Block
+     */
+    public function setRegion($region)
+    {
+        $this->region = $region;
+
+        return $this;
+    }
+
+    /**
+     * Get region
+     *
+     * @return string 
+     */
+    public function getRegion()
+    {
+        return $this->region;
     }
 }

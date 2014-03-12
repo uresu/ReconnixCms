@@ -25,7 +25,7 @@ class PageType extends AbstractType{
         $builder->add('title', 'text');
         $builder->add('tagline', 'text');
         $builder->add('subtagline', 'text');
-        $builder->add('content', 'textarea', array('attr' => array('rows' => '35', 'cols' => '150')));
+        $builder->add('content', 'textarea', array('attr' => array('rows' => '35', 'cols' => '150'), 'required' => false));
         //$builder->add('content', 'textarea', array('attr' => array('rows' => '35', 'class' => 'tinymce', 'data-theme' => 'advanced')));
         $builder->add('blocks', 'entity', array(
             'class' => 'ReconnixMainBundle:Content\Block',
