@@ -15,23 +15,27 @@ use Reconnix\MainBundle\Classes\PageRenderer\PageRenderer;
 /**
  * PageController
  */
-class PageController extends Controller
+class PostController extends Controller
 {
 
     /**
      * @return Reponse HTTP Repsonse 
      */
-    public function indexAction($name){
+    public function indexAction($tag, $title){
 
-        $page = $this->getDoctrine()->getRepository('ReconnixMainBundle:Content\Page')->findOneByName($name);
+        $page = $this->getDoctrine()->getRepository('ReconnixMainBundle:Content\Page')->findOneByName('post');
         $templates = $this->getDoctrine()->getRepository('ReconnixMainBundle:Content\Template')->findAll();
         $pageRenderer = $this->container->get('page_renderer')->init($page, $templates);
 
-        $blockRenderParams = array();
-        if($name == 'newsroom'){
-            $posts = $this->getDoctrine()->getRepository('ReconnixMainBundle:Content\Post')->findAll();
-            $blockRenderParams['posts'] = $posts;
-        }
+        // get this particular post
+        $post = $this->getDoctrine()->getRepository('ReconnixMainBundle:Content\Post')->findOneByName($title);
+
+        $blockRenderParams = array(
+            'post_title' => $post->getTitle(),
+            'post_date' => $post->getDate(),
+            'body' => $post->getContent()
+        );
+
 
         $blocks = $page->getBlocks();
         foreach($blocks as &$block){
@@ -44,7 +48,6 @@ class PageController extends Controller
             'title' => $page->getTitle(),
             'tagline' => $page->getTagline(),
             'subtagline' => $page->getSubtagline(),
-            'body' => $page->getContent(),
         );
 
         $pageContent = $pageRenderer->render('page', $pageParams);

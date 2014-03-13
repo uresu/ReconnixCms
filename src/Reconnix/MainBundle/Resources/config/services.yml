@@ -12,3 +12,7 @@ services:
     content_base:
         class: Reconnix\MainBundle\Classes\ContentCreator
         arguments:		['@form.factory']
+
+    page_renderer:
+        class:  Reconnix\MainBundle\Classes\PageRenderer\PageRenderer
+        arguments: ['@doctrine', '@twig']

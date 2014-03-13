@@ -6,8 +6,9 @@
 <a href="{{ path('reconnix_main_admin_templates_index') }}">Templates</a>
 <a href="{{ path('reconnix_main_admin_menu_index') }}">Menu</a><hr>
 
-Add a Block
+Menu<br>
 
-{{form(form)}}
-
-{{tinymce_init()}}
+{% for item in menu %}
+	<a href="{{ path('reconnix_main_admin_menu_edit', {'id': item.id }) }}">{{item.name}}</a><br>
+{% endfor %}
+<br><a href="{{ path('reconnix_main_admin_menu_add') }}">Add</a>

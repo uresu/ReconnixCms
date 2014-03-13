@@ -2,6 +2,6 @@ reconnix_main_index:
     pattern:  /page/{name}
     defaults: { _controller: ReconnixMainBundle:Page:index }
 
-reconnix_main_newsroom:
-    pattern:  /newsroom/{tag}/{name}
-    defaults: { _controller: ReconnixMainBundle:Page:newsroom }
+reconnix_main_post:
+    pattern:  /post/{tag}/{title}
+    defaults: { _controller: ReconnixMainBundle:Post:index }

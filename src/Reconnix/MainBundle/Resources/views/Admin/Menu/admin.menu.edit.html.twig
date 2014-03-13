@@ -6,8 +6,8 @@
 <a href="{{ path('reconnix_main_admin_templates_index') }}">Templates</a>
 <a href="{{ path('reconnix_main_admin_menu_index') }}">Menu</a><hr>
 
-Add a Block
+Edit Menu Item {{id}}
 
 {{form(form)}}
 
-{{tinymce_init()}}
+{{tinymce_init({document_base_url: 'http://localhost:81/symfony2/path/', relative_urls: 'true'})}}

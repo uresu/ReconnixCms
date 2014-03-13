@@ -12,27 +12,18 @@ use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 
 /**
- * Configuration to render the Add Page form
+ * Configuration to render the Add Block form
  */
-class PageType extends AbstractType{
-	
+class MenuType extends AbstractType{
+
 	/**
 	 * @param FormBuilderInterface $builder
 	 * @param array $options 
 	 */
 	public function buildForm(FormBuilderInterface $builder, array $options){
-		$builder->add('name', 'text');
-        $builder->add('title', 'text');
-        $builder->add('tagline', 'text');
-        $builder->add('subtagline', 'text', array('required' => false ));
-        //$builder->add('content', 'textarea', array('attr' => array('rows' => '35', 'cols' => '150'), 'required' => false));
+        $builder->add('url', 'text');
+        $builder->add('name', 'text');
         //$builder->add('content', 'textarea', array('attr' => array('rows' => '35', 'class' => 'tinymce', 'data-theme' => 'advanced')));
-        $builder->add('blocks', 'entity', array(
-            'class' => 'ReconnixMainBundle:Content\Block',
-            'multiple' => true,
-            'expanded' => true,
-            'property' => 'name',
-        ));
         $builder->add('save', 'submit');
 	}
 
@@ -43,7 +34,7 @@ class PageType extends AbstractType{
      */
 	public function getDefaultOptions(array $options){
 		return array(
-			'data_class' => 'Reconnix\MainBundle\Entity\Content\Page'
+			'data_class' => 'Reconnix\MainBundle\Entity\Menu\Menu'
 		);
 	}
 
@@ -51,6 +42,6 @@ class PageType extends AbstractType{
      * @return string 
      */
 	public function getName(){
-		return 'page';
+		return 'menu';
 	}
 }

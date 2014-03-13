@@ -62,10 +62,7 @@ class ContentWizardController extends Controller{
 
         $page = $this->getDoctrine()->getRepository('ReconnixContentWizardBundle:Content\Page')->find(8);
         $blocks = $page->getBlocks();
-        print '<pre>';
-        foreach($blocks as $block){
-            print_r($block);
-        }
+
         $formManagerFactory = $this->container->get('form_manager_factory');
         $contentBuilderFactory = $this->container->get('content_factory');
 
