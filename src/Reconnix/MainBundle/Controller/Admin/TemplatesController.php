@@ -115,4 +115,20 @@ class TemplatesController extends Controller
         // no submission detected yet, or invalid submission
         return false;
     }
+
+    /**
+     * @param integer $id The Post id
+     * 
+     * @return Reponse HTTP Repsonse 
+     */ 
+    public function deleteAction($id){
+        // load the entity for deleting
+        $template = $this->getDoctrine()->getRepository('ReconnixMainBundle:Content\Template')->find($id);
+        // create entity manager and run the delete command
+        $em = $this->getDoctrine()->getManager();
+        $em->remove($template);
+        $em->flush();       
+
+        return $this->redirect($this->generateUrl('reconnix_main_admin_templates_index'));
+    } 
 }

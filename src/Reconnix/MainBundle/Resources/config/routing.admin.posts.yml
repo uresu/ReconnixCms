@@ -9,3 +9,7 @@ reconnix_main_admin_posts_add:
 reconnix_main_admin_posts_edit:
     pattern:  /edit/{id}
     defaults: { _controller: ReconnixMainBundle:Admin/Posts:edit }
+
+reconnix_main_admin_posts_delete:
+    pattern:  /delete/{id}
+    defaults: { _controller: ReconnixMainBundle:Admin/Posts:delete }

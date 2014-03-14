@@ -37,10 +37,6 @@ class Page extends ContentBase
      */
     private $blocks;
 
-
-
-
-
     /**
      * Set tagline
      *
@@ -118,5 +114,26 @@ class Page extends ContentBase
     public function getBlocks()
     {
         return $this->blocks;
+    }
+
+    /**
+     * Return a list of blocks currently not used by the current Page object
+     *
+     * @param array $allBlocks
+     * @return array
+     */
+    public function getUnusedBlocks(array $allBlocks = null){
+
+        
+
+        foreach ($this->getBlocks() as $usedBlock) {
+            foreach($allBlocks as $key => $block){
+                if($usedBlock->getName() == $block->getName()){
+                    unset($allBlocks[$key]);
+                }
+            }
+        }
+
+        return $allBlocks;
     }
 }

@@ -33,6 +33,11 @@ class MenuItem
     private $name;
 
     /**
+     * @ORM\Column(name="category", length=32)
+     */
+    private $category;
+
+    /**
      * Get id
      *
      * @return integer 
@@ -86,5 +91,28 @@ class MenuItem
     public function getName()
     {
         return $this->name;
+    }
+
+    /**
+     * Set category
+     *
+     * @param string $category
+     * @return MenuItem
+     */
+    public function setCategory($category)
+    {
+        $this->category = $category;
+
+        return $this;
+    }
+
+    /**
+     * Get category
+     *
+     * @return string 
+     */
+    public function getCategory()
+    {
+        return $this->category;
     }
 }

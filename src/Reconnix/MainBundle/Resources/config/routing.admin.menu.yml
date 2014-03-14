@@ -9,3 +9,7 @@ reconnix_main_admin_menu_add:
 reconnix_main_admin_menu_edit:
     pattern:  /edit/{id}
     defaults: { _controller: ReconnixMainBundle:Admin/Menu:edit}
+
+reconnix_main_admin_menu_delete:
+    pattern:  /delete/{id}
+    defaults: { _controller: ReconnixMainBundle:Admin/Menu:delete }

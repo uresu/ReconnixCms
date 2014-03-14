@@ -1,6 +1,64 @@
-<a href="{{ path('reconnix_main_admin_index') }}">Home</a>
-<a href="{{ path('reconnix_main_admin_blocks_index') }}">Blocks</a>
-<a href="{{ path('reconnix_main_admin_pages_index') }}">Pages</a>
-<a href="{{ path('reconnix_main_admin_posts_index') }}">Posts</a>
-<a href="{{ path('reconnix_main_admin_content_wizard_index') }}">Wizard</a>
-<a href="{{ path('reconnix_main_admin_templates_index') }}">Templates</a><hr>
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta http-equiv="Content-Type" content="text/html" charset="utf-8" />
+        <title>{% block title %}Reconnix{% endblock %} - Reconnix</title>
+
+        <link href="{{  asset('css/adminMain.css') }}" rel="stylesheet" media="all" />
+
+    </head>
+    <div id="admin-nav">
+    	<a class="admin-nav" href="{{ path('reconnix_main_admin_index') }}">Admin Home</a>
+    	<a class="admin-nav" href="{{ path('reconnix_main_index', {"name":"home"}) }}">Visit Site</a>
+    </div>
+    <body>
+		<table id="dashboard-table">
+			<thead>
+			<tr><th colspan="3">Content</th></tr>
+			</thead>
+			<tbody>
+			{% for item in menu if item.category == 'Content' %}
+				<tr>
+					<td>{{item.name}}</td>
+					<td>
+						<a href="{{ path('reconnix_main_admin_index') }}{{item.url}}/add">Add New</a>
+					</td>
+					<td>
+						<a href="{{ path('reconnix_main_admin_index') }}{{item.url}}">List</a>
+					</td>
+				</tr>
+			{% endfor %}
+			</tbody>
+		</table>
+
+		<table id="dashboard-table">
+			<tr><th colspan="3">Appearance</th></tr>
+			{% for item in menu if item.category == 'Appearance' %}
+				<tr>
+					<td>{{item.name}}</td>
+					<td>
+						<a href="{{ path('reconnix_main_admin_index') }}{{item.url}}/add">Add New</a>
+					</td>
+					<td>
+						<a href="{{ path('reconnix_main_admin_index') }}{{item.url}}">List</a>
+					</td>
+				</tr>
+			{% endfor %}
+		</table>
+
+		<table id="dashboard-table">
+			<tr><th colspan="3">Site</th></tr>
+			{% for item in menu if item.category == 'Site' %}
+				<tr>
+					<td>{{item.name}}</td>
+					<td>
+						<a href="{{ path('reconnix_main_admin_index') }}{{item.url}}/add">Add New</a>
+					</td>
+					<td>
+						<a href="{{ path('reconnix_main_admin_index') }}{{item.url}}">List</a>
+					</td>
+				</tr>
+			{% endfor %}
+		</table>
+	</body>
+</html>

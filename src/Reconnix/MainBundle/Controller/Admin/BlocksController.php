@@ -113,4 +113,20 @@ class BlocksController extends Controller
         // no submission detected yet, or invalid submission
         return false;
     }
+
+    /**
+     * @param integer $id The Post id
+     * 
+     * @return Reponse HTTP Repsonse 
+     */ 
+    public function deleteAction($id){
+        // load the entity for deleting
+        $block = $this->getDoctrine()->getRepository('ReconnixMainBundle:Content\Block')->find($id);
+        // create entity manager and run the delete command
+        $em = $this->getDoctrine()->getManager();
+        $em->remove($block);
+        $em->flush();       
+
+        return $this->redirect($this->generateUrl('reconnix_main_admin_blocks_index'));
+    } 
 }

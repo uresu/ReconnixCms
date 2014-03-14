@@ -11,6 +11,7 @@ namespace Reconnix\MainBundle\Controller;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Response;
 use Reconnix\MainBundle\Classes\PageRenderer\PageRenderer;
+use Reconnix\MenuManagerBundle\Classes\MenuManager\MenuManager;
 
 /**
  * PageController
@@ -32,6 +33,11 @@ class PageController extends Controller
             $posts = $this->getDoctrine()->getRepository('ReconnixMainBundle:Content\Post')->findAll();
             $blockRenderParams['posts'] = $posts;
         }
+
+        // get the menu items
+        $menuManager = $this->container->get('menu_manager');
+        $menuItems = $menuManager->getMenuItems('ReconnixMainBundle:Menu\MenuItem');
+        $blockRenderParams['menu'] = $menuItems;
 
         $blocks = $page->getBlocks();
         foreach($blocks as &$block){

@@ -1,12 +1,112 @@
-<a href="{{ path('reconnix_main_admin_index') }}">Home</a>
-<a href="{{ path('reconnix_main_admin_blocks_index') }}">Blocks</a>
-<a href="{{ path('reconnix_main_admin_pages_index') }}">Pages</a>
-<a href="{{ path('reconnix_main_admin_posts_index') }}">Posts</a>
-<a href="{{ path('reconnix_main_admin_content_wizard_index') }}">Wizard</a>
-<a href="{{ path('reconnix_main_admin_templates_index') }}">Templates</a><hr>
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta http-equiv="Content-Type" content="text/html" charset="utf-8" />
+        <title>{% block title %}Reconnix{% endblock %} - Reconnix</title>
 
-Edit Page {{id}}
+        <link href="{{  asset('css/adminMain.css') }}" rel="stylesheet" media="all" />
+  		<script src="//code.jquery.com/jquery-1.9.1.js"></script>
+  		<script src="//code.jquery.com/ui/1.10.4/jquery-ui.js"></script>
+  		<link rel="stylesheet" href="/resources/demos/style.css">
+  		<script>
+  		$(function() {
+    		$( "#tabs" ).tabs();
+  		});
+  		</script>
+    </head>
+    <div id="admin-nav">
+    	<a class="admin-nav" href="{{ path('reconnix_main_admin_index') }}">Admin Home</a>
+    	<a class="admin-nav" href="{{ path('reconnix_main_index', {"name":"home"}) }}">Visit Site</a>
+    </div>
+	
+    <body>
 
-{{form(form)}}
 
-{{tinymce_init()}}
+	<div id="tabs">
+		<ul>
+			<li><a href="#tabs-1">General</a></li>
+			<li><a href="#tabs-2">Blocks</a></li>
+		</ul>
+		{{form_start(form)}}
+			<div id="tabs-1">
+			
+				<table class="form-table">
+					<tr>
+						<td>
+							{{form_label(form.name)}}
+							{{form_errors(form.name)}}
+						</td>
+						<td>{{form_widget(form.name)}}</td>
+					</tr>
+	
+					<tr>
+						<td>
+							{{form_label(form.title)}}
+							{{form_errors(form.title)}}
+						</td>
+						<td>{{form_widget(form.title)}}</td>
+					</tr>
+	
+					<tr>
+						<td>
+							{{form_label(form.tagline)}}
+							{{form_errors(form.tagline)}}
+						</td>
+						<td>{{form_widget(form.tagline)}}</td>
+					</tr>
+	
+					<tr>
+						<td>
+							{{form_label(form.subtagline)}}
+							{{form_errors(form.subtagline)}}
+						</td>
+						<td>{{form_widget(form.subtagline)}}</td>
+					</tr>					
+				</table>
+			</div>
+
+			<div id="tabs-2">
+				<div id="used-blocks">
+					<table class="form-table">
+						<thead>
+							<tr><th colspan="2">Active</th></tr>
+						</thead>
+						<tbody>
+							{% for usedBlock in usedBlocks %}
+							<tr>
+								<td>{{usedBlock.name}}</td>
+								<td>
+									<a href="{{ path('reconnix_main_admin_pages_delete_block', 
+										{"blockId":usedBlock.id, "pageId":id}) }}"
+									>Remove</a>
+								</td>
+							</tr>
+							{% endfor %}
+						</tbody>
+					</table>
+				</div>
+				<div id="unused-blocks">
+					<table class="form-table">
+						<thead>
+							<tr><th colspan="2">Inactive</th></tr>
+						</thead>
+						<tbody>
+							{% for unusedBlock in unusedBlocks %}
+							<tr>
+								<td>{{unusedBlock.name}}</td>
+								<td>
+									<a href="{{ path('reconnix_main_admin_pages_add_block', 
+										{"blockId":unusedBlock.id, "pageId":id}) }}"
+									>Add</a>
+								</td>
+							</tr>
+							{% endfor %}
+						</tbody>
+					</table>					
+				</div>							
+			</div>
+		{{form_end(form)}}
+	</div>
+
+	</body>
+</html>

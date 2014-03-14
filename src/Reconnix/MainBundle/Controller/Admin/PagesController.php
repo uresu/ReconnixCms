@@ -18,6 +18,7 @@ use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\Routing\RouterInterface;
 
 use Reconnix\MainBundle\Entity\Content\Page;
+use Reconnix\MainBundle\Entity\Content\Block;
 use Reconnix\MainBundle\Form\Type\PageType;
 
 /**
@@ -76,8 +77,8 @@ class PagesController
         // create an empty object to store the submitted data
         $page = new Page();
         // build the form, pass the empty object to store the user input
-        $form = $this->formFactory->create(new PageType(), $page);
-        
+        $form = $this->formFactory->create(new PageType($page), $page);
+       
         // check for a submitted form
         if(self::submitFormOk($form, $page)){
             // succesfull update, return to page index
@@ -102,8 +103,13 @@ class PagesController
         //$page = $this->getDoctrine()->getRepository('ReconnixMainBundle:Content\Page')->find($id);
         $page = $this->doctrine->getRepository('ReconnixMainBundle:Content\Page')->find($id);
         // create a pre-populated form
-        $form = $this->formFactory->create(new PageType(), $page);
+        $form = $this->formFactory->create(new PageType($page), $page);
 
+
+        $blocks = $this->doctrine->getRepository('ReconnixMainBundle:Content\Block')->findAll();
+        $unusedBlocks = $page->getUnusedBlocks($blocks);
+        $usedBlocks = $page->getBlocks();
+        
         // check for a submitted form
         if(self::submitFormOk($form, $page)){
             // succesfull update, return to page index
@@ -114,7 +120,9 @@ class PagesController
         return $this->templating->renderResponse('ReconnixMainBundle:Admin/Pages:admin.pages.edit.html.twig',
             array(
                 'id' => $id,
-                'form' => $form->createView()
+                'form' => $form->createView(), 
+                'usedBlocks' => $usedBlocks,
+                'unusedBlocks' => $unusedBlocks,
             )
         );
     }
@@ -140,4 +148,54 @@ class PagesController
         // no submission detected yet, or invalid submission
         return false;
     }
+
+    /**
+     * @param integer $id The Post id
+     * 
+     * @return Reponse HTTP Repsonse 
+     */ 
+    public function deleteAction($id){
+        // load the entity for deleting
+        $page = $this->doctrine->getRepository('ReconnixMainBundle:Content\Page')->find($id);
+        // create entity manager and run the delete command
+        $em = $this->doctrine->getManager();
+        $em->remove($page);
+        $em->flush();       
+
+        return new RedirectResponse($this->router->generate('reconnix_main_admin_pages_index'));
+    }
+
+    /**
+     * @param int 
+     * @param int
+     *
+     * @return Response HTTP Response
+     */
+    public function addBlockAction($blockId, $pageId){
+        $page = $this->doctrine->getRepository('ReconnixMainBundle:Content\Page')->find($pageId);
+        $page->addBlock($this->doctrine->getRepository('ReconnixMainBundle:Content\Block')->find($blockId));
+        $em = $this->doctrine->getManager();
+        $em->persist($page);
+        $em->flush();        
+
+        return new RedirectResponse($this->router->generate('reconnix_main_admin_pages_edit', array(
+            "id" => $pageId)));
+    }  
+
+    /**
+     * @param int 
+     * @param int
+     *
+     * @return Response HTTP Response
+     */
+    public function deleteBlockAction($blockId, $pageId){
+        $page = $this->doctrine->getRepository('ReconnixMainBundle:Content\Page')->find($pageId);
+        $page->removeBlock($this->doctrine->getRepository('ReconnixMainBundle:Content\Block')->find($blockId));
+        $em = $this->doctrine->getManager();
+        $em->persist($page);
+        $em->flush();    
+
+        return new RedirectResponse($this->router->generate('reconnix_main_admin_pages_edit', array(
+            "id" => $pageId)));
+    }  
 }

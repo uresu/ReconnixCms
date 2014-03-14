@@ -1,0 +1,263 @@
+html{
+	width: 960px;
+	margin: 0 auto;
+	font-family:"Lucida Sans Unicode", "Lucida Grande", Sans-Serif;
+	font-size:12px;
+}
+
+a{
+	text-decoration: none;
+}
+
+#admin-nav{
+	width: 100%;
+	text-align: center;
+}
+
+#admin-nav a{
+	margin: 0 10px;
+}
+
+#dashboard-table{
+	width:480px;
+	text-align:left;
+	border-collapse:collapse;
+	margin:20px auto;
+}
+
+#dashboard-table thead{
+	width: 480px;
+}
+
+#dashboard-table th{
+	font-size:13px;
+	font-weight:normal;
+	background:#ffd200;
+	border-top:4px solid #ddb600;
+	border-bottom:1px solid #fff;
+	color:#039;
+	padding:8px;
+}
+
+#dashboard-table td{
+	background:#fff0aa;
+	border-bottom:1px solid #fff;
+	color:#669;
+	border-top:1px solid transparent;
+	padding:8px;
+}
+
+#dashboard-table td:first-child{
+	width: 70%;
+}
+
+#dashboard-table tr:hover td{
+	background:#ffde44;
+	color:#339;
+}
+
+#tabs{
+	width: 480px;
+	margin: 50px auto 0;
+    border-collapse: collapse;
+}
+
+#tabs form{
+	padding: 20px;
+}
+
+#tabs .form-table tbody tr > td:first-child{
+    padding-top: 1em;
+}
+/*
+#tabs tr:hover td{
+    background:#ffde44;
+    color:#339;
+    border: none;
+}
+*/
+#tabs td{
+    padding-bottom: 1em;
+    color: #669;
+	width: 100%;
+    border: none;
+}
+
+#tabs .form-table td a{
+    color: #669;
+}
+
+#tabs .form-table th{
+    color: #039;
+    text-align: left;
+    padding-bottom: 0.5em;
+    border-bottom: 1px solid #ffd200;
+}
+
+#tabs form input[type=text]{
+	width: 300px;
+	height: 2em;
+    border-bottom: 1px solid #fff;
+}
+
+#used-blocks, #unused-blocks{
+    margin-bottom: 50px;
+}
+
+.ui-helper-clearfix:before,
+.ui-helper-clearfix:after {
+    content: "";
+    display: table;
+    border-collapse: collapse;
+}
+
+.ui-helper-clearfix:after {
+    clear: both;
+}
+
+.ui-helper-clearfix {
+    min-height: 0; /* support: IE7 */
+}
+
+.ui-tabs {
+    position: relative; /* position: relative prevents IE scroll bug (element with position: relative inside container with overflow: auto appear as "fixed") */
+    padding: .2em;
+}
+
+.ui-tabs .ui-tabs-nav {
+    margin: 0;
+    padding: .2em .2em 0;
+}
+
+.ui-tabs .ui-tabs-nav li {
+    list-style: none;
+    float: left;
+    position: relative;
+    top: 0;
+    margin: 1px .2em 0 5px;
+    border-bottom-width: 0;
+    padding: 0;
+    white-space: nowrap;
+}
+
+.ui-tabs .ui-tabs-nav .ui-tabs-anchor {
+    float: left;
+    padding: .5em 1em;
+    text-decoration: none;
+}
+
+.ui-tabs .ui-tabs-nav li.ui-tabs-active {
+    margin-bottom: -1px;
+    padding-bottom: 1px;
+}
+
+.ui-tabs .ui-tabs-nav li.ui-tabs-active .ui-tabs-anchor,
+.ui-tabs .ui-tabs-nav li.ui-state-disabled .ui-tabs-anchor,
+.ui-tabs .ui-tabs-nav li.ui-tabs-loading .ui-tabs-anchor {
+    cursor: text;
+}
+
+.ui-tabs-collapsible .ui-tabs-nav li.ui-tabs-active .ui-tabs-anchor {
+    cursor: pointer;
+}
+
+.ui-tabs .ui-tabs-panel {
+    display: block;
+    border-width: 0;
+    background: none;
+}
+
+.ui-widget-content {
+    border: 1px solid #aaaaaa;
+    background: #fff0aa;
+    color: #222222;
+}
+
+.ui-widget-content a {
+	background: #fff0aa;
+    color: #222222;
+}
+
+.ui-widget-header {
+    border: 1px solid #aaaaaa;
+    background: #ffd200;
+    color: #222222;
+    font-weight: bold;
+}
+
+.ui-widget-header a {
+    color: #222222;
+}
+
+.ui-state-default,
+.ui-widget-content .ui-state-default,
+.ui-widget-header .ui-state-default {
+    border: 1px solid #d3d3d3;
+    background: #e6e6e6 url(images/ui-bg_glass_75_e6e6e6_1x400.png) 50% 50% repeat-x;
+    font-weight: normal;
+    color: #555555;
+}
+
+.ui-state-default a,
+.ui-state-default a:link,
+.ui-state-default a:visited {
+    color: #555555;
+    text-decoration: none;
+}
+
+.ui-state-hover,
+.ui-widget-content .ui-state-hover,
+.ui-widget-header .ui-state-hover,
+.ui-state-focus,
+.ui-widget-content .ui-state-focus,
+.ui-widget-header .ui-state-focus {
+    border: 1px solid #999999;
+    background: #dadada url(images/ui-bg_glass_75_dadada_1x400.png) 50% 50% repeat-x;
+    font-weight: normal;
+    color: #212121;
+}
+
+.ui-state-active,
+.ui-widget-content .ui-state-active,
+.ui-widget-header .ui-state-active {
+    border: 1px solid #aaaaaa;
+    background: #ffffff url(images/ui-bg_glass_65_ffffff_1x400.png) 50% 50% repeat-x;
+    font-weight: normal;
+    color: #212121;
+}
+
+.ui-state-active a,
+.ui-state-active a:link,
+.ui-state-active a:visited {
+    color: #212121;
+    text-decoration: none;
+}
+
+/* Corner radius */
+.ui-corner-all,
+.ui-corner-top,
+.ui-corner-left,
+.ui-corner-tl {
+    border-top-left-radius: 4px;
+}
+
+.ui-corner-all,
+.ui-corner-top,
+.ui-corner-right,
+.ui-corner-tr {
+    border-top-right-radius: 4px;
+}
+
+.ui-corner-all,
+.ui-corner-bottom,
+.ui-corner-left,
+.ui-corner-bl {
+    border-bottom-left-radius: 4px;
+}
+
+.ui-corner-all,
+.ui-corner-bottom,
+.ui-corner-right,
+.ui-corner-br {
+    border-bottom-right-radius: 4px;
+}

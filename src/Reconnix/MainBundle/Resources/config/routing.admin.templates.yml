@@ -9,3 +9,7 @@ reconnix_main_admin_templates_add:
 reconnix_main_admin_templates_edit:
     pattern:  /edit/{id}
     defaults: { _controller: ReconnixMainBundle:Admin/Templates:edit }
+
+reconnix_main_admin_templates_delete:
+    pattern:  /delete/{id}
+    defaults: { _controller: ReconnixMainBundle:Admin/Templates:delete }

@@ -10,11 +10,16 @@ namespace Reconnix\MainBundle\Form\Type;
 
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
+use Reconnix\MainBundle\Entity\Content\Page;
 
 /**
  * Configuration to render the Add Page form
  */
 class PageType extends AbstractType{
+
+    public function __construct(Page $page){
+        $this->page = $page;
+    }
 	
 	/**
 	 * @param FormBuilderInterface $builder
@@ -25,14 +30,18 @@ class PageType extends AbstractType{
         $builder->add('title', 'text');
         $builder->add('tagline', 'text');
         $builder->add('subtagline', 'text', array('required' => false ));
+
+        if(!$this->page->getId()){
+            $builder->add('blocks', 'entity', array(
+                'class' => 'ReconnixMainBundle:Content\Block',
+                'multiple' => true,
+                'expanded' => true,
+                'property' => 'name',
+            ));   
+        }
         //$builder->add('content', 'textarea', array('attr' => array('rows' => '35', 'cols' => '150'), 'required' => false));
         //$builder->add('content', 'textarea', array('attr' => array('rows' => '35', 'class' => 'tinymce', 'data-theme' => 'advanced')));
-        $builder->add('blocks', 'entity', array(
-            'class' => 'ReconnixMainBundle:Content\Block',
-            'multiple' => true,
-            'expanded' => true,
-            'property' => 'name',
-        ));
+        /**/
         $builder->add('save', 'submit');
 	}
 

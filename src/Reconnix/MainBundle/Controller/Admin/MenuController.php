@@ -28,7 +28,7 @@ class MenuController extends Controller
      */
     public function indexAction(){
         // fetch all Menu items
-        $menuObjs = $this->getDoctrine()->getRepository('ReconnixMainBundle:Menu\MenuItem')->findAll();
+        $menuObjs = $this->getDoctrine()->getRepository('ReconnixMainBundle:Menu\MenuItem')->findByCategory('front');
         // disect out the id and name of each Block object for passing to the view
         $menu = array();
         foreach($menuObjs as $menuObj){
@@ -102,7 +102,10 @@ class MenuController extends Controller
         // handle form submission
         $form->handleRequest(Request::createFromGlobals());
         if($form->isValid()){
-
+            // set default value for Category
+            if($item->getCategory() === NULL){
+                $item->setCategory('front');
+            }
             // valid form submission
             $em = $this->getDoctrine()->getManager();
             $em->persist($item);
@@ -114,4 +117,20 @@ class MenuController extends Controller
         // no submission detected yet, or invalid submission
         return false;
     }
+
+    /**
+     * @param integer $id The Post id
+     * 
+     * @return Reponse HTTP Repsonse 
+     */ 
+    public function deleteAction($id){
+        // load the entity for deleting
+        $menuItem = $this->getDoctrine()->getRepository('ReconnixMainBundle:Menu\MenuItem')->find($id);
+        // create entity manager and run the delete command
+        $em = $this->getDoctrine()->getManager();
+        $em->remove($menuItem);
+        $em->flush();       
+
+        return $this->redirect($this->generateUrl('reconnix_main_admin_menu_index'));
+    } 
 }

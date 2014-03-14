@@ -1,0 +1,10 @@
+parameters:
+#    reconnix_menu_manager.example.class: Reconnix\MenuManagerBundle\Example
+
+services:
+#    reconnix_menu_manager.example:
+#        class: %reconnix_menu_manager.example.class%
+#        arguments: [@service_id, "plain_value", %parameter%]
+    menu_manager:
+        class:  Reconnix\MenuManagerBundle\Classes\MenuManager
+        arguments: ['@doctrine']

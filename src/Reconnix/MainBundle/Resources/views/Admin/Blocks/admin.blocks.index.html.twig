@@ -1,13 +1,35 @@
-<a href="{{ path('reconnix_main_admin_index') }}">Home</a>
-<a href="{{ path('reconnix_main_admin_blocks_index') }}">Blocks</a>
-<a href="{{ path('reconnix_main_admin_pages_index') }}">Pages</a>
-<a href="{{ path('reconnix_main_admin_posts_index') }}">Posts</a>
-<a href="{{ path('reconnix_main_admin_content_wizard_index') }}">Wizard</a>
-<a href="{{ path('reconnix_main_admin_templates_index') }}">Templates</a><hr>
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta http-equiv="Content-Type" content="text/html" charset="utf-8" />
+        <title>{% block title %}Reconnix{% endblock %} - Reconnix</title>
 
-Blocks<br>
+        <link href="{{  asset('css/adminMain.css') }}" rel="stylesheet" media="all" />
 
-{% for block in blocks %}
-	<a href="{{ path('reconnix_main_admin_blocks_edit', {'id': block.id }) }}">{{block.name}}</a><br>
-{% endfor %}
-<br><a href="{{ path('reconnix_main_admin_blocks_add') }}">Add</a>
+    </head>
+    <div id="admin-nav">
+    	<a class="admin-nav" href="{{ path('reconnix_main_admin_index') }}">Admin Home</a>
+    	<a class="admin-nav" href="{{ path('reconnix_main_index', {"name":"home"}) }}">Visit Site</a>
+    </div>
+	
+    <body>
+		<table id="dashboard-table">
+			<thead>
+			<tr><th colspan="3">Blocks</th></tr>
+			</thead>
+			<tbody>
+			{% for block in blocks %}
+				<tr>
+					<td>{{block.name}}</td>
+					<td>
+						<a href="{{ path('reconnix_main_admin_blocks_edit', {'id': block.id}) }}">View/Edit</a>
+					</td>
+					<td>
+						<a href="{{ path('reconnix_main_admin_blocks_delete', {'id': block.id}) }}">Delete</a>
+					</td>
+				</tr>
+			{% endfor %}
+			</tbody>
+		</table>
+	</body>
+</html>

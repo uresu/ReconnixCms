@@ -28,7 +28,7 @@ class ContentWizardController extends Controller{
     {
 
         $form = $this->createFormBuilder()
-            ->add('type', 'choice', array(
+            ->add('typess', 'choice', array(
                 'choices' => array(
                     'page' => 'Page',
                     'post' => 'Post',

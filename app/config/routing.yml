@@ -1,3 +1,7 @@
+reconnix_menu_manager:
+    resource: "@ReconnixMenuManagerBundle/Resources/config/routing.yml"
+    prefix:   /
+
 reconnix_content_wizard:
     resource: "@ReconnixContentWizardBundle/Resources/config/routing.yml"
     prefix:   /
