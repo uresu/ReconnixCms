@@ -1,15 +1,3 @@
-reconnix_menu_manager:
-    resource: "@ReconnixMenuManagerBundle/Resources/config/routing.yml"
-    prefix:   /
-
-reconnix_content_wizard:
-    resource: "@ReconnixContentWizardBundle/Resources/config/routing.yml"
-    prefix:   /
-
-reconnix_dep_inj:
-    resource: "@ReconnixDepInjBundle/Resources/config/routing.yml"
-    prefix:   /depinj
-
 reconnix_main:
     resource: "@ReconnixMainBundle/Resources/config/routing.yml"
     prefix:   /

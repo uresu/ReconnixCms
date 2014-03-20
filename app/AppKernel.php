@@ -18,9 +18,6 @@ class AppKernel extends Kernel
             new Sensio\Bundle\FrameworkExtraBundle\SensioFrameworkExtraBundle(),
             new Reconnix\MainBundle\ReconnixMainBundle(),
             new Stfalcon\Bundle\TinymceBundle\StfalconTinymceBundle(),
-            new Reconnix\DepInjBundle\ReconnixDepInjBundle(),
-            new Reconnix\ContentWizardBundle\ReconnixContentWizardBundle(),
-            new Reconnix\MenuManagerBundle\ReconnixMenuManagerBundle(),
         );
 
         if (in_array($this->getEnvironment(), array('dev', 'test'))) {
