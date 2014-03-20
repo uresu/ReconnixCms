@@ -1,0 +1,15 @@
+reconnix_main_admin_blocks_index:
+    pattern:  /
+    defaults: { _controller: ReconnixCmsBundle:Admin/Blocks:index }
+
+reconnix_main_admin_blocks_add:
+    pattern:  /add
+    defaults: { _controller: ReconnixCmsBundle:Admin/Blocks:add }
+
+reconnix_main_admin_blocks_edit:
+    pattern:  /edit/{id}
+    defaults: { _controller: ReconnixCmsBundle:Admin/Blocks:edit }
+
+reconnix_main_admin_blocks_delete:
+    pattern:  /delete/{id}
+    defaults: { _controller: ReconnixCmsBundle:Admin/Blocks:delete }

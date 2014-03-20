@@ -1,0 +1,27 @@
+reconnix_main_admin_index:
+    pattern:  /
+    defaults: { _controller: ReconnixCmsBundle:Admin/Admin:index }
+
+reconnix_main_admin_pages:
+    resource: "@ReconnixCmsBundle/Resources/config/routing.admin.pages.yml"
+    prefix: /pages
+
+reconnix_main_admin_blocks:
+    resource: "@ReconnixCmsBundle/Resources/config/routing.admin.blocks.yml"
+    prefix: /blocks
+
+reconnix_main_admin_posts:
+    resource: "@ReconnixCmsBundle/Resources/config/routing.admin.posts.yml"
+    prefix: /posts
+
+reconnix_main_admin_templates:
+    resource: "@ReconnixCmsBundle/Resources/config/routing.admin.templates.yml"
+    prefix: /templates
+
+reconnix_main_admin_menu:
+    resource: "@ReconnixCmsBundle/Resources/config/routing.admin.menu.yml"
+    prefix: /menu
+
+reconnix_main_admin_configuration:
+    resource: "@ReconnixCmsBundle/Resources/config/routing.configuration.menu.yml"
+    prefix: /configuration

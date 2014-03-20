@@ -1,0 +1,14 @@
+parameters:
+#    reconnix_main.example.class: Reconnix\CmsBundle\Example
+
+services:
+#    reconnix_main.example:
+#        class: %reconnix_main.example.class%
+#        arguments: [@service_id, "plain_value", %parameter%]
+    reconnix_main_admin.pages:
+        class: 			Reconnix\CmsBundle\Controller\Admin\PagesController
+        arguments:		['@doctrine', '@form.factory', '@templating', '@request_stack', '@router']
+
+    page_renderer:
+        class:  Reconnix\CmsBundle\Classes\PageRenderer\PageRenderer
+        arguments: ['@doctrine', '@twig']

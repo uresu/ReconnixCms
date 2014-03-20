@@ -1,0 +1,15 @@
+reconnix_main_admin_templates_index:
+    pattern:  /
+    defaults: { _controller: ReconnixCmsBundle:Admin/Templates:index }
+
+reconnix_main_admin_templates_add:
+    pattern:  /add
+    defaults: { _controller: ReconnixCmsBundle:Admin/Templates:add }
+
+reconnix_main_admin_templates_edit:
+    pattern:  /edit/{id}
+    defaults: { _controller: ReconnixCmsBundle:Admin/Templates:edit }
+
+reconnix_main_admin_templates_delete:
+    pattern:  /delete/{id}
+    defaults: { _controller: ReconnixCmsBundle:Admin/Templates:delete }

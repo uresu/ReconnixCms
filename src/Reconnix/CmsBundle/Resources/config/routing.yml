@@ -1,0 +1,7 @@
+reconnix_main_index:
+    pattern:  /page/{name}
+    defaults: { _controller: ReconnixCmsBundle:Page:index }
+
+reconnix_main_post:
+    pattern:  /post/{tag}/{title}
+    defaults: { _controller: ReconnixCmsBundle:Post:index }

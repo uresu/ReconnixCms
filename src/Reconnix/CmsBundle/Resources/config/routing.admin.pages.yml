@@ -1,0 +1,23 @@
+reconnix_main_admin_pages_index:
+    pattern:  /
+    defaults: { _controller: reconnix_main_admin.pages:indexAction}
+
+reconnix_main_admin_pages_add:
+    pattern:  /add
+    defaults: { _controller: reconnix_main_admin.pages:addAction}
+
+reconnix_main_admin_pages_edit:
+    pattern:  /edit/{id}
+    defaults: { _controller: reconnix_main_admin.pages:editAction}
+
+reconnix_main_admin_pages_delete:
+    pattern:  /delete/{id}
+    defaults: { _controller: reconnix_main_admin.pages:deleteAction}
+
+reconnix_main_admin_pages_add_block:
+    pattern:  /add-block/{blockId}/{pageId}
+    defaults: { _controller: reconnix_main_admin.pages:addBlockAction}
+
+reconnix_main_admin_pages_delete_block:
+    pattern:  /delete-block/{blockId}/{pageId}
+    defaults: { _controller: reconnix_main_admin.pages:deleteBlockAction}

@@ -1,0 +1,26 @@
+Reconnix\CmsBundle\Entity\Block:
+    properties:
+        name:
+            - NotBlank: ~
+            - Length:
+                min: 3
+                max: 32
+        content:
+            - NotBlank: ~
+
+Reconnix\CmsBundle\Entity\Page:
+    properties:
+        name:
+            - NotBlank: ~
+            - Length:
+                min: 3
+                max: 32
+        title:
+            - NotBlank: ~
+            - Length:
+                min: 3
+                max: 32
+        tagline:
+            - Length:
+                min: 3
+                max: 64

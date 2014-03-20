@@ -1,0 +1,3 @@
+reconnix_main_admin_configuration_index:
+    pattern:  /
+    defaults: { _controller: ReconnixCmsBundle:Admin/Configuration:index }
