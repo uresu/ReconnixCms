@@ -1,3 +1,0 @@
-reconnix_content_wizard_homepage:
-    pattern:  /hello/{name}
-    defaults: { _controller: ReconnixContentWizardBundle:Default:index }
