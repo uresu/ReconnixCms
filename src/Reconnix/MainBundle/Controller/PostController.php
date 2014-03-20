@@ -42,8 +42,14 @@ class PostController extends Controller
         
 
         // get the menu items
+        /*
         $menuManager = $this->container->get('menu_manager');
         $menuItems = $menuManager->getMenuItems('ReconnixMainBundle:Menu\MenuItem');
+        $blockRenderParams['menu'] = $menuItems;
+        */
+        
+        $em = $this->getDoctrine()->getManager();
+        $menuItems = $em->getRepository('ReconnixMainBundle:Menu\MenuItem')->getMenuItems();
         $blockRenderParams['menu'] = $menuItems;
 
 
