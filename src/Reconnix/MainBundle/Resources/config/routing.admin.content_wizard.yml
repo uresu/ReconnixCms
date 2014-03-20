@@ -1,7 +1,0 @@
-reconnix_main_admin_content_wizard_index:
-    pattern:  /
-    defaults: { _controller: ReconnixMainBundle:Admin/ContentWizard:index }
-
-reconnix_main_admin_content_wizard_add:
-    pattern:  /add/{type}
-    defaults: { _controller: ReconnixMainBundle:Admin/ContentWizard:add }
