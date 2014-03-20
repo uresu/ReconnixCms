@@ -13,12 +13,62 @@ use Reconnix\MainBundle\Entity\Content\ContentBase;
 class Post extends ContentBase
 {
     /**
-     * @ORM\Column(name="tagline", length=128)
+     * @ORM\Column(name="tag", length=32)
      */
-    private $tagline; 
+    private $tag; 
 
      /**
      * @ORM\Column(name="author", length=32)
      */
-    private $author;        
+    private $author;    
+
+    protected function create(){
+        // return the post form object
+    }    
+
+    /**
+     * Set tag
+     *
+     * @param string $tagline
+     * @return Post
+     */
+    public function setTag($tag)
+    {
+        $this->tag = $tag;
+
+        return $this;
+    }
+
+    /**
+     * Get tag
+     *
+     * @return string 
+     */
+    public function getTag()
+    {
+        return $this->tag;
+    }
+
+    /**
+     * Set author
+     *
+     * @param string $author
+     * @return Post
+     */
+    public function setAuthor($author)
+    {
+        $this->author = $author;
+
+        return $this;
+    }
+
+    /**
+     * Get author
+     *
+     * @return string 
+     */
+    public function getAuthor()
+    {
+        return $this->author;
+    }
 }

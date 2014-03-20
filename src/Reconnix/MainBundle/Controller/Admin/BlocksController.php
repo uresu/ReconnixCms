@@ -86,6 +86,7 @@ class BlocksController extends Controller
     	return $this->render('ReconnixMainBundle:Admin/Blocks:admin.blocks.edit.html.twig',
     		array(
                 'id' => $id,
+                'name' => $block->getName(),
                 'form' => $form->createView()
             )
     	);
@@ -101,6 +102,10 @@ class BlocksController extends Controller
         // handle form submission
         $form->handleRequest(Request::createFromGlobals());
         if($form->isValid()){
+            // set default value for Category
+            if($block->getBackground() === NULL){
+                $block->setBackground('white');
+            }
 
             // valid form submission
             $em = $this->getDoctrine()->getManager();

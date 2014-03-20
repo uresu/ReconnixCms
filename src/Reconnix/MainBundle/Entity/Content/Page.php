@@ -136,4 +136,12 @@ class Page extends ContentBase
 
         return $allBlocks;
     }
+    /**
+     * Constructor
+     */
+    public function __construct()
+    {
+        $this->blocks = new \Doctrine\Common\Collections\ArrayCollection();
+    }
+
 }

@@ -14,12 +14,18 @@
   		});
   		</script>
     </head>
-    <div id="admin-nav">
-    	<a class="admin-nav" href="{{ path('reconnix_main_admin_index') }}">Admin Home</a>
-    	<a class="admin-nav" href="{{ path('reconnix_main_index', {"name":"home"}) }}">Visit Site</a>
-    </div>
-	
-    <body>
+     <body>
+     	<div id="admin-nav">
+    		<div id="admin-nav-logo">
+    			<a class="admin-nav" href="{{ path('reconnix_main_admin_index') }}">
+    				<img src="{{ asset('images/admin-logo.png')}}" />
+    			</a>
+    		</div>
+    		<div id="admin-nav-links">
+    			<a class="admin-nav" href="{{ path('reconnix_main_admin_index') }}">Admin Home</a>
+    			<a class="admin-nav" href="{{ path('reconnix_main_index', {"name":"home"}) }}">Visit Site</a>
+    		</div>
+   		</div>
 
 
 	<div id="tabs">

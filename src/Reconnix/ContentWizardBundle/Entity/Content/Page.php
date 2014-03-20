@@ -117,4 +117,12 @@ class Page extends Content
         return $this->blocks;
     }
 
+    /**
+     * Constructor
+     */
+    public function __construct()
+    {
+        $this->blocks = new \Doctrine\Common\Collections\ArrayCollection();
+    }
+
 }

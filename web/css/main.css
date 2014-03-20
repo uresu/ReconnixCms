@@ -640,14 +640,17 @@ div.col.span_1_of_2.news-item.news-small:nth-child(2){
     color: #ffd200 !important;
 }
 
-.news-large .news-date{
+.news-title a{
+  color: #566068;
+  font-weight: 900;    
+}
+
+.news-date{
   color: #566068;
   font-weight: 900;
 }
 
 .news-small .news-date{
-  color: #566068;
-  font-weight: 900;
   font-size: 11px;
 }
 
@@ -662,12 +665,13 @@ div.col.span_1_of_2.news-item.news-small:nth-child(2){
 
 /* NEWS STORY */
 
+/*
 .news-story{
   background: #fcfcfc;
   padding: 0 20px;
   width: 77%;
 }
-
+*/
 .news-story .news-title{
   margin-bottom: 15px;
 }

@@ -106,6 +106,11 @@ class MenuController extends Controller
             if($item->getCategory() === NULL){
                 $item->setCategory('front');
             }
+
+            // set default value for Weight
+            if($item->getWeight() === NULL){
+                $item->setWeight(0);
+            }
             // valid form submission
             $em = $this->getDoctrine()->getManager();
             $em->persist($item);

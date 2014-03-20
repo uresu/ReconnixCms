@@ -22,19 +22,27 @@ class BlockType extends AbstractType{
 	 */
 	public function buildForm(FormBuilderInterface $builder, array $options){
         $builder->add('name', 'text');
-        $builder->add('content', 'textarea', array('attr' => array('rows' => '35', 'cols' => '150')));
+        //$builder->add('content', 'textarea', array('attr' => array('rows' => '35', 'cols' => '150')));
+        $builder->add('content', 'textarea', array('attr' => array('class' => 'tinymce', 'data-theme' => 'advanced')));
         $builder->add('region', 'choice', array(
-        		'label' => false,
-        		'expanded' => true,
-        		'choices' => array(
-        			'header' => 'Header',
-        			'top' => 'Top', 
-        			'middle' => 'Middle', 
-        			'bottom' => 'Bottom',
-        			'footer' => 'Footer',
-        		)
+        	'choices' => array(
+        		'header' => 'Header',
+        		'top' => 'Top', 
+        		'middle' => 'Middle', 
+        		'bottom' => 'Bottom',
+        		'footer' => 'Footer',
         	)
-        );
+        ));
+        
+        $builder->add('background', 'choice', array(
+            'choices' => array(
+                'white' => 'White',
+                'light-grey' => 'Light Grey',
+                'dark-grey' => 'Dark Grey',
+            )
+        ));
+
+        $builder->add('classList', 'text');
         //$builder->add('content', 'textarea', array('attr' => array('rows' => '35', 'class' => 'tinymce', 'data-theme' => 'advanced')));
         $builder->add('save', 'submit');
 	}

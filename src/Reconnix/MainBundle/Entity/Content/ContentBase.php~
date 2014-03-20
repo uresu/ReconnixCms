@@ -3,15 +3,21 @@
 namespace Reconnix\MainBundle\Entity\Content;
 
 use Doctrine\ORM\Mapping as ORM;
+use Reconnix\MainBundle\Entity\Content\Page;
+use Reconnix\MainBundle\Entity\Content\Post;
+
+
+use Symfony\Component\Form\FormFactoryInterface;
 
 /** 
  * ContentBase
  *
  * @ORM\Entity 
  * @ORM\Table(name="content")
+ * @ORM\HasLifecycleCallbacks()
  * @ORM\InheritanceType("SINGLE_TABLE")
- * @ORM\DiscriminatorColumn(name="content_type", type="string")
- * @ORM\DiscriminatorMap({"post" = "Post", "page" = "Page"}) 
+ * @ORM\DiscriminatorColumn(name="contentType", type="string")
+ * @ORM\DiscriminatorMap({"post" = "Post", "page" = "Page", "template" = "Template"}) 
  */
 class ContentBase{
     
@@ -40,7 +46,7 @@ class ContentBase{
     private $title; 
 
     /**
-     * @ORM\Column(name="content", type="text")
+     * @ORM\Column(name="content", type="text", nullable=true)
      */
     private $content;
 
@@ -121,5 +127,36 @@ class ContentBase{
     public function getContent()
     {
         return $this->content;
+    }
+
+    /**
+     * Set date
+     *
+     * @param \DateTime $date
+     * @return ContentBase
+     */
+    public function setDate(\DateTime $date = null)
+    {
+        $this->date = $date;
+
+        return $this;
+    }
+
+    /**
+     * Get date
+     *
+     * @return \DateTime 
+     */
+    public function getDate()
+    {
+        return $this->date;
+    }
+
+    /** 
+     * @ORM\PrePersist
+     * @ORM\PreUpdate
+     */
+    public function setDateValue(){
+        $this->date = new \DateTime();
     }
 }

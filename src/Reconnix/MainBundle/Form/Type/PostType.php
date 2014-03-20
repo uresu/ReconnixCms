@@ -26,7 +26,7 @@ class PostType extends AbstractType{
         $builder->add('tag', 'text');
         $builder->add('author', 'text');
         //$builder->add('content', 'textarea', array('attr' => array('rows' => '35', 'cols' => '150')));
-        $builder->add('content', 'textarea', array('attr' => array('rows' => '80', 'class' => 'tinymce', 'data-theme' => 'advanced')));
+        $builder->add('content', 'textarea', array('attr' => array('class' => 'tinymce', 'data-theme' => 'advanced')));
         $builder->add('save', 'submit');
 	}
 

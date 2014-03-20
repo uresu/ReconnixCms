@@ -21,9 +21,8 @@ class AdminController extends Controller
      */    
     public function indexAction(){
 
-        // get the menu items
-        $menuManager = $this->container->get('menu_manager');
-        $menuItems = $menuManager->getAdminMenuItems('ReconnixMainBundle:Menu\MenuItem');
+        $em = $this->getDoctrine()->getManager();
+        $menuItems = $em->getRepository('ReconnixMainBundle:Menu\MenuItem')->getAdminMenuItems();
 
         return $this->render('ReconnixMainBundle:Admin:admin.index.html.twig', array(
         	'menu' => $menuItems

@@ -5,6 +5,11 @@ namespace Reconnix\MainBundle\Entity\Content;
 use Doctrine\ORM\Mapping as ORM;
 use Doctrine\Common\Collections\ArrayCollection;
 use Reconnix\MainBundle\Entity\Content\ContentBase;
+use Reconnix\MainBundle\Form\Type\PageType;
+use Symfony\Component\Form\Forms;
+use Reconnix\MainBundle\Entity\Content\Page;
+use Symfony\Component\Form\FormFactoryInterface;
+use Symfony\Component\DependencyInjection\ContainerAware;
 
 /**
  * Represent a Page piece of Content
@@ -15,7 +20,12 @@ class Page extends ContentBase
     /**
      * @ORM\Column(name="tagline", length=128)
      */
-    private $tagline;      
+    private $tagline;   
+
+    /**
+     * @ORM\Column(name="subtagline", length=128)
+     */
+    private $subtagline;      
 
     /**
      * @ORM\ManyToMany(targetEntity="Block")
@@ -26,10 +36,6 @@ class Page extends ContentBase
      * )
      */
     private $blocks;
-
-    public function __construct(){
-        $this->blocks = new ArrayCollection();
-    }
 
     /**
      * Set tagline
@@ -55,12 +61,35 @@ class Page extends ContentBase
     }
 
     /**
+     * Set sub_tagline
+     *
+     * @param string $subtagline
+     * @return Page
+     */
+    public function setSubtagline($subTagline)
+    {
+        $this->subtagline = $subTagline;
+
+        return $this;
+    }
+
+    /**
+     * Get subtagline
+     *
+     * @return string 
+     */
+    public function getSubtagline()
+    {
+        return $this->subtagline;
+    }
+
+    /**
      * Add blocks
      *
      * @param \Reconnix\MainBundle\Entity\Block $blocks
      * @return Page
      */
-    public function addBlock(\Reconnix\MainBundle\Entity\Block $blocks)
+    public function addBlock(\Reconnix\MainBundle\Entity\Content\Block $blocks)
     {
         $this->blocks[] = $blocks;
 
@@ -72,7 +101,7 @@ class Page extends ContentBase
      *
      * @param \Reconnix\MainBundle\Entity\Block $blocks
      */
-    public function removeBlock(\Reconnix\MainBundle\Entity\Block $blocks)
+    public function removeBlock(\Reconnix\MainBundle\Entity\Content\Block $blocks)
     {
         $this->blocks->removeElement($blocks);
     }
@@ -85,5 +114,26 @@ class Page extends ContentBase
     public function getBlocks()
     {
         return $this->blocks;
+    }
+
+    /**
+     * Return a list of blocks currently not used by the current Page object
+     *
+     * @param array $allBlocks
+     * @return array
+     */
+    public function getUnusedBlocks(array $allBlocks = null){
+
+        
+
+        foreach ($this->getBlocks() as $usedBlock) {
+            foreach($allBlocks as $key => $block){
+                if($usedBlock->getName() == $block->getName()){
+                    unset($allBlocks[$key]);
+                }
+            }
+        }
+
+        return $allBlocks;
     }
 }

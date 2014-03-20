@@ -10,8 +10,21 @@ a{
 }
 
 #admin-nav{
-	width: 100%;
-	text-align: center;
+
+
+    width: 490px;
+    margin: 0 auto;
+    overflow: hidden;
+    clear: both;
+}
+
+#admin-nav #admin-nav-logo{
+    float: left;
+}
+
+#admin-nav #admin-nav-links{
+    float: right;
+    margin-top: 30px;
 }
 
 #admin-nav a{
@@ -39,6 +52,11 @@ a{
 	padding:8px;
 }
 
+#dashboard-table th:nth-child(2), #dashboard-table td:nth-child(2){
+    text-align: right;
+    padding-right: 16px;
+}
+
 #dashboard-table td{
 	background:#fff0aa;
 	border-bottom:1px solid #fff;
@@ -57,7 +75,7 @@ a{
 }
 
 #tabs{
-	width: 480px;
+	width: 720px;
 	margin: 50px auto 0;
     border-collapse: collapse;
 }
@@ -95,9 +113,18 @@ a{
 }
 
 #tabs form input[type=text]{
-	width: 300px;
+	width: 600px;
 	height: 2em;
     border-bottom: 1px solid #fff;
+}
+
+#tabs form textarea{
+    width: 600px;
+    height: 600px;
+}
+
+.info-popup{
+    display: none;
 }
 
 #used-blocks, #unused-blocks{

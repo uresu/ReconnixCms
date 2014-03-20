@@ -7,11 +7,18 @@
         <link href="{{  asset('css/adminMain.css') }}" rel="stylesheet" media="all" />
 
     </head>
-    <div id="admin-nav">
-    	<a class="admin-nav" href="{{ path('reconnix_main_admin_index') }}">Admin Home</a>
-    	<a class="admin-nav" href="{{ path('reconnix_main_index', {"name":"home"}) }}">Visit Site</a>
-    </div>
-    <body>
+     <body>
+     	<div id="admin-nav">
+    		<div id="admin-nav-logo">
+    			<a class="admin-nav" href="{{ path('reconnix_main_admin_index') }}">
+    				<img src="{{ asset('images/admin-logo.png')}}" />
+    			</a>
+    		</div>
+    		<div id="admin-nav-links">
+    			<a class="admin-nav" href="{{ path('reconnix_main_admin_index') }}">Admin Home</a>
+    			<a class="admin-nav" href="{{ path('reconnix_main_index', {"name":"home"}) }}">Visit Site</a>
+    		</div>
+   		</div>
 		<table id="dashboard-table">
 			<thead>
 			<tr><th colspan="3">Content</th></tr>
@@ -19,7 +26,9 @@
 			<tbody>
 			{% for item in menu if item.category == 'Content' %}
 				<tr>
-					<td>{{item.name}}</td>
+					<td>
+						<a href="{{ path('reconnix_main_admin_index') }}{{item.url}}">{{item.name}}</a>
+					</td>
 					<td>
 						<a href="{{ path('reconnix_main_admin_index') }}{{item.url}}/add">Add New</a>
 					</td>
@@ -35,7 +44,9 @@
 			<tr><th colspan="3">Appearance</th></tr>
 			{% for item in menu if item.category == 'Appearance' %}
 				<tr>
-					<td>{{item.name}}</td>
+					<td>
+						<a href="{{ path('reconnix_main_admin_index') }}{{item.url}}">{{item.name}}</a>
+					</td>
 					<td>
 						<a href="{{ path('reconnix_main_admin_index') }}{{item.url}}/add">Add New</a>
 					</td>
@@ -50,13 +61,22 @@
 			<tr><th colspan="3">Site</th></tr>
 			{% for item in menu if item.category == 'Site' %}
 				<tr>
-					<td>{{item.name}}</td>
-					<td>
-						<a href="{{ path('reconnix_main_admin_index') }}{{item.url}}/add">Add New</a>
-					</td>
-					<td>
-						<a href="{{ path('reconnix_main_admin_index') }}{{item.url}}">List</a>
-					</td>
+					{% if item.name == "Configuration" %}
+						<td colspan="3">
+					{% else %}
+						<td>
+					{% endif %}
+							<a href="{{ path('reconnix_main_admin_index') }}{{item.url}}">{{item.name}}</a>
+						</td>
+					
+					{% if item.name != "Configuration" %}
+						<td>
+							<a href="{{ path('reconnix_main_admin_index') }}{{item.url}}/add">Add New</a>
+						</td>
+						<td>
+							<a href="{{ path('reconnix_main_admin_index') }}{{item.url}}">List</a>
+						</td>
+					{% endif %}
 				</tr>
 			{% endfor %}
 		</table>

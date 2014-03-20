@@ -7,7 +7,7 @@ use Doctrine\ORM\Mapping as ORM;
 /**
  * Menu
  *
- * @ORM\Entity
+ * @ORM\Entity(repositoryClass="Reconnix\MainBundle\Entity\Menu\MenuItemRepository")
  * @ORM\Table(name="menuItem")
  * 
  */
@@ -36,6 +36,11 @@ class MenuItem
      * @ORM\Column(name="category", length=32)
      */
     private $category;
+
+    /**
+     * @ORM\Column(name="weight", type="integer")
+     */
+    private $weight;
 
     /**
      * Get id
@@ -114,5 +119,28 @@ class MenuItem
     public function getCategory()
     {
         return $this->category;
+    }
+
+    /**
+     * Set weight
+     *
+     * @param integer $weight
+     * @return MenuItem
+     */
+    public function setWeight($weight)
+    {
+        $this->weight = $weight;
+
+        return $this;
+    }
+
+    /**
+     * Get weight
+     *
+     * @return integer 
+     */
+    public function getWeight()
+    {
+        return $this->weight;
     }
 }

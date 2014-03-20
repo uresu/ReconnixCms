@@ -25,3 +25,7 @@ reconnix_main_admin_templates:
 reconnix_main_admin_menu:
     resource: "@ReconnixMainBundle/Resources/config/routing.admin.menu.yml"
     prefix: /menu
+
+reconnix_main_admin_configuration:
+    resource: "@ReconnixMainBundle/Resources/config/routing.configuration.menu.yml"
+    prefix: /configuration

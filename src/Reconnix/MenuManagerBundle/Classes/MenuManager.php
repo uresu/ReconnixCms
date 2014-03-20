@@ -19,6 +19,8 @@ class MenuManager{
         ->where('m.category = :category')
         ->setParameter('category', 'front')
         ->setMaxResults(4)
+        ->addOrderBy('m.weight', 'DESC')
+        ->addOrderBy('m.name',  'ASC')
         ->getQuery()
         ->getResult();
 	}

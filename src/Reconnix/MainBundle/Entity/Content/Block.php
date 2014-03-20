@@ -37,6 +37,16 @@ class Block
     private $region;
 
     /**
+     * @ORM\Column(name="background", length = 16)
+     */
+    private $background;
+
+    /**
+     * @ORM\Column(name="classList", type="text", nullable=true)
+     */
+    private $classList;
+
+    /**
      * Get id
      *
      * @return integer 
@@ -113,5 +123,51 @@ class Block
     public function getRegion()
     {
         return $this->region;
+    }
+
+    /**
+     * Set background
+     *
+     * @param string $background
+     * @return Block
+     */
+    public function setBackground($background)
+    {
+        $this->background = $background;
+
+        return $this;
+    }
+
+    /**
+     * Get background
+     *
+     * @return string 
+     */
+    public function getBackground()
+    {
+        return $this->background;
+    }
+
+    /**
+     * Set classList
+     *
+     * @param string $classList
+     * @return Block
+     */
+    public function setClassList($classList)
+    {
+        $this->classList = $classList;
+
+        return $this;
+    }
+
+    /**
+     * Get classList
+     *
+     * @return string 
+     */
+    public function getClassList()
+    {
+        return $this->classList;
     }
 }
