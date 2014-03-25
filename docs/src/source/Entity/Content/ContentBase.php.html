@@ -1,0 +1,207 @@
+<html>
+    <head>
+        <script
+            type="text/javascript"
+            src="../../../js/jquery-1.4.2.min.js">
+        </script>
+        <script
+            type="text/javascript"
+            src="../../../syntax_highlighter/scripts/shCore.js">
+        </script>
+        <script
+            type="text/javascript"
+            src="../../../syntax_highlighter/scripts/shBrushJScript.js">
+        </script>
+        <script
+            type="text/javascript"
+            src="../../../syntax_highlighter/scripts/shBrushPhp.js">
+        </script>
+        <script
+            type="text/javascript"
+            src="../../../syntax_highlighter/scripts/shBrushXml.js">
+        </script>
+        <link
+            href="../../../syntax_highlighter/styles/shCore.css" rel="stylesheet"
+            type="text/css"
+        />
+        <link
+            href="../../../syntax_highlighter/styles/shCoreEclipse.css"
+            rel="stylesheet" type="text/css"
+        />
+        <link
+            href="../../../syntax_highlighter/styles/shThemeWordpress.css"
+            rel="stylesheet" type="text/css"
+        />
+    </head>
+    <body>
+        <pre class="brush: php">&lt;?php
+
+namespace Reconnix\CmsBundle\Entity\Content;
+
+use Doctrine\ORM\Mapping as ORM;
+use Reconnix\CmsBundle\Entity\Content\Page;
+use Reconnix\CmsBundle\Entity\Content\Post;
+
+
+use Symfony\Component\Form\FormFactoryInterface;
+
+/** 
+ * ContentBase
+ *
+ * @ORM\Entity 
+ * @ORM\Table(name=&quot;content&quot;)
+ * @ORM\HasLifecycleCallbacks()
+ * @ORM\InheritanceType(&quot;SINGLE_TABLE&quot;)
+ * @ORM\DiscriminatorColumn(name=&quot;contentType&quot;, type=&quot;string&quot;)
+ * @ORM\DiscriminatorMap({&quot;post&quot; = &quot;Post&quot;, &quot;page&quot; = &quot;Page&quot;, &quot;template&quot; = &quot;Template&quot;}) 
+ */
+class ContentBase{
+    
+    /**
+     * @var integer
+     *
+     * @ORM\Column(name=&quot;id&quot;, type=&quot;integer&quot;)
+     * @ORM\Id
+     * @ORM\GeneratedValue(strategy=&quot;AUTO&quot;)
+     */
+    private $id;
+
+    /**
+     * @ORM\Column(name=&quot;date&quot;, type=&quot;datetime&quot;)
+     */
+    private $date;
+
+    /**
+     * @ORM\Column(name=&quot;name&quot;, length=32)
+     */
+    private $name;
+
+    /**
+     * @ORM\Column(name=&quot;title&quot;, length=32)
+     */
+    private $title; 
+
+    /**
+     * @ORM\Column(name=&quot;content&quot;, type=&quot;text&quot;, nullable=true)
+     */
+    private $content;
+
+    /**
+     * Get id
+     *
+     * @return integer 
+     */
+    public function getId()
+    {
+        return $this-&gt;id;
+    }
+
+    /**
+     * Set name
+     *
+     * @param string $name
+     * @return ContentBase
+     */
+    public function setName($name)
+    {
+        $this-&gt;name = $name;
+
+        return $this;
+    }
+
+    /**
+     * Get name
+     *
+     * @return string 
+     */
+    public function getName()
+    {
+        return $this-&gt;name;
+    }
+
+    /**
+     * Set title
+     *
+     * @param string $title
+     * @return ContentBase
+     */
+    public function setTitle($title)
+    {
+        $this-&gt;title = $title;
+
+        return $this;
+    }
+
+    /**
+     * Get title
+     *
+     * @return string 
+     */
+    public function getTitle()
+    {
+        return $this-&gt;title;
+    }
+
+    /**
+     * Set content
+     *
+     * @param string $content
+     * @return ContentBase
+     */
+    public function setContent($content)
+    {
+        $this-&gt;content = $content;
+
+        return $this;
+    }
+
+    /**
+     * Get content
+     *
+     * @return string 
+     */
+    public function getContent()
+    {
+        return $this-&gt;content;
+    }
+
+    /**
+     * Set date
+     *
+     * @param \DateTime $date
+     * @return ContentBase
+     */
+    public function setDate(\DateTime $date = null)
+    {
+        $this-&gt;date = $date;
+
+        return $this;
+    }
+
+    /**
+     * Get date
+     *
+     * @return \DateTime 
+     */
+    public function getDate()
+    {
+        return $this-&gt;date;
+    }
+
+    /** 
+     * @ORM\PrePersist
+     * @ORM\PreUpdate
+     */
+    public function setDateValue(){
+        $this-&gt;date = new \DateTime();
+    }
+}
+</pre>
+        <script type="text/javascript">
+             SyntaxHighlighter.all();
+             jQuery('.gutter div').each(function(key, data){
+                jQuery(data).prepend('<a name="L'+jQuery(data).text()+'"/>');
+             });
+        </script>
+    </body>
+</html>

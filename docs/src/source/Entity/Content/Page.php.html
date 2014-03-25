@@ -1,0 +1,192 @@
+<html>
+    <head>
+        <script
+            type="text/javascript"
+            src="../../../js/jquery-1.4.2.min.js">
+        </script>
+        <script
+            type="text/javascript"
+            src="../../../syntax_highlighter/scripts/shCore.js">
+        </script>
+        <script
+            type="text/javascript"
+            src="../../../syntax_highlighter/scripts/shBrushJScript.js">
+        </script>
+        <script
+            type="text/javascript"
+            src="../../../syntax_highlighter/scripts/shBrushPhp.js">
+        </script>
+        <script
+            type="text/javascript"
+            src="../../../syntax_highlighter/scripts/shBrushXml.js">
+        </script>
+        <link
+            href="../../../syntax_highlighter/styles/shCore.css" rel="stylesheet"
+            type="text/css"
+        />
+        <link
+            href="../../../syntax_highlighter/styles/shCoreEclipse.css"
+            rel="stylesheet" type="text/css"
+        />
+        <link
+            href="../../../syntax_highlighter/styles/shThemeWordpress.css"
+            rel="stylesheet" type="text/css"
+        />
+    </head>
+    <body>
+        <pre class="brush: php">&lt;?php
+
+namespace Reconnix\CmsBundle\Entity\Content;
+
+use Doctrine\ORM\Mapping as ORM;
+use Doctrine\Common\Collections\ArrayCollection;
+use Reconnix\CmsBundle\Entity\Content\ContentBase;
+use Reconnix\CmsBundle\Form\Type\PageType;
+use Symfony\Component\Form\Forms;
+use Reconnix\CmsBundle\Entity\Content\Page;
+use Symfony\Component\Form\FormFactoryInterface;
+use Symfony\Component\DependencyInjection\ContainerAware;
+
+/**
+ * Represent a Page piece of Content
+ * @ORM\Entity
+ */
+class Page extends ContentBase
+{
+    /**
+     * @ORM\Column(name=&quot;tagline&quot;, length=128)
+     */
+    private $tagline;   
+
+    /**
+     * @ORM\Column(name=&quot;subtagline&quot;, length=128)
+     */
+    private $subtagline;      
+
+    /**
+     * @ORM\ManyToMany(targetEntity=&quot;Block&quot;)
+     * @ORM\JoinTable(
+     *      name=&quot;pages_blocks&quot;,
+     *      joinColumns={@ORM\JoinColumn(name=&quot;page_id&quot;, referencedColumnName=&quot;id&quot;)},
+     *      inverseJoinColumns={@ORM\JoinColumn(name=&quot;block_id&quot;, referencedColumnName=&quot;id&quot;)}
+     * )
+     */
+    private $blocks;
+
+    /**
+     * Set tagline
+     *
+     * @param string $tagline
+     * @return Page
+     */
+    public function setTagline($tagline)
+    {
+        $this-&gt;tagline = $tagline;
+
+        return $this;
+    }
+
+    /**
+     * Get tagline
+     *
+     * @return string 
+     */
+    public function getTagline()
+    {
+        return $this-&gt;tagline;
+    }
+
+    /**
+     * Set sub_tagline
+     *
+     * @param string $subtagline
+     * @return Page
+     */
+    public function setSubtagline($subTagline)
+    {
+        $this-&gt;subtagline = $subTagline;
+
+        return $this;
+    }
+
+    /**
+     * Get subtagline
+     *
+     * @return string 
+     */
+    public function getSubtagline()
+    {
+        return $this-&gt;subtagline;
+    }
+
+    /**
+     * Add blocks
+     *
+     * @param \Reconnix\CmsBundle\Entity\Block $blocks
+     * @return Page
+     */
+    public function addBlock(\Reconnix\CmsBundle\Entity\Content\Block $blocks)
+    {
+        $this-&gt;blocks[] = $blocks;
+
+        return $this;
+    }
+
+    /**
+     * Remove blocks
+     *
+     * @param \Reconnix\CmsBundle\Entity\Block $blocks
+     */
+    public function removeBlock(\Reconnix\CmsBundle\Entity\Content\Block $blocks)
+    {
+        $this-&gt;blocks-&gt;removeElement($blocks);
+    }
+
+    /**
+     * Get blocks
+     *
+     * @return \Doctrine\Common\Collections\Collection 
+     */
+    public function getBlocks()
+    {
+        return $this-&gt;blocks;
+    }
+
+    /**
+     * Return a list of blocks currently not used by the current Page object
+     *
+     * @param array $allBlocks
+     * @return array
+     */
+    public function getUnusedBlocks(array $allBlocks = null){
+
+        
+
+        foreach ($this-&gt;getBlocks() as $usedBlock) {
+            foreach($allBlocks as $key =&gt; $block){
+                if($usedBlock-&gt;getName() == $block-&gt;getName()){
+                    unset($allBlocks[$key]);
+                }
+            }
+        }
+
+        return $allBlocks;
+    }
+    /**
+     * Constructor
+     */
+    public function __construct()
+    {
+        $this-&gt;blocks = new \Doctrine\Common\Collections\ArrayCollection();
+    }
+
+}
+</pre>
+        <script type="text/javascript">
+             SyntaxHighlighter.all();
+             jQuery('.gutter div').each(function(key, data){
+                jQuery(data).prepend('<a name="L'+jQuery(data).text()+'"/>');
+             });
+        </script>
+    </body>
+</html>

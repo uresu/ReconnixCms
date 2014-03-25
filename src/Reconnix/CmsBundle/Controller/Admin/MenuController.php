@@ -1,6 +1,6 @@
 <?php
 
-/*
+/**
  * This file is part of the Reconnix CMS package.
  *
  * Reconnix (c) <development@reconnix.com>
@@ -11,32 +11,27 @@ namespace Reconnix\CmsBundle\Controller\Admin;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Form\Form;
-
 use Reconnix\CmsBundle\Entity\Menu\MenuItem;
 use Reconnix\CmsBundle\Form\Type\MenuType;
 
-/**
- * MenuController
- */
-class MenuController extends Controller
-{
+use Reconnix\CmsBundle\Controller\Admin\CmsController;
 
+/**
+ * Renders all CRUD related pages from \admin\menu.
+ */
+class MenuController extends CmsController
+{
     /**
-     * Display list of existing Menu items 
+     * Renders and displays the \admin\menu page.
      *
-     * @return Reponse HTTP Repsonse 
+     * Processes Form input for configuration settings. 
+     *
+     * @return \Symfony\Component\HttpFoundation\Response An HTTP Response.
      */
     public function indexAction(){
-        // fetch all Menu items
-        $menuObjs = $this->getDoctrine()->getRepository('ReconnixCmsBundle:Menu\MenuItem')->findByCategory('front');
-        // disect out the id and name of each Block object for passing to the view
-        $menu = array();
-        foreach($menuObjs as $menuObj){
-            $menu[] = array(
-                'id' => $menuObj->getId(),
-                'name' => $menuObj->getName()
-            );
-        }
+
+        $entities = $this->getDoctrine()->getRepository('ReconnixCmsBundle:Menu\MenuItem')->findByCategory('front');
+        $menu = $this->getEntityFields($entities, array('id', 'name'));
 
         return $this->render('ReconnixCmsBundle:Admin/Menu:admin.menu.index.html.twig', 
             array('menu' => $menu)
@@ -44,7 +39,11 @@ class MenuController extends Controller
     }
 
     /**
-     * @return Reponse HTTP Repsonse 
+     * Renders and displays the \admin\menu\add page.
+     *
+     * Processes Form input for adding a new MenuItem.
+     *
+     * @return \Symfony\Component\HttpFoundation\Response An HTTP Response.
      */ 
     public function addAction(){
         // create an empty object to store the submitted data
@@ -53,38 +52,44 @@ class MenuController extends Controller
         $form = $this->createForm(new MenuType(), $item);
  
         // check for a submitted form
-        if(self::submitFormOk($form, $item)){
+        // pass default anydefault values for blank and optional fields
+        if($this->submitFormOk($form, $item, array('category' => 'front', 'weight' => 0))){
             // succesfull update, return to block index
             return $this->redirect($this->generateUrl('reconnix_main_admin_menu_index'));
         }
 
         // no submission detected, or invalid submission, display the form
-        return $this->render('ReconnixCmsBundle:Admin/Menu:admin.menu.add.html.twig',
+        return $this->render('ReconnixCmsBundle:Admin/Menu:admin.menu.form.html.twig',
             array('form' => $form->createView())
         );
     }
 
     /**
-     * @param integer $id The Menu Item id
+     * Renders and displays the \admin\menu\edit\{id} page.
+     *
+     * Displays a prepopulated Form for the relevant MenuItem.
+     * Processes Form input for editing a MenuItem.
      * 
-     * @return Reponse HTTP Repsonse 
-     */ 
+     * @param integer $id The MenuItem id to be edited.
+     * 
+     * @return \Symfony\Component\HttpFoundation\Response An HTTP Response.
+     */  
     public function editAction($id){
         // fetch the Menu Item object
         $item = $this->getDoctrine()->getRepository('ReconnixCmsBundle:Menu\MenuItem')->find($id);
-        //$block->setContent(html_entity_decode($block->getContent()));
         // create a pre-populated form
         $form = $this->createForm(new MenuType(), $item);
 
         // check for a submitted form
-        if(self::submitFormOk($form, $item)){
+        // pass default anydefault values for blank and optional fields
+        if($this->submitFormOk($form, $item, array('category' => 'front', 'weight' => 0))){
             // succesfull update, return to block index
             return $this->redirect($this->generateUrl('reconnix_main_admin_menu_index'));
         }
 
         
         // no submission detected, or invalid submission, display the pre-populated
-    	return $this->render('ReconnixCmsBundle:Admin/Menu:admin.menu.edit.html.twig',
+    	return $this->render('ReconnixCmsBundle:Admin/Menu:admin.menu.form.html.twig',
     		array(
                 'id' => $id,
                 'form' => $form->createView()
@@ -93,40 +98,11 @@ class MenuController extends Controller
     }
 
     /**
-     * @param Form $form
-     * @param Block $block
+     * Delete a MenuItem from the database.
      *
-     * @return Boolean true for success
-     */
-    private function submitFormOk(Form $form, MenuItem $item){
-        // handle form submission
-        $form->handleRequest(Request::createFromGlobals());
-        if($form->isValid()){
-            // set default value for Category
-            if($item->getCategory() === NULL){
-                $item->setCategory('front');
-            }
-
-            // set default value for Weight
-            if($item->getWeight() === NULL){
-                $item->setWeight(0);
-            }
-            // valid form submission
-            $em = $this->getDoctrine()->getManager();
-            $em->persist($item);
-            $em->flush(); 
-
-            return true;
-        }         
-
-        // no submission detected yet, or invalid submission
-        return false;
-    }
-
-    /**
-     * @param integer $id The Post id
+     * @param integer $id The ID of the MenuItem to delete.
      * 
-     * @return Reponse HTTP Repsonse 
+     * @return \Symfony\Component\HttpFoundation\Response An HTTP Redirect.
      */ 
     public function deleteAction($id){
         // load the entity for deleting
@@ -138,4 +114,6 @@ class MenuController extends Controller
 
         return $this->redirect($this->generateUrl('reconnix_main_admin_menu_index'));
     } 
+
+
 }

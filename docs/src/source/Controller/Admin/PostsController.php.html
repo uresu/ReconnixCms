@@ -1,0 +1,177 @@
+<html>
+    <head>
+        <script
+            type="text/javascript"
+            src="../../../js/jquery-1.4.2.min.js">
+        </script>
+        <script
+            type="text/javascript"
+            src="../../../syntax_highlighter/scripts/shCore.js">
+        </script>
+        <script
+            type="text/javascript"
+            src="../../../syntax_highlighter/scripts/shBrushJScript.js">
+        </script>
+        <script
+            type="text/javascript"
+            src="../../../syntax_highlighter/scripts/shBrushPhp.js">
+        </script>
+        <script
+            type="text/javascript"
+            src="../../../syntax_highlighter/scripts/shBrushXml.js">
+        </script>
+        <link
+            href="../../../syntax_highlighter/styles/shCore.css" rel="stylesheet"
+            type="text/css"
+        />
+        <link
+            href="../../../syntax_highlighter/styles/shCoreEclipse.css"
+            rel="stylesheet" type="text/css"
+        />
+        <link
+            href="../../../syntax_highlighter/styles/shThemeWordpress.css"
+            rel="stylesheet" type="text/css"
+        />
+    </head>
+    <body>
+        <pre class="brush: php">&lt;?php
+
+/*
+ * This file is part of the Reconnix CMS package.
+ *
+ * Reconnix (c) &lt;development@reconnix.com&gt;
+ */
+
+namespace Reconnix\CmsBundle\Controller\Admin;
+
+use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\Form\Form;
+use Reconnix\CmsBundle\Entity\Content\Post;
+use Reconnix\CmsBundle\Form\Type\PostType;
+
+/**
+ * PostsController
+ */
+class PostsController extends Controller
+{
+    
+    /**
+     * Display list of existing Posts
+     *
+     * @return Reponse HTTP Repsonse 
+     */
+    public function indexAction(){
+        // fetch all Posts
+        $postObjs = $this-&gt;getDoctrine()-&gt;getRepository('ReconnixCmsBundle:Content\Post')-&gt;findAll();
+        // disect out the id and name of each Post object for passing to the view
+        $posts = array();
+        foreach($postObjs as $postObj){
+            $posts[] = array(
+                'id' =&gt; $postObj-&gt;getId(),
+                'title' =&gt; $postObj-&gt;getTitle()
+            );
+        }
+
+        return $this-&gt;render('ReconnixCmsBundle:Admin/Posts:admin.posts.index.html.twig', 
+            array('posts' =&gt; $posts)
+        );
+    }
+
+    /**
+     * @param Request $request The HTTP Request
+     * 
+     * @return Reponse HTTP Repsonse 
+     */    
+    public function addAction(Request $request){
+        // create an empty object to store the submitted data
+        $post = new Post();
+        // build the form, pass the empty object to store the user input
+        $form = $this-&gt;createForm(new PostType(), $post);
+        
+        // check for a submitted form
+        if(self::submitFormOk($form, $post)){
+            // succesfull update, return to post index
+            return $this-&gt;redirect($this-&gt;generateUrl('reconnix_main_admin_posts_index'));
+        }
+
+        // no submission detected, or invalid submission, display the form
+        return $this-&gt;render('ReconnixCmsBundle:Admin/Posts:admin.posts.add.html.twig',
+            array(
+                'form' =&gt; $form-&gt;createView(),
+            )
+        );
+    }
+
+    /**
+     * @param integer $id The Post id
+     * 
+     * @return Reponse HTTP Repsonse 
+     */ 
+    public function editAction($id){
+        // fetch the Post object
+        $post = $this-&gt;getDoctrine()-&gt;getRepository('ReconnixCmsBundle:Content\Post')-&gt;find($id);
+        // create a pre-populated form
+        $form = $this-&gt;createForm(new PostType(), $post);
+
+        // check for a submitted form
+        if(self::submitFormOk($form, $post)){
+            // succesfull update, return to post index
+            return $this-&gt;redirect($this-&gt;generateUrl('reconnix_main_admin_posts_index'));
+        }
+
+        // no submission detected, or invalid submission, display the pre-populated
+        return $this-&gt;render('ReconnixCmsBundle:Admin/Posts:admin.posts.edit.html.twig',
+            array(
+                'id' =&gt; $id,
+                'form' =&gt; $form-&gt;createView()
+            )
+        );
+    }
+
+    /**
+     * @param Form $form
+     * @param Post $post
+     *
+     * @return Boolean true for success
+     */
+    private function submitFormOk(Form $form, Post $post){
+        // handle form submission
+        $form-&gt;handleRequest(Request::createFromGlobals());
+        if($form-&gt;isValid()){
+            // valid form submission
+            $em = $this-&gt;getDoctrine()-&gt;getManager();
+            $em-&gt;persist($post);
+            $em-&gt;flush(); 
+            return true;
+        }         
+
+        // no submission detected yet, or invalid submission
+        return false;
+    }
+
+    /**
+     * @param integer $id The Post id
+     * 
+     * @return Reponse HTTP Repsonse 
+     */ 
+    public function deleteAction($id){
+        // load the entity for deleting
+        $post = $this-&gt;getDoctrine()-&gt;getRepository('ReconnixCmsBundle:Content\Post')-&gt;find($id);
+        // create entity manager and run the delete command
+        $em = $this-&gt;getDoctrine()-&gt;getManager();
+        $em-&gt;remove($post);
+        $em-&gt;flush();       
+
+        return $this-&gt;redirect($this-&gt;generateUrl('reconnix_main_admin_posts_index'));
+    } 
+}
+</pre>
+        <script type="text/javascript">
+             SyntaxHighlighter.all();
+             jQuery('.gutter div').each(function(key, data){
+                jQuery(data).prepend('<a name="L'+jQuery(data).text()+'"/>');
+             });
+        </script>
+    </body>
+</html>

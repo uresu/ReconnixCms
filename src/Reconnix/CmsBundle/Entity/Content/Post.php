@@ -1,5 +1,11 @@
 <?php
 
+/**
+ * This file is part of the Reconnix CMS package.
+ *
+ * Reconnix (c) <development@reconnix.com>
+ */
+
 namespace Reconnix\CmsBundle\Entity\Content;
 
 use Doctrine\ORM\Mapping as ORM;
@@ -7,17 +13,22 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Reconnix\CmsBundle\Entity\Content\ContentBase;
 
 /**
- * Represents a Post piece of Content
+ * Post Entity.
+ *
  * @ORM\Entity
  */
 class Post extends ContentBase
 {
     /**
+     * @var string
+     *
      * @ORM\Column(name="tag", length=32)
      */
     private $tag; 
 
-     /**
+    /**
+     * @var string
+     *
      * @ORM\Column(name="author", length=32)
      */
     private $author;    
@@ -29,12 +40,12 @@ class Post extends ContentBase
     /**
      * Set tag
      *
-     * @param string $tagline
+     * @param string $tag
      * @return Post
      */
     public function setTag($tag)
     {
-        $this->tag = $tag;
+        $this->tag = htmlentities($tag);
 
         return $this;
     }
@@ -57,7 +68,7 @@ class Post extends ContentBase
      */
     public function setAuthor($author)
     {
-        $this->author = $author;
+        $this->author = htmlentities($author);
 
         return $this;
     }

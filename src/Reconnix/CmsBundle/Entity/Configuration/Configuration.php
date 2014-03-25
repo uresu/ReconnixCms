@@ -1,12 +1,18 @@
 <?php
 
+/**
+ * This file is part of the Reconnix CMS package.
+ *
+ * Reconnix (c) <development@reconnix.com>
+ */
+
 namespace Reconnix\CmsBundle\Entity\Configuration;
 
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
 
 /**
- * Menu
+ * Configuration Entity.
  *
  * @ORM\Entity
  * @ORM\HasLifeCycleCallbacks
@@ -25,6 +31,13 @@ class Configuration
     private $id;
 
     /**
+     * @var string
+     *
+     * @ORM\Column(name="name", length=32)
+     */
+    private $name;
+
+    /**
      * Logo image path
      *
      * @var string
@@ -36,18 +49,18 @@ class Configuration
     /**
      * Logo image
      *
-     * @var File
+     * @var \Symfony\Component\Validator\Constraints\File
      *
      * @Assert\File(
      *      maxSize = "10M",
      *      mimeTypes = {"image/jpeg", "image/gif", "image/png", "image/tiff", "image/svg+xml", "image/png"},
      *      maxSizeMessage = "The maximum allowed file size is 10MB.",
-     *      mimeTypesMessage = "Only the filetypes image are allowed."
+     *      mimeTypesMessage = "Invalid file extension."
      * )
      */
     protected $logoFile;
 
-        /**
+    /**
      * @ORM\Column(name="lastUpdated", type="datetime")
      */
     private $lastUpdated;
@@ -145,13 +158,19 @@ class Configuration
         $this->logoFile = null;
     }
 
-   public function getAbsolutePath()
+    /**
+     * @return string|null
+     */
+    public function getAbsolutePath()
     {
         return null === $this->logoPath
             ? null
             : $this->getUploadRootDir().'/'.$this->logoPath;
     }
 
+    /**
+     * @return string|null
+     */
     public function getWebPath()
     {
         return null === $this->logoPath
@@ -159,6 +178,9 @@ class Configuration
             : $this->getUploadDir().'/'.$this->logoPath;
     }
 
+    /**
+     * @return string
+     */
     protected function getUploadRootDir()
     {
         // the absolute directory path where uploaded
@@ -187,5 +209,28 @@ class Configuration
     public function getLastUpdated()
     {
         return $this->lastUpdated;
+    }
+
+    /**
+     * Set name
+     *
+     * @param string $name
+     * @return Configuration
+     */
+    public function setName($name)
+    {
+        $this->name = $name;
+
+        return $this;
+    }
+
+    /**
+     * Get name
+     *
+     * @return string 
+     */
+    public function getName()
+    {
+        return $this->name;
     }
 }

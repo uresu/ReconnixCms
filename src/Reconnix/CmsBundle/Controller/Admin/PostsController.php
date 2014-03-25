@@ -1,6 +1,6 @@
 <?php
 
-/*
+/**
  * This file is part of the Reconnix CMS package.
  *
  * Reconnix (c) <development@reconnix.com>
@@ -14,28 +14,25 @@ use Symfony\Component\Form\Form;
 use Reconnix\CmsBundle\Entity\Content\Post;
 use Reconnix\CmsBundle\Form\Type\PostType;
 
+use Reconnix\CmsBundle\Controller\Admin\CmsController;
+
 /**
- * PostsController
+ * Renders all CRUD related pages from \admin\posts.
  */
-class PostsController extends Controller
+class PostsController extends CmsController
 {
     
     /**
-     * Display list of existing Posts
+     * Renders and displays the \admin\posts page.
      *
-     * @return Reponse HTTP Repsonse 
+     * Displays all existing Posts. 
+     *
+     * @return \Symfony\Component\HttpFoundation\Response An HTTP Response.
      */
     public function indexAction(){
-        // fetch all Posts
-        $postObjs = $this->getDoctrine()->getRepository('ReconnixCmsBundle:Content\Post')->findAll();
-        // disect out the id and name of each Post object for passing to the view
-        $posts = array();
-        foreach($postObjs as $postObj){
-            $posts[] = array(
-                'id' => $postObj->getId(),
-                'title' => $postObj->getTitle()
-            );
-        }
+
+        $entities = $this->getDoctrine()->getRepository('ReconnixCmsBundle:Content\Post')->findAll();
+        $posts = $this->getEntityFields($entities, array('id', 'title'));
 
         return $this->render('ReconnixCmsBundle:Admin/Posts:admin.posts.index.html.twig', 
             array('posts' => $posts)
@@ -43,9 +40,11 @@ class PostsController extends Controller
     }
 
     /**
-     * @param Request $request The HTTP Request
-     * 
-     * @return Reponse HTTP Repsonse 
+     * Renders and displays the \admin\posts\add page.
+     *
+     * Processes Form input for adding a new Post.
+     *
+     * @return \Symfony\Component\HttpFoundation\Response An HTTP Response.
      */    
     public function addAction(Request $request){
         // create an empty object to store the submitted data
@@ -60,7 +59,7 @@ class PostsController extends Controller
         }
 
         // no submission detected, or invalid submission, display the form
-        return $this->render('ReconnixCmsBundle:Admin/Posts:admin.posts.add.html.twig',
+        return $this->render('ReconnixCmsBundle:Admin/Posts:admin.posts.form.html.twig',
             array(
                 'form' => $form->createView(),
             )
@@ -68,9 +67,14 @@ class PostsController extends Controller
     }
 
     /**
-     * @param integer $id The Post id
+     * Renders and displays the \admin\posts\edit\{id} page.
+     *
+     * Displays a prepopulated Form for the relevant Post.
+     * Processes Form input for editing a Post.
      * 
-     * @return Reponse HTTP Repsonse 
+     * @param integer $id The Post id to be edited.
+     * 
+     * @return \Symfony\Component\HttpFoundation\Response An HTTP Response.
      */ 
     public function editAction($id){
         // fetch the Post object
@@ -85,7 +89,7 @@ class PostsController extends Controller
         }
 
         // no submission detected, or invalid submission, display the pre-populated
-        return $this->render('ReconnixCmsBundle:Admin/Posts:admin.posts.edit.html.twig',
+        return $this->render('ReconnixCmsBundle:Admin/Posts:admin.posts.form.html.twig',
             array(
                 'id' => $id,
                 'form' => $form->createView()
@@ -94,39 +98,23 @@ class PostsController extends Controller
     }
 
     /**
-     * @param Form $form
-     * @param Post $post
+     * Delete a Post from the database.
      *
-     * @return Boolean true for success
-     */
-    private function submitFormOk(Form $form, Post $post){
-        // handle form submission
-        $form->handleRequest(Request::createFromGlobals());
-        if($form->isValid()){
-            // valid form submission
-            $em = $this->getDoctrine()->getManager();
-            $em->persist($post);
-            $em->flush(); 
-            return true;
-        }         
-
-        // no submission detected yet, or invalid submission
-        return false;
-    }
-
-    /**
-     * @param integer $id The Post id
+     * @param integer $id The ID of the Post to delete.
      * 
-     * @return Reponse HTTP Repsonse 
+     * @return \Symfony\Component\HttpFoundation\Response An HTTP Redirect.
      */ 
     public function deleteAction($id){
         // load the entity for deleting
         $post = $this->getDoctrine()->getRepository('ReconnixCmsBundle:Content\Post')->find($id);
-        // create entity manager and run the delete command
+        
+        // persist
         $em = $this->getDoctrine()->getManager();
         $em->remove($post);
         $em->flush();       
 
         return $this->redirect($this->generateUrl('reconnix_main_admin_posts_index'));
     } 
+
+
 }

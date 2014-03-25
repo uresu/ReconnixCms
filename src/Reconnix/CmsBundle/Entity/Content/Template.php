@@ -1,12 +1,19 @@
 <?php
 
+/**
+ * This file is part of the Reconnix CMS package.
+ *
+ * Reconnix (c) <development@reconnix.com>
+ */
+
 namespace Reconnix\CmsBundle\Entity\Content;
 
 use Doctrine\ORM\Mapping as ORM;
 use Reconnix\CmsBundle\Entity\Content\ContentBase;
 
 /**
- * Represents a Template piece of Content
+ * Template Entity.
+ *
  * @ORM\Entity
  */
 class Template extends ContentBase

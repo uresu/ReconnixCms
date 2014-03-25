@@ -1,5 +1,11 @@
 <?php
 
+/**
+ * This file is part of the Reconnix CMS package.
+ *
+ * Reconnix (c) <development@reconnix.com>
+ */
+
 namespace Reconnix\CmsBundle\Entity\Content;
 
 use Doctrine\ORM\Mapping as ORM;
@@ -12,22 +18,29 @@ use Symfony\Component\Form\FormFactoryInterface;
 use Symfony\Component\DependencyInjection\ContainerAware;
 
 /**
- * Represent a Page piece of Content
+ * Page Entity.
+ * 
  * @ORM\Entity
  */
 class Page extends ContentBase
 {
     /**
+     * @var string
+     *
      * @ORM\Column(name="tagline", length=128)
      */
     private $tagline;   
 
     /**
+     * @var string
+     *
      * @ORM\Column(name="subtagline", length=128)
      */
     private $subtagline;      
 
     /**
+     * @var \Reconnix\CmsBundle\Entity\Content\Block
+     *
      * @ORM\ManyToMany(targetEntity="Block")
      * @ORM\JoinTable(
      *      name="pages_blocks",
@@ -38,6 +51,14 @@ class Page extends ContentBase
     private $blocks;
 
     /**
+     * Constructor
+     */
+    public function __construct()
+    {
+        $this->blocks = new \Doctrine\Common\Collections\ArrayCollection();
+    }
+
+    /**
      * Set tagline
      *
      * @param string $tagline
@@ -45,7 +66,7 @@ class Page extends ContentBase
      */
     public function setTagline($tagline)
     {
-        $this->tagline = $tagline;
+        $this->tagline = htmlentities($tagline);
 
         return $this;
     }
@@ -61,14 +82,14 @@ class Page extends ContentBase
     }
 
     /**
-     * Set sub_tagline
+     * Set subtagline
      *
      * @param string $subtagline
      * @return Page
      */
-    public function setSubtagline($subTagline)
+    public function setSubtagline($subtagline)
     {
-        $this->subtagline = $subTagline;
+        $this->subtagline = htmlentities($subtagline);
 
         return $this;
     }
@@ -136,12 +157,6 @@ class Page extends ContentBase
 
         return $allBlocks;
     }
-    /**
-     * Constructor
-     */
-    public function __construct()
-    {
-        $this->blocks = new \Doctrine\Common\Collections\ArrayCollection();
-    }
+
 
 }

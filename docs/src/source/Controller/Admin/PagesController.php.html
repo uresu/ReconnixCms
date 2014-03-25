@@ -1,0 +1,246 @@
+<html>
+    <head>
+        <script
+            type="text/javascript"
+            src="../../../js/jquery-1.4.2.min.js">
+        </script>
+        <script
+            type="text/javascript"
+            src="../../../syntax_highlighter/scripts/shCore.js">
+        </script>
+        <script
+            type="text/javascript"
+            src="../../../syntax_highlighter/scripts/shBrushJScript.js">
+        </script>
+        <script
+            type="text/javascript"
+            src="../../../syntax_highlighter/scripts/shBrushPhp.js">
+        </script>
+        <script
+            type="text/javascript"
+            src="../../../syntax_highlighter/scripts/shBrushXml.js">
+        </script>
+        <link
+            href="../../../syntax_highlighter/styles/shCore.css" rel="stylesheet"
+            type="text/css"
+        />
+        <link
+            href="../../../syntax_highlighter/styles/shCoreEclipse.css"
+            rel="stylesheet" type="text/css"
+        />
+        <link
+            href="../../../syntax_highlighter/styles/shThemeWordpress.css"
+            rel="stylesheet" type="text/css"
+        />
+    </head>
+    <body>
+        <pre class="brush: php">&lt;?php
+
+/*
+ * This file is part of the Reconnix CMS package.
+ *
+ * Reconnix (c) &lt;development@reconnix.com&gt;
+ */
+
+namespace Reconnix\CmsBundle\Controller\Admin;
+
+use Doctrine\Bundle\DoctrineBundle\Registry;
+use Symfony\Bundle\FrameworkBundle\Templating\EngineInterface;
+use Symfony\Component\Form\FormFactoryInterface;
+use Symfony\Component\HttpFoundation\RedirectResponse;
+use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\RequestStack;
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
+use Symfony\Component\Routing\RouterInterface;
+
+use Reconnix\CmsBundle\Entity\Content\Page;
+use Reconnix\CmsBundle\Entity\Content\Block;
+use Reconnix\CmsBundle\Form\Type\PageType;
+
+/**
+ * PagesController
+ */
+class PagesController 
+{
+
+    protected $doctrine;
+    protected $formFactory;
+    protected $templating;
+    protected $request;
+    protected $router;
+
+    public function __construct(Registry $doctrine,
+                                FormFactoryInterface $formFactory,
+                                EngineInterface $templating,
+                                RequestStack $request,
+                                RouterInterface $router){
+        $this-&gt;doctrine    = $doctrine;
+        $this-&gt;formFactory = $formFactory;
+        $this-&gt;templating  = $templating;
+        $this-&gt;request     = $request;
+        $this-&gt;router      = $router;
+    }
+
+    /**
+     * Display list of existing Pages
+     *
+     * @return Reponse HTTP Repsonse 
+     */
+    public function indexAction(){
+        // fetch all Pages
+        //$pageObjs = $this-&gt;getDoctrine()-&gt;getRepository('ReconnixCmsBundle:Content\Page')-&gt;findAll();
+        $pageObjs = $this-&gt;doctrine-&gt;getRepository('ReconnixCmsBundle:Content\Page')-&gt;findAll();
+        // disect out the id and name of each Page object for passing to the view
+        $pages = array();
+        foreach($pageObjs as $pageObj){
+            $pages[] = array(
+                'id' =&gt; $pageObj-&gt;getId(),
+                'title' =&gt; $pageObj-&gt;getTitle()
+            );
+        }
+
+        return $this-&gt;templating-&gt;renderResponse('ReconnixCmsBundle:Admin/Pages:admin.pages.index.html.twig', 
+            array('pages' =&gt; $pages)
+        );
+    }
+
+    /**
+     * @param Request $request The HTTP Request
+     * 
+     * @return Reponse HTTP Repsonse 
+     */
+    public function addAction(Request $request){
+        // create an empty object to store the submitted data
+        $page = new Page();
+        // build the form, pass the empty object to store the user input
+        $form = $this-&gt;formFactory-&gt;create(new PageType($page), $page);
+       
+        // check for a submitted form
+        if(self::submitFormOk($form, $page)){
+            // succesfull update, return to page index
+            return new RedirectResponse($this-&gt;router-&gt;generate('reconnix_main_admin_pages_index'));
+        }
+
+        // no submission detected, or invalid submission, display the form
+        return $this-&gt;templating-&gt;renderResponse('ReconnixCmsBundle:Admin/Pages:admin.pages.add.html.twig',
+            array(
+                'form' =&gt; $form-&gt;createView(),
+            )
+        );
+    }
+
+    /**
+     * @param integer $id The Post id
+     * 
+     * @return Reponse HTTP Repsonse 
+     */ 
+    public function editAction($id){
+        // fetch the Page object
+        //$page = $this-&gt;getDoctrine()-&gt;getRepository('ReconnixCmsBundle:Content\Page')-&gt;find($id);
+        $page = $this-&gt;doctrine-&gt;getRepository('ReconnixCmsBundle:Content\Page')-&gt;find($id);
+        // create a pre-populated form
+        $form = $this-&gt;formFactory-&gt;create(new PageType($page), $page);
+
+
+        $blocks = $this-&gt;doctrine-&gt;getRepository('ReconnixCmsBundle:Content\Block')-&gt;findAll();
+        $unusedBlocks = $page-&gt;getUnusedBlocks($blocks);
+        $usedBlocks = $page-&gt;getBlocks();
+        
+        // check for a submitted form
+        if(self::submitFormOk($form, $page)){
+            // succesfull update, return to page index
+            return new RedirectResponse($this-&gt;router-&gt;generate('reconnix_main_admin_pages_index'));
+        }
+
+        // no submission detected, or invalid submission, display the pre-populated
+        return $this-&gt;templating-&gt;renderResponse('ReconnixCmsBundle:Admin/Pages:admin.pages.edit.html.twig',
+            array(
+                'id' =&gt; $id,
+                'form' =&gt; $form-&gt;createView(), 
+                'usedBlocks' =&gt; $usedBlocks,
+                'unusedBlocks' =&gt; $unusedBlocks,
+            )
+        );
+    }
+
+    /**
+     * @param Form $form
+     * @param Page $page
+     *
+     * @return Boolean true for success
+     */
+    private function submitFormOk($form, Page $page){
+        // handle form submission
+        $form-&gt;handleRequest(Request::createFromGlobals());
+        if($form-&gt;isValid()){
+            // valid form submission
+            //$em = $this-&gt;getDoctrine()-&gt;getManager();
+            $em = $this-&gt;doctrine-&gt;getManager();
+            $em-&gt;persist($page);
+            $em-&gt;flush(); 
+            return true;
+        }         
+
+        // no submission detected yet, or invalid submission
+        return false;
+    }
+
+    /**
+     * @param integer $id The Post id
+     * 
+     * @return Reponse HTTP Repsonse 
+     */ 
+    public function deleteAction($id){
+        // load the entity for deleting
+        $page = $this-&gt;doctrine-&gt;getRepository('ReconnixCmsBundle:Content\Page')-&gt;find($id);
+        // create entity manager and run the delete command
+        $em = $this-&gt;doctrine-&gt;getManager();
+        $em-&gt;remove($page);
+        $em-&gt;flush();       
+
+        return new RedirectResponse($this-&gt;router-&gt;generate('reconnix_main_admin_pages_index'));
+    }
+
+    /**
+     * @param int 
+     * @param int
+     *
+     * @return Response HTTP Response
+     */
+    public function addBlockAction($blockId, $pageId){
+        $page = $this-&gt;doctrine-&gt;getRepository('ReconnixCmsBundle:Content\Page')-&gt;find($pageId);
+        $page-&gt;addBlock($this-&gt;doctrine-&gt;getRepository('ReconnixCmsBundle:Content\Block')-&gt;find($blockId));
+        $em = $this-&gt;doctrine-&gt;getManager();
+        $em-&gt;persist($page);
+        $em-&gt;flush();        
+
+        return new RedirectResponse($this-&gt;router-&gt;generate('reconnix_main_admin_pages_edit', array(
+            &quot;id&quot; =&gt; $pageId)));
+    }  
+
+    /**
+     * @param int 
+     * @param int
+     *
+     * @return Response HTTP Response
+     */
+    public function deleteBlockAction($blockId, $pageId){
+        $page = $this-&gt;doctrine-&gt;getRepository('ReconnixCmsBundle:Content\Page')-&gt;find($pageId);
+        $page-&gt;removeBlock($this-&gt;doctrine-&gt;getRepository('ReconnixCmsBundle:Content\Block')-&gt;find($blockId));
+        $em = $this-&gt;doctrine-&gt;getManager();
+        $em-&gt;persist($page);
+        $em-&gt;flush();    
+
+        return new RedirectResponse($this-&gt;router-&gt;generate('reconnix_main_admin_pages_edit', array(
+            &quot;id&quot; =&gt; $pageId)));
+    }  
+}
+</pre>
+        <script type="text/javascript">
+             SyntaxHighlighter.all();
+             jQuery('.gutter div').each(function(key, data){
+                jQuery(data).prepend('<a name="L'+jQuery(data).text()+'"/>');
+             });
+        </script>
+    </body>
+</html>

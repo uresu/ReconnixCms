@@ -1,6 +1,6 @@
 <?php
 
-/*
+/**
  * This file is part of the Reconnix CMS package.
  *
  * Reconnix (c) <development@reconnix.com>
@@ -12,41 +12,24 @@ use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 
 /**
- * Configuration to render the Add Block form
+ * Configuration to render the Configuration form.
  */
 class ConfigurationType extends AbstractType{
 
 	/**
+     * Build the Form by defining each input field.
+     *
 	 * @param FormBuilderInterface $builder
 	 * @param array $options 
 	 */
 	public function buildForm(FormBuilderInterface $builder, array $options){
-        $builder->add('logoFile', 'file');
+        $builder->add('logoFile', 'file', array("required" => false));
         $builder->add('save', 'submit');
 	}
 
-/*
-	public function setDefaultOptions(OptionsResolverInterface $resolver)
-	{
-    	$resolver->setDefaults(
-        	array(
-            	'data_class' => 'Reconnix\CmsBundle\Entity\Configuration\Configuration',
-       	)
-    	);
-	}
-*/
-	/**
-     * @param array $options
-     *
-     * @return array  
-     */
-	public function getDefaultOptions(array $options){
-		return array(
-			'data_class' => 'Reconnix\CmsBundle\Entity\Configuration\Configuration'
-		);
-	}
-
     /**
+     * Returns the name of this type.
+     *
      * @return string 
      */
 	public function getName(){

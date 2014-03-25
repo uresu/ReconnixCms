@@ -1,0 +1,236 @@
+<html>
+    <head>
+        <script
+            type="text/javascript"
+            src="../../../js/jquery-1.4.2.min.js">
+        </script>
+        <script
+            type="text/javascript"
+            src="../../../syntax_highlighter/scripts/shCore.js">
+        </script>
+        <script
+            type="text/javascript"
+            src="../../../syntax_highlighter/scripts/shBrushJScript.js">
+        </script>
+        <script
+            type="text/javascript"
+            src="../../../syntax_highlighter/scripts/shBrushPhp.js">
+        </script>
+        <script
+            type="text/javascript"
+            src="../../../syntax_highlighter/scripts/shBrushXml.js">
+        </script>
+        <link
+            href="../../../syntax_highlighter/styles/shCore.css" rel="stylesheet"
+            type="text/css"
+        />
+        <link
+            href="../../../syntax_highlighter/styles/shCoreEclipse.css"
+            rel="stylesheet" type="text/css"
+        />
+        <link
+            href="../../../syntax_highlighter/styles/shThemeWordpress.css"
+            rel="stylesheet" type="text/css"
+        />
+    </head>
+    <body>
+        <pre class="brush: php">&lt;?php
+
+namespace Reconnix\CmsBundle\Entity\Configuration;
+
+use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
+
+/**
+ * Menu
+ *
+ * @ORM\Entity
+ * @ORM\HasLifeCycleCallbacks
+ * @ORM\Table(name=&quot;configuration&quot;)
+ * 
+ */
+class Configuration
+{
+    /**
+     * @var integer
+     *
+     * @ORM\Column(name=&quot;id&quot;, type=&quot;integer&quot;)
+     * @ORM\Id
+     * @ORM\GeneratedValue(strategy=&quot;AUTO&quot;)
+     */
+    private $id;
+
+    /**
+     * Logo image path
+     *
+     * @var string
+     *
+     * @ORM\Column(type=&quot;text&quot;, length=255, nullable=false)
+     */
+    protected $logoPath;
+
+    /**
+     * Logo image
+     *
+     * @var File
+     *
+     * @Assert\File(
+     *      maxSize = &quot;10M&quot;,
+     *      mimeTypes = {&quot;image/jpeg&quot;, &quot;image/gif&quot;, &quot;image/png&quot;, &quot;image/tiff&quot;, &quot;image/svg+xml&quot;, &quot;image/png&quot;},
+     *      maxSizeMessage = &quot;The maximum allowed file size is 10MB.&quot;,
+     *      mimeTypesMessage = &quot;Only the filetypes image are allowed.&quot;
+     * )
+     */
+    protected $logoFile;
+
+        /**
+     * @ORM\Column(name=&quot;lastUpdated&quot;, type=&quot;datetime&quot;)
+     */
+    private $lastUpdated;
+
+    /**
+     * Get id
+     *
+     * @return integer 
+     */
+    public function getId()
+    {
+        return $this-&gt;id;
+    }
+
+    /**
+     * Set logo
+     *
+     * @param string $logo
+     * @return Configuration
+     */
+    public function setLogoFile($logo)
+    {
+        $this-&gt;logoFile = $logo;
+
+        return $this;
+    }
+
+    /**
+     * Get logo
+     *
+     * @return string 
+     */
+    public function getLogoFile()
+    {
+        return $this-&gt;logoFile;
+    }
+
+    /**
+     * Set logoPath
+     *
+     * @param string $logoPath
+     * @return Configuration
+     */
+    public function setLogoPath($logoPath)
+    {
+        $this-&gt;logoPath = $logoPath;
+
+        return $this;
+    }
+
+    /**
+     * Get logoPath
+     *
+     * @return string 
+     */
+    public function getLogoPath()
+    {
+        return $this-&gt;logoPath;
+    }
+
+    /**
+     * Called before saving the Entity
+     *
+     * @ORM\PrePersist()
+     * @ORM\PreUpdate()
+     */
+    public function preUpload(){ 
+        if($this-&gt;logoFile !== null){
+            $filename = sha1(uniqid(mt_rand(), true));
+            //$this-&gt;logoPath = $filename . '.' . $this-&gt;logoFile-&gt;guessExtension();
+            $this-&gt;logoPath = $this-&gt;logoFile-&gt;getClientOriginalName();
+        }
+    }
+
+    /**
+     * Called before the removal of an Entity
+     * 
+     * @ORM\PostRemove
+     */
+    public function removeUpload(){
+        if($file = $this-&gt;getAbsolutePath()){
+            unlink($file);
+        }
+    }
+
+    /**
+     * Called after Entity persistance
+     *
+     * @ORM\PostPersist
+     * @ORM\PostUpdate
+     */
+    public function upload(){
+
+        $this-&gt;logoFile-&gt;move($this-&gt;getUploadRootDir(), $this-&gt;logoPath);
+        $this-&gt;logoFile = null;
+    }
+
+   public function getAbsolutePath()
+    {
+        return null === $this-&gt;logoPath
+            ? null
+            : $this-&gt;getUploadRootDir().'/'.$this-&gt;logoPath;
+    }
+
+    public function getWebPath()
+    {
+        return null === $this-&gt;logoPath
+            ? null
+            : $this-&gt;getUploadDir().'/'.$this-&gt;logoPath;
+    }
+
+    protected function getUploadRootDir()
+    {
+        // the absolute directory path where uploaded
+        // documents should be saved
+        return __DIR__.'/../../../../../web/files/';
+    }
+
+    /**
+     * Set lastUpdated
+     *
+     * @param \DateTime $lastUpdated
+     * @return Configuration
+     */
+    public function setLastUpdated(\DateTime $lastUpdated = null)
+    {
+        $this-&gt;lastUpdated = $lastUpdated;
+
+        return $this;
+    }
+
+    /**
+     * Get lastUpdated
+     *
+     * @return \DateTime 
+     */
+    public function getLastUpdated()
+    {
+        return $this-&gt;lastUpdated;
+    }
+}
+</pre>
+        <script type="text/javascript">
+             SyntaxHighlighter.all();
+             jQuery('.gutter div').each(function(key, data){
+                jQuery(data).prepend('<a name="L'+jQuery(data).text()+'"/>');
+             });
+        </script>
+    </body>
+</html>

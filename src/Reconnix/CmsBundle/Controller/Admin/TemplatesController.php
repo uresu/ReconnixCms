@@ -1,6 +1,6 @@
 <?php
 
-/*
+/**
  * This file is part of the Reconnix CMS package.
  *
  * Reconnix (c) <development@reconnix.com>
@@ -15,29 +15,25 @@ use Symfony\Component\Form\Form;
 use Reconnix\CmsBundle\Entity\Content\Template;
 use Reconnix\CmsBundle\Form\Type\TemplateType;
 
+use Reconnix\CmsBundle\Controller\Admin\CmsController;
+
 /**
- * PostsController
+ * Renders all CRUD related pages from \admin\templates.
  */
-class TemplatesController extends Controller
+class TemplatesController extends CmsController
 {
     
     /**
-     * Display list of existing Posts
+     * Renders and displays the \admin\templates page.
      *
-     * @return Reponse HTTP Repsonse 
+     * Displays all existing Templates. 
+     *
+     * @return \Symfony\Component\HttpFoundation\Response An HTTP Response.
      */
     public function indexAction(){
         
-        // fetch all Posts
-        $templateObjs = $this->getDoctrine()->getRepository('ReconnixCmsBundle:Content\Template')->findAll();
-        // disect out the id and name of each Post object for passing to the view
-        $templates = array();
-        foreach($templateObjs as $templateObj){
-            $templates[] = array(
-                'id' => $templateObj->getId(),
-                'title' => $templateObj->getTitle()
-            );
-        }
+        $entities = $this->getDoctrine()->getRepository('ReconnixCmsBundle:Content\Template')->findAll();
+        $templates = $this->getEntityFields($entities, array('id', 'title'));
 
         return $this->render('ReconnixCmsBundle:Admin/Templates:admin.templates.index.html.twig', 
             array('templates' => $templates)
@@ -45,9 +41,11 @@ class TemplatesController extends Controller
     }
 
     /**
-     * @param Request $request The HTTP Request
-     * 
-     * @return Reponse HTTP Repsonse 
+     * Renders and displays the \admin\templates\add page.
+     *
+     * Processes Form input for adding a new Template.
+     *
+     * @return \Symfony\Component\HttpFoundation\Response An HTTP Response.
      */    
     public function addAction(Request $request){
         // create an empty object to store the submitted data
@@ -62,7 +60,7 @@ class TemplatesController extends Controller
         }
 
         // no submission detected, or invalid submission, display the form
-        return $this->render('ReconnixCmsBundle:Admin/Templates:admin.templates.add.html.twig',
+        return $this->render('ReconnixCmsBundle:Admin/Templates:admin.templates.form.html.twig',
             array(
                 'form' => $form->createView(),
             )
@@ -70,9 +68,14 @@ class TemplatesController extends Controller
     }
 
     /**
-     * @param integer $id The Post id
+     * Renders and displays the \admin\templates\edit\{id} page.
+     *
+     * Displays a prepopulated Form for the relevant Template.
+     * Processes Form input for editing a Template.
      * 
-     * @return Reponse HTTP Repsonse 
+     * @param integer $id The Template id to be edited.
+     * 
+     * @return \Symfony\Component\HttpFoundation\Response An HTTP Response.
      */ 
     public function editAction($id){
         // fetch the Post object
@@ -87,7 +90,7 @@ class TemplatesController extends Controller
         }
 
         // no submission detected, or invalid submission, display the pre-populated
-        return $this->render('ReconnixCmsBundle:Admin/Templates:admin.templates.edit.html.twig',
+        return $this->render('ReconnixCmsBundle:Admin/Templates:admin.templates.form.html.twig',
             array(
                 'id' => $id,
                 'form' => $form->createView()
@@ -96,35 +99,17 @@ class TemplatesController extends Controller
     }
 
     /**
-     * @param Form $form
-     * @param Template $template
+     * Delete a Template from the database.
      *
-     * @return Boolean true for success
-     */
-    private function submitFormOk(Form $form, Template $template){
-        // handle form submission
-        $form->handleRequest(Request::createFromGlobals());
-        if($form->isValid()){
-            // valid form submission
-            $em = $this->getDoctrine()->getManager();
-            $em->persist($template);
-            $em->flush(); 
-            return true;
-        }         
-
-        // no submission detected yet, or invalid submission
-        return false;
-    }
-
-    /**
-     * @param integer $id The Post id
+     * @param integer $id The ID of the Template to delete.
      * 
-     * @return Reponse HTTP Repsonse 
+     * @return \Symfony\Component\HttpFoundation\Response An HTTP Redirect.
      */ 
     public function deleteAction($id){
         // load the entity for deleting
         $template = $this->getDoctrine()->getRepository('ReconnixCmsBundle:Content\Template')->find($id);
-        // create entity manager and run the delete command
+        
+        // persist
         $em = $this->getDoctrine()->getManager();
         $em->remove($template);
         $em->flush();       

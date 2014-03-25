@@ -1,6 +1,6 @@
 <?php
 
-/*
+/**
  * This file is part of the Reconnix CMS package.
  *
  * Reconnix (c) <development@reconnix.com>
@@ -8,34 +8,26 @@
 
 namespace Reconnix\CmsBundle\Controller\Admin;
 
-use Symfony\Bundle\FrameworkBundle\Controller\Controller;
-use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\Form\Form;
+use Reconnix\CmsBundle\Controller\Admin\CmsController;
 use Reconnix\CmsBundle\Entity\Content\Block;
 use Reconnix\CmsBundle\Form\Type\BlockType;
 
 /**
- * BlocksController
+ * Renders all CRUD related pages from \admin\blocks.
  */
-class BlocksController extends Controller
+class BlocksController extends CmsController
 {
-
     /**
-     * Display list of existing Blocks 
+     * Renders and displays the \admin\blocks page.
      *
-     * @return Reponse HTTP Repsonse 
+     * Displays all existing Blocks. 
+     *
+     * @return \Symfony\Component\HttpFoundation\Response An HTTP Response.
      */
     public function indexAction(){
-        // fetch all Blocks
-        $blockObjs = $this->getDoctrine()->getRepository('ReconnixCmsBundle:Content\Block')->findAll();
-        // disect out the id and name of each Block object for passing to the view
-        $blocks = array();
-        foreach($blockObjs as $blockObj){
-            $blocks[] = array(
-                'id' => $blockObj->getId(),
-                'name' => $blockObj->getName()
-            );
-        }
+
+        $entites = $this->getDoctrine()->getRepository('ReconnixCmsBundle:Content\Block')->findAll();
+        $blocks = $this->getEntityFields($entites, array('id', 'name'));
 
         return $this->render('ReconnixCmsBundle:Admin/Blocks:admin.blocks.index.html.twig', 
             array('blocks' => $blocks)
@@ -43,16 +35,20 @@ class BlocksController extends Controller
     }
 
     /**
-     * @return Reponse HTTP Repsonse 
+     * Renders and displays the \admin\blocks\add page.
+     *
+     * Processes Form input for adding a new Block.
+     *
+     * @return \Symfony\Component\HttpFoundation\Response An HTTP Response.
      */ 
     public function addAction(){
         // create an empty object to store the submitted data
         $block = new Block();
         // build the form, pass the empty object to store the user input
         $form = $this->createForm(new BlockType(), $block);
- 
+
         // check for a submitted form
-        if(self::submitFormOk($form, $block)){
+        if($this->submitFormOk($form, $block)){
             // succesfull update, return to block index
             return $this->redirect($this->generateUrl('reconnix_main_admin_blocks_index'));
         }
@@ -64,23 +60,26 @@ class BlocksController extends Controller
     }
 
     /**
-     * @param integer $id The Post id
+     * Renders and displays the \admin\blocks\edit\{id} page.
+     *
+     * Displays a prepopulated Form for the relevant Block.
+     * Processes Form input for editing a Block.
      * 
-     * @return Reponse HTTP Repsonse 
+     * @param integer $id The Block id to be edited.
+     * 
+     * @return \Symfony\Component\HttpFoundation\Response An HTTP Response.
      */ 
     public function editAction($id){
         // fetch the Block object
         $block = $this->getDoctrine()->getRepository('ReconnixCmsBundle:Content\Block')->find($id);
-        $block->setContent(html_entity_decode($block->getContent()));
-        // create a pre-populated form
+        // build the form, pass the prepopulated object to display
         $form = $this->createForm(new BlockType(), $block);
 
         // check for a submitted form
-        if(self::submitFormOk($form, $block)){
+        if($this->submitFormOk($form, $block)){
             // succesfull update, return to block index
             return $this->redirect($this->generateUrl('reconnix_main_admin_blocks_index'));
         }
-
         
         // no submission detected, or invalid submission, display the pre-populated
     	return $this->render('ReconnixCmsBundle:Admin/Blocks:admin.blocks.edit.html.twig',
@@ -93,41 +92,17 @@ class BlocksController extends Controller
     }
 
     /**
-     * @param Form $form
-     * @param Block $block
+     * Delete a Block from the database.
      *
-     * @return Boolean true for success
-     */
-    private function submitFormOk(Form $form, Block $block){
-        // handle form submission
-        $form->handleRequest(Request::createFromGlobals());
-        if($form->isValid()){
-            // set default value for Category
-            if($block->getBackground() === NULL){
-                $block->setBackground('white');
-            }
-
-            // valid form submission
-            $em = $this->getDoctrine()->getManager();
-            $em->persist($block);
-            $em->flush(); 
-
-            return true;
-        }         
-
-        // no submission detected yet, or invalid submission
-        return false;
-    }
-
-    /**
-     * @param integer $id The Post id
+     * @param integer $id The ID of the Block to delete.
      * 
-     * @return Reponse HTTP Repsonse 
+     * @return \Symfony\Component\HttpFoundation\Response An HTTP Redirect.
      */ 
     public function deleteAction($id){
         // load the entity for deleting
         $block = $this->getDoctrine()->getRepository('ReconnixCmsBundle:Content\Block')->find($id);
-        // create entity manager and run the delete command
+        
+        // persist
         $em = $this->getDoctrine()->getManager();
         $em->remove($block);
         $em->flush();       

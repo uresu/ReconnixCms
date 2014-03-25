@@ -1,11 +1,17 @@
 <?php
 
+/**
+ * This file is part of the Reconnix CMS package.
+ *
+ * Reconnix (c) <development@reconnix.com>
+ */
+
 namespace Reconnix\CmsBundle\Entity\Menu;
 
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * Menu
+ * Menu Entity.
  *
  * @ORM\Entity(repositoryClass="Reconnix\CmsBundle\Entity\Menu\MenuItemRepository")
  * @ORM\Table(name="menuItem")
@@ -23,21 +29,29 @@ class MenuItem
     private $id;
 
     /**
+     * @var string
+     *
      * @ORM\Column(name="url", length=32)
      */
     private $url;
 
     /**
+     * @var string
+     *
      * @ORM\Column(name="name", length=32)
      */
     private $name;
 
     /**
+     * @var string
+     *
      * @ORM\Column(name="category", length=32)
      */
     private $category;
 
     /**
+     * @var integer
+     *
      * @ORM\Column(name="weight", type="integer")
      */
     private $weight;

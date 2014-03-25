@@ -1,16 +1,20 @@
 <?php
 
+/**
+ * This file is part of the Reconnix CMS package.
+ *
+ * Reconnix (c) <development@reconnix.com>
+ */
+
 namespace Reconnix\CmsBundle\Entity\Content;
 
 use Doctrine\ORM\Mapping as ORM;
 use Reconnix\CmsBundle\Entity\Content\Page;
 use Reconnix\CmsBundle\Entity\Content\Post;
-
-
 use Symfony\Component\Form\FormFactoryInterface;
 
 /** 
- * ContentBase
+ * ContentBase Entity.
  *
  * @ORM\Entity 
  * @ORM\Table(name="content")
@@ -31,21 +35,28 @@ class ContentBase{
     private $id;
 
     /**
+     * @var \DateTime
      * @ORM\Column(name="date", type="datetime")
      */
     private $date;
 
     /**
+     * @var string
+     *
      * @ORM\Column(name="name", length=32)
      */
     private $name;
 
     /**
-     * @ORM\Column(name="title", length=32)
+     * @var string
+     *
+     * @ORM\Column(name="title", length=64)
      */
     private $title; 
 
     /**
+     * @var string
+     *
      * @ORM\Column(name="content", type="text", nullable=true)
      */
     private $content;
@@ -68,7 +79,7 @@ class ContentBase{
      */
     public function setName($name)
     {
-        $this->name = $name;
+        $this->name = htmlentities($name);
 
         return $this;
     }
@@ -91,7 +102,7 @@ class ContentBase{
      */
     public function setTitle($title)
     {
-        $this->title = $title;
+        $this->title = htmlentities($title);
 
         return $this;
     }

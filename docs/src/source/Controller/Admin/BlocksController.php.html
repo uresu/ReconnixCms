@@ -1,0 +1,182 @@
+<html>
+    <head>
+        <script
+            type="text/javascript"
+            src="../../../js/jquery-1.4.2.min.js">
+        </script>
+        <script
+            type="text/javascript"
+            src="../../../syntax_highlighter/scripts/shCore.js">
+        </script>
+        <script
+            type="text/javascript"
+            src="../../../syntax_highlighter/scripts/shBrushJScript.js">
+        </script>
+        <script
+            type="text/javascript"
+            src="../../../syntax_highlighter/scripts/shBrushPhp.js">
+        </script>
+        <script
+            type="text/javascript"
+            src="../../../syntax_highlighter/scripts/shBrushXml.js">
+        </script>
+        <link
+            href="../../../syntax_highlighter/styles/shCore.css" rel="stylesheet"
+            type="text/css"
+        />
+        <link
+            href="../../../syntax_highlighter/styles/shCoreEclipse.css"
+            rel="stylesheet" type="text/css"
+        />
+        <link
+            href="../../../syntax_highlighter/styles/shThemeWordpress.css"
+            rel="stylesheet" type="text/css"
+        />
+    </head>
+    <body>
+        <pre class="brush: php">&lt;?php
+
+/*
+ * This file is part of the Reconnix CMS package.
+ *
+ * Reconnix (c) &lt;development@reconnix.com&gt;
+ */
+
+namespace Reconnix\CmsBundle\Controller\Admin;
+
+use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\Form\Form;
+use Reconnix\CmsBundle\Entity\Content\Block;
+use Reconnix\CmsBundle\Form\Type\BlockType;
+
+/**
+ * BlocksController
+ */
+class BlocksController extends Controller
+{
+
+    /**
+     * Display list of existing Blocks 
+     *
+     * @return Reponse HTTP Repsonse 
+     */
+    public function indexAction(){
+        // fetch all Blocks
+        $blockObjs = $this-&gt;getDoctrine()-&gt;getRepository('ReconnixCmsBundle:Content\Block')-&gt;findAll();
+        // disect out the id and name of each Block object for passing to the view
+        $blocks = array();
+        foreach($blockObjs as $blockObj){
+            $blocks[] = array(
+                'id' =&gt; $blockObj-&gt;getId(),
+                'name' =&gt; $blockObj-&gt;getName()
+            );
+        }
+
+        return $this-&gt;render('ReconnixCmsBundle:Admin/Blocks:admin.blocks.index.html.twig', 
+            array('blocks' =&gt; $blocks)
+        );
+    }
+
+    /**
+     * @return Reponse HTTP Repsonse 
+     */ 
+    public function addAction(){
+        // create an empty object to store the submitted data
+        $block = new Block();
+        // build the form, pass the empty object to store the user input
+        $form = $this-&gt;createForm(new BlockType(), $block);
+ 
+        // check for a submitted form
+        if(self::submitFormOk($form, $block)){
+            // succesfull update, return to block index
+            return $this-&gt;redirect($this-&gt;generateUrl('reconnix_main_admin_blocks_index'));
+        }
+
+        // no submission detected, or invalid submission, display the form
+        return $this-&gt;render('ReconnixCmsBundle:Admin/Blocks:admin.blocks.add.html.twig',
+            array('form' =&gt; $form-&gt;createView())
+        );
+    }
+
+    /**
+     * @param integer $id The Post id
+     * 
+     * @return Reponse HTTP Repsonse 
+     */ 
+    public function editAction($id){
+        // fetch the Block object
+        $block = $this-&gt;getDoctrine()-&gt;getRepository('ReconnixCmsBundle:Content\Block')-&gt;find($id);
+        $block-&gt;setContent(html_entity_decode($block-&gt;getContent()));
+        // create a pre-populated form
+        $form = $this-&gt;createForm(new BlockType(), $block);
+
+        // check for a submitted form
+        if(self::submitFormOk($form, $block)){
+            // succesfull update, return to block index
+            return $this-&gt;redirect($this-&gt;generateUrl('reconnix_main_admin_blocks_index'));
+        }
+
+        
+        // no submission detected, or invalid submission, display the pre-populated
+    	return $this-&gt;render('ReconnixCmsBundle:Admin/Blocks:admin.blocks.edit.html.twig',
+    		array(
+                'id' =&gt; $id,
+                'name' =&gt; $block-&gt;getName(),
+                'form' =&gt; $form-&gt;createView()
+            )
+    	);
+    }
+
+    /**
+     * @param Form $form
+     * @param Block $block
+     *
+     * @return Boolean true for success
+     */
+    private function submitFormOk(Form $form, Block $block){
+        // handle form submission
+        $form-&gt;handleRequest(Request::createFromGlobals());
+        if($form-&gt;isValid()){
+            // set default value for Category
+            if($block-&gt;getBackground() === NULL){
+                $block-&gt;setBackground('white');
+            }
+
+            // valid form submission
+            $em = $this-&gt;getDoctrine()-&gt;getManager();
+            $em-&gt;persist($block);
+            $em-&gt;flush(); 
+
+            return true;
+        }         
+
+        // no submission detected yet, or invalid submission
+        return false;
+    }
+
+    /**
+     * @param integer $id The Post id
+     * 
+     * @return Reponse HTTP Repsonse 
+     */ 
+    public function deleteAction($id){
+        // load the entity for deleting
+        $block = $this-&gt;getDoctrine()-&gt;getRepository('ReconnixCmsBundle:Content\Block')-&gt;find($id);
+        // create entity manager and run the delete command
+        $em = $this-&gt;getDoctrine()-&gt;getManager();
+        $em-&gt;remove($block);
+        $em-&gt;flush();       
+
+        return $this-&gt;redirect($this-&gt;generateUrl('reconnix_main_admin_blocks_index'));
+    } 
+}
+</pre>
+        <script type="text/javascript">
+             SyntaxHighlighter.all();
+             jQuery('.gutter div').each(function(key, data){
+                jQuery(data).prepend('<a name="L'+jQuery(data).text()+'"/>');
+             });
+        </script>
+    </body>
+</html>

@@ -1,0 +1,186 @@
+<html>
+    <head>
+        <script
+            type="text/javascript"
+            src="../../../js/jquery-1.4.2.min.js">
+        </script>
+        <script
+            type="text/javascript"
+            src="../../../syntax_highlighter/scripts/shCore.js">
+        </script>
+        <script
+            type="text/javascript"
+            src="../../../syntax_highlighter/scripts/shBrushJScript.js">
+        </script>
+        <script
+            type="text/javascript"
+            src="../../../syntax_highlighter/scripts/shBrushPhp.js">
+        </script>
+        <script
+            type="text/javascript"
+            src="../../../syntax_highlighter/scripts/shBrushXml.js">
+        </script>
+        <link
+            href="../../../syntax_highlighter/styles/shCore.css" rel="stylesheet"
+            type="text/css"
+        />
+        <link
+            href="../../../syntax_highlighter/styles/shCoreEclipse.css"
+            rel="stylesheet" type="text/css"
+        />
+        <link
+            href="../../../syntax_highlighter/styles/shThemeWordpress.css"
+            rel="stylesheet" type="text/css"
+        />
+    </head>
+    <body>
+        <pre class="brush: php">&lt;?php
+
+/*
+ * This file is part of the Reconnix CMS package.
+ *
+ * Reconnix (c) &lt;development@reconnix.com&gt;
+ */
+
+namespace Reconnix\CmsBundle\Controller\Admin;
+
+use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\Form\Form;
+
+use Reconnix\CmsBundle\Entity\Menu\MenuItem;
+use Reconnix\CmsBundle\Form\Type\MenuType;
+
+/**
+ * MenuController
+ */
+class MenuController extends Controller
+{
+
+    /**
+     * Display list of existing Menu items 
+     *
+     * @return Reponse HTTP Repsonse 
+     */
+    public function indexAction(){
+        // fetch all Menu items
+        $menuObjs = $this-&gt;getDoctrine()-&gt;getRepository('ReconnixCmsBundle:Menu\MenuItem')-&gt;findByCategory('front');
+        // disect out the id and name of each Block object for passing to the view
+        $menu = array();
+        foreach($menuObjs as $menuObj){
+            $menu[] = array(
+                'id' =&gt; $menuObj-&gt;getId(),
+                'name' =&gt; $menuObj-&gt;getName()
+            );
+        }
+
+        return $this-&gt;render('ReconnixCmsBundle:Admin/Menu:admin.menu.index.html.twig', 
+            array('menu' =&gt; $menu)
+        );
+    }
+
+    /**
+     * @return Reponse HTTP Repsonse 
+     */ 
+    public function addAction(){
+        // create an empty object to store the submitted data
+        $item = new MenuItem();
+        // build the form, pass the empty object to store the user input
+        $form = $this-&gt;createForm(new MenuType(), $item);
+ 
+        // check for a submitted form
+        if(self::submitFormOk($form, $item)){
+            // succesfull update, return to block index
+            return $this-&gt;redirect($this-&gt;generateUrl('reconnix_main_admin_menu_index'));
+        }
+
+        // no submission detected, or invalid submission, display the form
+        return $this-&gt;render('ReconnixCmsBundle:Admin/Menu:admin.menu.add.html.twig',
+            array('form' =&gt; $form-&gt;createView())
+        );
+    }
+
+    /**
+     * @param integer $id The Menu Item id
+     * 
+     * @return Reponse HTTP Repsonse 
+     */ 
+    public function editAction($id){
+        // fetch the Menu Item object
+        $item = $this-&gt;getDoctrine()-&gt;getRepository('ReconnixCmsBundle:Menu\MenuItem')-&gt;find($id);
+        //$block-&gt;setContent(html_entity_decode($block-&gt;getContent()));
+        // create a pre-populated form
+        $form = $this-&gt;createForm(new MenuType(), $item);
+
+        // check for a submitted form
+        if(self::submitFormOk($form, $item)){
+            // succesfull update, return to block index
+            return $this-&gt;redirect($this-&gt;generateUrl('reconnix_main_admin_menu_index'));
+        }
+
+        
+        // no submission detected, or invalid submission, display the pre-populated
+    	return $this-&gt;render('ReconnixCmsBundle:Admin/Menu:admin.menu.edit.html.twig',
+    		array(
+                'id' =&gt; $id,
+                'form' =&gt; $form-&gt;createView()
+            )
+    	);
+    }
+
+    /**
+     * @param Form $form
+     * @param Block $block
+     *
+     * @return Boolean true for success
+     */
+    private function submitFormOk(Form $form, MenuItem $item){
+        // handle form submission
+        $form-&gt;handleRequest(Request::createFromGlobals());
+        if($form-&gt;isValid()){
+            // set default value for Category
+            if($item-&gt;getCategory() === NULL){
+                $item-&gt;setCategory('front');
+            }
+
+            // set default value for Weight
+            if($item-&gt;getWeight() === NULL){
+                $item-&gt;setWeight(0);
+            }
+            // valid form submission
+            $em = $this-&gt;getDoctrine()-&gt;getManager();
+            $em-&gt;persist($item);
+            $em-&gt;flush(); 
+
+            return true;
+        }         
+
+        // no submission detected yet, or invalid submission
+        return false;
+    }
+
+    /**
+     * @param integer $id The Post id
+     * 
+     * @return Reponse HTTP Repsonse 
+     */ 
+    public function deleteAction($id){
+        // load the entity for deleting
+        $menuItem = $this-&gt;getDoctrine()-&gt;getRepository('ReconnixCmsBundle:Menu\MenuItem')-&gt;find($id);
+        // create entity manager and run the delete command
+        $em = $this-&gt;getDoctrine()-&gt;getManager();
+        $em-&gt;remove($menuItem);
+        $em-&gt;flush();       
+
+        return $this-&gt;redirect($this-&gt;generateUrl('reconnix_main_admin_menu_index'));
+    } 
+}
+</pre>
+        <script type="text/javascript">
+             SyntaxHighlighter.all();
+             jQuery('.gutter div').each(function(key, data){
+                jQuery(data).prepend('<a name="L'+jQuery(data).text()+'"/>');
+             });
+        </script>
+    </body>
+</html>

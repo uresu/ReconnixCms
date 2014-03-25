@@ -1,6 +1,6 @@
 <?php
 
-/*
+/**
  * This file is part of the Reconnix CMS package.
  *
  * Reconnix (c) <development@reconnix.com>
@@ -21,18 +21,62 @@ use Reconnix\CmsBundle\Entity\Content\Page;
 use Reconnix\CmsBundle\Entity\Content\Block;
 use Reconnix\CmsBundle\Form\Type\PageType;
 
+use Reconnix\CmsBundle\Controller\Admin\CmsController;
+
 /**
- * PagesController
+ * Renders all CRUD related pages from \admin\pages.
+ *
+ * This Controller is registered as a Service, and all dependencies are injected via its construction.
  */
-class PagesController 
+class PagesController extends CmsController
 {
 
+    /**
+     * Doctrine service handle.
+     * 
+     * @var \Doctrine\Bundle\DoctrineBundle\Registry
+     */
     protected $doctrine;
+
+    /**
+     * FormFactory service handle.
+     *
+     * @var \Symfony\Component\Form\FormFactoryInterface
+     */
     protected $formFactory;
+
+    /**
+     * Templating service handle.
+     *
+     * @var \Symfony\Bundle\FrameworkBundle\Templating\EngineInterface
+     */
     protected $templating;
+
+    /**
+     * RequestStack service handle.
+     *
+     * @var \Symfony\Component\HttpFoundation\RequestStack
+     */
     protected $request;
+
+    /**
+     * Router service handle.
+     *
+     * @var \Symfony\Component\Routing\RouterInterface
+     */
     protected $router;
 
+    /**
+     * Constructor.
+     *
+     * Injects all required services.
+     *
+     * @param \Doctrine\Bundle\DoctrineBundle\Registry                      $doctrine       Doctrine service handle.
+     * @param \Symfony\Component\Form\FormFactoryInterface                  $formFactory    FormFactory service handle.
+     * @param \Symfony\Bundle\FrameworkBundle\Templating\EngineInterface    $templating     Templating service handle.
+     * @param \Symfony\Component\HttpFoundation\RequestStack                $request        RequestStack service handle.
+     * @param \Symfony\Component\Routing\RouterInterface                    $router         Router service handle.
+     */
     public function __construct(Registry $doctrine,
                                 FormFactoryInterface $formFactory,
                                 EngineInterface $templating,
@@ -46,22 +90,16 @@ class PagesController
     }
 
     /**
-     * Display list of existing Pages
+     * Renders and displays the \admin\pages page.
      *
-     * @return Reponse HTTP Repsonse 
+     * Displays all existing Pages. 
+     *
+     * @return \Symfony\Component\HttpFoundation\Response An HTTP Response.
      */
     public function indexAction(){
-        // fetch all Pages
-        //$pageObjs = $this->getDoctrine()->getRepository('ReconnixCmsBundle:Content\Page')->findAll();
-        $pageObjs = $this->doctrine->getRepository('ReconnixCmsBundle:Content\Page')->findAll();
-        // disect out the id and name of each Page object for passing to the view
-        $pages = array();
-        foreach($pageObjs as $pageObj){
-            $pages[] = array(
-                'id' => $pageObj->getId(),
-                'title' => $pageObj->getTitle()
-            );
-        }
+
+        $entities = $this->doctrine->getRepository('ReconnixCmsBundle:Content\Page')->findAll();
+        $pages = $this->getEntityFields($entities, array('id', 'title'));
 
         return $this->templating->renderResponse('ReconnixCmsBundle:Admin/Pages:admin.pages.index.html.twig', 
             array('pages' => $pages)
@@ -69,9 +107,11 @@ class PagesController
     }
 
     /**
-     * @param Request $request The HTTP Request
-     * 
-     * @return Reponse HTTP Repsonse 
+     * Renders and displays the \admin\pages\add page.
+     *
+     * Processes Form input for adding a new Block.
+     *
+     * @return \Symfony\Component\HttpFoundation\Response An HTTP Response.
      */
     public function addAction(Request $request){
         // create an empty object to store the submitted data
@@ -80,7 +120,7 @@ class PagesController
         $form = $this->formFactory->create(new PageType($page), $page);
        
         // check for a submitted form
-        if(self::submitFormOk($form, $page)){
+        if($this->submitFormOk($form, $page)){
             // succesfull update, return to page index
             return new RedirectResponse($this->router->generate('reconnix_main_admin_pages_index'));
         }
@@ -94,24 +134,27 @@ class PagesController
     }
 
     /**
-     * @param integer $id The Post id
+     * Renders and displays the \admin\pages\edit\{id} page.
+     *
+     * Displays a prepopulated Form for the relevant Page.
+     * Processes Form input for editing a Page.
      * 
-     * @return Reponse HTTP Repsonse 
+     * @param integer $id The Page id to be edited.
+     * 
+     * @return \Symfony\Component\HttpFoundation\Response An HTTP Response.
      */ 
     public function editAction($id){
         // fetch the Page object
-        //$page = $this->getDoctrine()->getRepository('ReconnixCmsBundle:Content\Page')->find($id);
         $page = $this->doctrine->getRepository('ReconnixCmsBundle:Content\Page')->find($id);
         // create a pre-populated form
         $form = $this->formFactory->create(new PageType($page), $page);
-
 
         $blocks = $this->doctrine->getRepository('ReconnixCmsBundle:Content\Block')->findAll();
         $unusedBlocks = $page->getUnusedBlocks($blocks);
         $usedBlocks = $page->getBlocks();
         
         // check for a submitted form
-        if(self::submitFormOk($form, $page)){
+        if($this->submitFormOk($form, $page)){
             // succesfull update, return to page index
             return new RedirectResponse($this->router->generate('reconnix_main_admin_pages_index'));
         }
@@ -128,36 +171,17 @@ class PagesController
     }
 
     /**
-     * @param Form $form
-     * @param Page $page
+     * Delete a Page from the database.
      *
-     * @return Boolean true for success
-     */
-    private function submitFormOk($form, Page $page){
-        // handle form submission
-        $form->handleRequest(Request::createFromGlobals());
-        if($form->isValid()){
-            // valid form submission
-            //$em = $this->getDoctrine()->getManager();
-            $em = $this->doctrine->getManager();
-            $em->persist($page);
-            $em->flush(); 
-            return true;
-        }         
-
-        // no submission detected yet, or invalid submission
-        return false;
-    }
-
-    /**
-     * @param integer $id The Post id
+     * @param integer $id The ID of the Page to delete.
      * 
-     * @return Reponse HTTP Repsonse 
+     * @return \Symfony\Component\HttpFoundation\Response An HTTP Redirect.
      */ 
     public function deleteAction($id){
         // load the entity for deleting
         $page = $this->doctrine->getRepository('ReconnixCmsBundle:Content\Page')->find($id);
-        // create entity manager and run the delete command
+
+        // persist
         $em = $this->doctrine->getManager();
         $em->remove($page);
         $em->flush();       
@@ -166,36 +190,46 @@ class PagesController
     }
 
     /**
-     * @param int 
-     * @param int
+     * Add a single Block to a Page.
      *
-     * @return Response HTTP Response
+     * @param integer $blockId The ID of the Block to add 
+     * @param integer $pageId The ID of the Page being added to
+     *
+     * @return \Symfony\Component\HttpFoundation\Response An HTTP Redirect.
      */
     public function addBlockAction($blockId, $pageId){
+        // add the block
         $page = $this->doctrine->getRepository('ReconnixCmsBundle:Content\Page')->find($pageId);
         $page->addBlock($this->doctrine->getRepository('ReconnixCmsBundle:Content\Block')->find($blockId));
+
+        // persist
         $em = $this->doctrine->getManager();
         $em->persist($page);
         $em->flush();        
 
         return new RedirectResponse($this->router->generate('reconnix_main_admin_pages_edit', array(
             "id" => $pageId)));
-    }  
+    }
 
     /**
-     * @param int 
-     * @param int
+     * Delete a single Block to a Page.
      *
-     * @return Response HTTP Response
+     * @param integer $blockId The ID of the Block to add 
+     * @param integer $pageId The ID of the Page being added to
+     *
+     * @return \Symfony\Component\HttpFoundation\Response An HTTP Redirect.
      */
     public function deleteBlockAction($blockId, $pageId){
+        // remove the block
         $page = $this->doctrine->getRepository('ReconnixCmsBundle:Content\Page')->find($pageId);
         $page->removeBlock($this->doctrine->getRepository('ReconnixCmsBundle:Content\Block')->find($blockId));
+
+        // persist
         $em = $this->doctrine->getManager();
         $em->persist($page);
         $em->flush();    
 
         return new RedirectResponse($this->router->generate('reconnix_main_admin_pages_edit', array(
             "id" => $pageId)));
-    }  
-}
+    }
+ }

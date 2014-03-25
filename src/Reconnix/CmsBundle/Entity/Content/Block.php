@@ -1,11 +1,17 @@
 <?php
 
+/**
+ * This file is part of the Reconnix CMS package.
+ *
+ * Reconnix (c) <development@reconnix.com>
+ */
+
 namespace Reconnix\CmsBundle\Entity\Content;
 
 use Doctrine\ORM\Mapping as ORM;
 
-/**
- * Block
+/** 
+ * Block Entity.
  *
  * @ORM\Table(name="block")
  * @ORM\Entity
@@ -22,26 +28,36 @@ class Block
     private $id;
 
     /**
+     * @var string
+     *
      * @ORM\Column(name="name", length=32)
      */
     private $name;
 
     /**
+     * @var string
+     *
      * @ORM\Column(name="content", type="text")
      */
     private $content;
 
     /**
+     * @var string
+     *
      * @ORM\Column(name="region", length = 8)
      */
     private $region;
 
     /**
-     * @ORM\Column(name="background", length = 16)
+     * @var string
+     *
+     * @ORM\Column(name="background", length = 16, nullable=true)
      */
     private $background;
 
     /**
+     * @var string
+     *
      * @ORM\Column(name="classList", type="text", nullable=true)
      */
     private $classList;
@@ -64,7 +80,7 @@ class Block
      */
     public function setName($name)
     {
-        $this->name = $name;
+        $this->name = htmlentities($name);
 
         return $this;
     }
@@ -156,7 +172,7 @@ class Block
      */
     public function setClassList($classList)
     {
-        $this->classList = $classList;
+        $this->classList = htmlentities($classList);
 
         return $this;
     }

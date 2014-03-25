@@ -1,0 +1,218 @@
+<html>
+    <head>
+        <script
+            type="text/javascript"
+            src="../../../js/jquery-1.4.2.min.js">
+        </script>
+        <script
+            type="text/javascript"
+            src="../../../syntax_highlighter/scripts/shCore.js">
+        </script>
+        <script
+            type="text/javascript"
+            src="../../../syntax_highlighter/scripts/shBrushJScript.js">
+        </script>
+        <script
+            type="text/javascript"
+            src="../../../syntax_highlighter/scripts/shBrushPhp.js">
+        </script>
+        <script
+            type="text/javascript"
+            src="../../../syntax_highlighter/scripts/shBrushXml.js">
+        </script>
+        <link
+            href="../../../syntax_highlighter/styles/shCore.css" rel="stylesheet"
+            type="text/css"
+        />
+        <link
+            href="../../../syntax_highlighter/styles/shCoreEclipse.css"
+            rel="stylesheet" type="text/css"
+        />
+        <link
+            href="../../../syntax_highlighter/styles/shThemeWordpress.css"
+            rel="stylesheet" type="text/css"
+        />
+    </head>
+    <body>
+        <pre class="brush: php">&lt;?php
+
+namespace Reconnix\CmsBundle\Entity\Content;
+
+use Doctrine\ORM\Mapping as ORM;
+
+/**
+ * Block
+ *
+ * @ORM\Table(name=&quot;block&quot;)
+ * @ORM\Entity
+ */
+class Block
+{
+    /**
+     * @var integer
+     *
+     * @ORM\Column(name=&quot;id&quot;, type=&quot;integer&quot;)
+     * @ORM\Id
+     * @ORM\GeneratedValue(strategy=&quot;AUTO&quot;)
+     */
+    private $id;
+
+    /**
+     * @ORM\Column(name=&quot;name&quot;, length=32)
+     */
+    private $name;
+
+    /**
+     * @ORM\Column(name=&quot;content&quot;, type=&quot;text&quot;)
+     */
+    private $content;
+
+    /**
+     * @ORM\Column(name=&quot;region&quot;, length = 8)
+     */
+    private $region;
+
+    /**
+     * @ORM\Column(name=&quot;background&quot;, length = 16)
+     */
+    private $background;
+
+    /**
+     * @ORM\Column(name=&quot;classList&quot;, type=&quot;text&quot;, nullable=true)
+     */
+    private $classList;
+
+    /**
+     * Get id
+     *
+     * @return integer 
+     */
+    public function getId()
+    {
+        return $this-&gt;id;
+    }
+
+    /**
+     * Set name
+     *
+     * @param string $name
+     * @return Block
+     */
+    public function setName($name)
+    {
+        $this-&gt;name = $name;
+
+        return $this;
+    }
+
+    /**
+     * Get name
+     *
+     * @return string 
+     */
+    public function getName()
+    {
+        return $this-&gt;name;
+    }
+
+    /**
+     * Set content
+     *
+     * @param string $content
+     * @return Block
+     */
+    public function setContent($content)
+    {
+        $this-&gt;content = $content;
+
+        return $this;
+    }
+
+    /**
+     * Get content
+     *
+     * @return string 
+     */
+    public function getContent()
+    {
+        return $this-&gt;content;
+    }
+
+    /**
+     * Set region
+     *
+     * @param string $region
+     * @return Block
+     */
+    public function setRegion($region)
+    {
+        $this-&gt;region = $region;
+
+        return $this;
+    }
+
+    /**
+     * Get region
+     *
+     * @return string 
+     */
+    public function getRegion()
+    {
+        return $this-&gt;region;
+    }
+
+    /**
+     * Set background
+     *
+     * @param string $background
+     * @return Block
+     */
+    public function setBackground($background)
+    {
+        $this-&gt;background = $background;
+
+        return $this;
+    }
+
+    /**
+     * Get background
+     *
+     * @return string 
+     */
+    public function getBackground()
+    {
+        return $this-&gt;background;
+    }
+
+    /**
+     * Set classList
+     *
+     * @param string $classList
+     * @return Block
+     */
+    public function setClassList($classList)
+    {
+        $this-&gt;classList = $classList;
+
+        return $this;
+    }
+
+    /**
+     * Get classList
+     *
+     * @return string 
+     */
+    public function getClassList()
+    {
+        return $this-&gt;classList;
+    }
+}
+</pre>
+        <script type="text/javascript">
+             SyntaxHighlighter.all();
+             jQuery('.gutter div').each(function(key, data){
+                jQuery(data).prepend('<a name="L'+jQuery(data).text()+'"/>');
+             });
+        </script>
+    </body>
+</html>

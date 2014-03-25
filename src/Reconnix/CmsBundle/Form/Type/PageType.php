@@ -1,6 +1,6 @@
 <?php
 
-/*
+/**
  * This file is part of the Reconnix CMS package.
  *
  * Reconnix (c) <development@reconnix.com>
@@ -17,14 +17,30 @@ use Reconnix\CmsBundle\Entity\Content\Page;
  */
 class PageType extends AbstractType{
 
+    /**
+     * Current Page object that this Form instance relates too.
+     *
+     * @var \Reconnix\CmsBundle\Entity\Content\Page
+     */
+    private $page;
+
+    /**
+     * Constructor.
+     *
+     * Set the current Page object so we can access its ID.
+     *
+     * @param Page $page Current Page object
+     */
     public function __construct(Page $page){
         $this->page = $page;
     }
 	
-	/**
-	 * @param FormBuilderInterface $builder
-	 * @param array $options 
-	 */
+    /**
+     * Build the Form by defining each input field.
+     *
+     * @param FormBuilderInterface $builder
+     * @param array $options 
+     */
 	public function buildForm(FormBuilderInterface $builder, array $options){
 		$builder->add('name', 'text');
         $builder->add('title', 'text');
@@ -39,24 +55,13 @@ class PageType extends AbstractType{
                 'property' => 'name',
             ));   
         }
-        //$builder->add('content', 'textarea', array('attr' => array('rows' => '35', 'cols' => '150'), 'required' => false));
-        //$builder->add('content', 'textarea', array('attr' => array('rows' => '35', 'class' => 'tinymce', 'data-theme' => 'advanced')));
-        /**/
+
         $builder->add('save', 'submit');
 	}
 
-	/**
-     * @param array $options
-     *
-     * @return array  
-     */
-	public function getDefaultOptions(array $options){
-		return array(
-			'data_class' => 'Reconnix\CmsBundle\Entity\Content\Page'
-		);
-	}
-
     /**
+     * Returns the name of this type.
+     *
      * @return string 
      */
 	public function getName(){

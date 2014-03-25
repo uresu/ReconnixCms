@@ -25,6 +25,11 @@ class Configuration
     private $id;
 
     /**
+     * @ORM\Column(name="name", length=32)
+     */
+    private $name;
+
+    /**
      * Logo image path
      *
      * @var string
@@ -42,7 +47,7 @@ class Configuration
      *      maxSize = "10M",
      *      mimeTypes = {"image/jpeg", "image/gif", "image/png", "image/tiff", "image/svg+xml", "image/png"},
      *      maxSizeMessage = "The maximum allowed file size is 10MB.",
-     *      mimeTypesMessage = "Only the filetypes image are allowed."
+     *      mimeTypesMessage = "Invalid file extension."
      * )
      */
     protected $logoFile;

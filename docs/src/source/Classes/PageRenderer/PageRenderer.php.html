@@ -1,0 +1,95 @@
+<html>
+    <head>
+        <script
+            type="text/javascript"
+            src="../../../js/jquery-1.4.2.min.js">
+        </script>
+        <script
+            type="text/javascript"
+            src="../../../syntax_highlighter/scripts/shCore.js">
+        </script>
+        <script
+            type="text/javascript"
+            src="../../../syntax_highlighter/scripts/shBrushJScript.js">
+        </script>
+        <script
+            type="text/javascript"
+            src="../../../syntax_highlighter/scripts/shBrushPhp.js">
+        </script>
+        <script
+            type="text/javascript"
+            src="../../../syntax_highlighter/scripts/shBrushXml.js">
+        </script>
+        <link
+            href="../../../syntax_highlighter/styles/shCore.css" rel="stylesheet"
+            type="text/css"
+        />
+        <link
+            href="../../../syntax_highlighter/styles/shCoreEclipse.css"
+            rel="stylesheet" type="text/css"
+        />
+        <link
+            href="../../../syntax_highlighter/styles/shThemeWordpress.css"
+            rel="stylesheet" type="text/css"
+        />
+    </head>
+    <body>
+        <pre class="brush: php">&lt;?php
+
+namespace Reconnix\CmsBundle\Classes\PageRenderer;
+
+use Twig_Environment;
+use Twig_Loader_Array;
+use Twig_Loader_Chain;
+use Doctrine\Bundle\DoctrineBundle\Registry;
+
+use Reconnix\CmsBundle\Entity\Content\Page;
+use Reconnix\CmsBundle\Entity\Content\Template;
+
+class PageRenderer{
+
+	private $doctrine;
+	private $twig;
+	private $page;
+	private $blocks;
+	private $templates = array();
+	private $twigLoaders = array();
+	
+	public function __construct(Registry $doctrine, Twig_Environment $twig){
+		$this-&gt;doctrine = $doctrine;
+		$this-&gt;twig = clone $twig;
+	}
+
+	public function init(Page $page, array $templates){
+		$this-&gt;page = $page;
+		$this-&gt;blocks = $page-&gt;getBlocks();		
+		$this-&gt;templates = $templates;
+
+		$this-&gt;buildLoaders($this-&gt;templates);
+		$this-&gt;buildLoaders($this-&gt;blocks);
+
+		return $this;
+	}
+
+	private function buildLoaders($dbContent){
+		foreach($dbContent as $content){
+			$this-&gt;twigLoaders[] = new Twig_Loader_Array(array(strtolower($content-&gt;getName()) =&gt; $content-&gt;getContent())); 
+		}
+
+		$this-&gt;twig-&gt;setLoader(new Twig_Loader_Chain($this-&gt;twigLoaders));
+	}
+
+	public function render($template, array $params = null){
+		$template = strtolower($template);
+		return isset($params) ? $this-&gt;twig-&gt;render($template, $params) : $this-&gt;twig-&gt;render($template);
+	}
+}
+</pre>
+        <script type="text/javascript">
+             SyntaxHighlighter.all();
+             jQuery('.gutter div').each(function(key, data){
+                jQuery(data).prepend('<a name="L'+jQuery(data).text()+'"/>');
+             });
+        </script>
+    </body>
+</html>

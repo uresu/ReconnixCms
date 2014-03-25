@@ -1,0 +1,121 @@
+<html>
+    <head>
+        <script
+            type="text/javascript"
+            src="../../js/jquery-1.4.2.min.js">
+        </script>
+        <script
+            type="text/javascript"
+            src="../../syntax_highlighter/scripts/shCore.js">
+        </script>
+        <script
+            type="text/javascript"
+            src="../../syntax_highlighter/scripts/shBrushJScript.js">
+        </script>
+        <script
+            type="text/javascript"
+            src="../../syntax_highlighter/scripts/shBrushPhp.js">
+        </script>
+        <script
+            type="text/javascript"
+            src="../../syntax_highlighter/scripts/shBrushXml.js">
+        </script>
+        <link
+            href="../../syntax_highlighter/styles/shCore.css" rel="stylesheet"
+            type="text/css"
+        />
+        <link
+            href="../../syntax_highlighter/styles/shCoreEclipse.css"
+            rel="stylesheet" type="text/css"
+        />
+        <link
+            href="../../syntax_highlighter/styles/shThemeWordpress.css"
+            rel="stylesheet" type="text/css"
+        />
+    </head>
+    <body>
+        <pre class="brush: php">&lt;?php
+
+/*
+ * This file is part of the Reconnix CMS package.
+ *
+ * Reconnix (c) &lt;development@reconnix.com&gt;
+ */
+
+namespace Reconnix\CmsBundle\Controller;
+
+use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Component\HttpFoundation\Response;
+use Reconnix\CmsBundle\Classes\PageRenderer\PageRenderer;
+
+/**
+ * PageController
+ */
+class PostController extends Controller
+{
+
+    /**
+     * @return Reponse HTTP Repsonse 
+     */
+    public function indexAction($tag, $title){
+
+        $blockRenderParams = array();
+
+        $page = $this-&gt;getDoctrine()-&gt;getRepository('ReconnixCmsBundle:Content\Page')-&gt;findOneByName('post');
+        $templates = $this-&gt;getDoctrine()-&gt;getRepository('ReconnixCmsBundle:Content\Template')-&gt;findAll();
+        $pageRenderer = $this-&gt;container-&gt;get('page_renderer')-&gt;init($page, $templates);
+
+        // get the logo filename to pass to the header block
+        $logoPath = $this-&gt;getDoctrine()-&gt;getRepository('ReconnixCmsBundle:Configuration\Configuration')-&gt;find(1)-&gt;getLogoPath();
+        $blockRenderParams['logo'] = 'files/'.$logoPath;
+
+        // get this particular post
+        $post = $this-&gt;getDoctrine()-&gt;getRepository('ReconnixCmsBundle:Content\Post')-&gt;findOneByName($title);
+
+        $blockRenderParams['post_title'] = $post-&gt;getTitle();
+        $blockRenderParams['post_date'] = $post-&gt;getDate();
+        $blockRenderParams['body'] = $post-&gt;getContent();
+        
+
+        // get the menu items
+        /*
+        $menuManager = $this-&gt;container-&gt;get('menu_manager');
+        $menuItems = $menuManager-&gt;getMenuItems('ReconnixCmsBundle:Menu\MenuItem');
+        $blockRenderParams['menu'] = $menuItems;
+        */
+        
+        $em = $this-&gt;getDoctrine()-&gt;getManager();
+        $menuItems = $em-&gt;getRepository('ReconnixCmsBundle:Menu\MenuItem')-&gt;getMenuItems();
+        $blockRenderParams['menu'] = $menuItems;
+
+
+        $blocks = $page-&gt;getBlocks();
+        foreach($blocks as &amp;$block){
+            $blockMeta[$block-&gt;getRegion()]['background'] = $block-&gt;getBackground();
+            $blockMeta[$block-&gt;getRegion()]['classList'] = $block-&gt;getClassList();
+            $block-&gt;setContent($pageRenderer-&gt;render($block-&gt;getName(), $blockRenderParams));
+        }
+
+        $pageParams = array(
+            'blocks' =&gt; $blocks,
+            'name' =&gt; $page-&gt;getName(),
+            'title' =&gt; $page-&gt;getTitle(),
+            'tagline' =&gt; $page-&gt;getTagline(),
+            'subtagline' =&gt; $page-&gt;getSubtagline(),
+            'blockMeta' =&gt; $blockMeta,
+        );
+
+        $pageContent = $pageRenderer-&gt;render('base', $pageParams);
+
+        return new Response($pageContent);
+    }
+}
+</pre>
+        <script type="text/javascript">
+             SyntaxHighlighter.all();
+             jQuery('.gutter div').each(function(key, data){
+                jQuery(data).prepend('<a name="L'+jQuery(data).text()+'"/>');
+             });
+        </script>
+    </body>
+</html>

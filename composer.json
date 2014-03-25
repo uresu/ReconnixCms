@@ -20,7 +20,8 @@
         "sensio/generator-bundle": "~2.3",
         "incenteev/composer-parameter-handler": "~2.0",
         "phpunit/phpunit": "3.7.*",
-        "stfalcon/tinymce-bundle": "dev-master"
+        "stfalcon/tinymce-bundle": "dev-master",
+        "phpdocumentor/phpdocumentor": "2.*"
     },
     "scripts": {
         "post-install-cmd": [

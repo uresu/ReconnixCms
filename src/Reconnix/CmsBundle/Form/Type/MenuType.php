@@ -1,6 +1,6 @@
 <?php
 
-/*
+/**
  * This file is part of the Reconnix CMS package.
  *
  * Reconnix (c) <development@reconnix.com>
@@ -12,11 +12,13 @@ use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 
 /**
- * Configuration to render the Add Block form
+ * Configuration to render the Add Menu form.
  */
 class MenuType extends AbstractType{
 
 	/**
+     * Build the Form by defining each input field.
+     *
 	 * @param FormBuilderInterface $builder
 	 * @param array $options 
 	 */
@@ -28,18 +30,9 @@ class MenuType extends AbstractType{
         $builder->add('save', 'submit');
 	}
 
-	/**
-     * @param array $options
-     *
-     * @return array  
-     */
-	public function getDefaultOptions(array $options){
-		return array(
-			'data_class' => 'Reconnix\CmsBundle\Entity\Menu\Menu'
-		);
-	}
-
     /**
+     * Returns the name of this type.
+     *
      * @return string 
      */
 	public function getName(){
