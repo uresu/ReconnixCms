@@ -21,7 +21,11 @@
         "incenteev/composer-parameter-handler": "~2.0",
         "phpunit/phpunit": "3.7.*",
         "stfalcon/tinymce-bundle": "dev-master",
-        "phpdocumentor/phpdocumentor": "2.*"
+        "phpdocumentor/phpdocumentor": "2.*",
+        "behat/behat":"*",
+        "behat/mink":"*",
+        "behat/mink-extension":"*",
+        "behat/mink-goutte-driver":"*"
     },
     "scripts": {
         "post-install-cmd": [
@@ -39,8 +43,9 @@
             "Sensio\\Bundle\\DistributionBundle\\Composer\\ScriptHandler::installRequirementsFile"
         ]
     },
+    "minimum-stability": "dev",
     "config": {
-        "bin-dir": "bin"
+        "bin-dir": "bin/"
     },
     "extra": {
         "symfony-app-dir": "app",
