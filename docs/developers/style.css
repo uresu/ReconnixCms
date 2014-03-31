@@ -1,0 +1,82 @@
+body, div{
+	margin: 0;
+	padding: 0;
+}
+
+.content{
+	width: 690px;	
+	margin: 20px auto;
+	font-family: 'Lucida Sans Unicode', 'Lucida Grande', Verdana, Arial, Helvetica, sans-serif;
+	color: rgb(68, 68, 68);
+}
+
+p{
+	font-family: 'Lucida Sans Unicode', 'Lucida Grande', Verdana, Arial, Helvetica, sans-serif;
+	color: rgb(68, 68, 68);
+	font-size: 14px;
+}
+
+table, th, td, tr{
+	border-spacing: 0;
+	border-collapse: collapse;
+	border: 1px solid black;
+}
+
+.literal-block{
+	margin-bottom: 10px;
+	overflow: auto;
+	max-width: 100%
+}
+
+.highlighttable{
+	width: 100%;
+	border: none;
+}
+
+.highlight{
+	background: #000;
+	overflow: auto;
+	background-color: #232125;
+	margin-bottom: 0;
+	width: 670px;
+}
+
+.highlight span{
+	text-align: left;
+}
+
+.highlight .keyword{
+	color: rgb(255, 132, 0)
+}
+
+.highlight .code{
+	color: #fff;
+}
+
+.highlight .punct{
+	color: rgb(153, 153, 153);
+}
+
+td.code{
+	border: 1px solid #232125;
+	border-left: 0;
+}
+
+pre{
+	background-color: #232125;
+	overflow: auto;
+	line-height: 1.3em;
+	color: #fff;
+	font-size: 14px;
+	padding: .7em;
+ 	white-space: pre-line;
+}
+
+.highlighttable pre{
+	margin: 0;
+}
+
+.linenodiv pre{
+	background-color: #ececec;
+	color: #aaa;
+}

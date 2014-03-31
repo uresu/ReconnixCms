@@ -1,0 +1,29 @@
+<link rel="stylesheet" href="style.css" type="text/css" />
+
+<body>
+	<div class="content">
+		<h2>Reconnix CMS Basics</h2>
+			<p>The application has a "front" end and a "back" end. The back end is accessed from <b>/admin</b>. The purpose of the admin area is to provide CRUD functionality to the content that is displayed on the front end. The front end web pages are accessed from /page/{page-name}, where /page refers to the Page Controller, and {page-name} is a string variable passed to the IndexAction function of the Controller:</p>
+		<div class="literal-block">
+			<div class="highlight-php">
+				<table class="highlitghttable">
+					<tbody>
+						<tr>
+							<td class="code">
+								<div class="highlight">
+									<pre>
+									<span class="keyword">class </span><span class="code">PageController </span><span class="keyword">extends </span><span class="code">Controller</span><span class="punct">{</span>
+									&nbsp<span class="keyword">function </span><span class="code">IndexAction</span><span class="punct">($name){</span>
+									&nbsp&nbsp<span class="code">...</span>
+									&nbsp<span class="punct">}</nbspspan>
+									<span class="punct">}</span>
+									</pre>
+								</div>
+							</td>
+						</tr>
+					</tbody>
+				</table>
+			</div>
+		</div>
+	</content>
+</body>
