@@ -13,18 +13,19 @@ table {
     border-spacing: 0
 }
 
-li {
-    list-style: none
+li{
+	margin-left: 40px;
+	font-size: 14px;
 }
 
 caption, th {
     text-align: left
 }
 
-h1, h2, h3, h4, h5, h6 {
-    font-size: 100%;
-    font-weight: normal;
-    margin-bottom: 10px;
+h2{
+    font-size: 18px;
+    font-weight: 900;
+    padding: 25px 0;
 }
 
 input, textarea, select {
@@ -54,7 +55,7 @@ html, body {
 }
 
 body {
-    font: 1em 'Lucida Sans Unicode', 'Lucida Grande', Verdana, Arial, Helvetica, sans-serif;
+    font: 14px 'Lucida Sans Unicode', 'Lucida Grande', Verdana, Arial, Helvetica, sans-serif;
     color: rgb(68, 68, 68);
     line-height: 1.5em;
     text-align: left;
@@ -148,6 +149,10 @@ em {
 
 .highlight .k{
 	color: #FF8400;
+}
+
+.highlight .pa{
+	color: #56DB3A;
 }
 
 .co{

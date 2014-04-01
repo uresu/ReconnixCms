@@ -12,7 +12,7 @@
 							<td class="code">
 								<div class="highlight">
 <pre><span class="k">class </span><span class="c">PageController </span><span class="k">extends </span><span class="c">Controller</span><span class="p">{</span>
-  <span class="k">function </span><span class="c">IndexAction</span><span class="p">(</span><span class="c">$name</span><span>){</span>
+  <span class="k">function </span><span class="c">IndexAction</span><span class="p">(</span><span class="pa">$name</span><span>){</span>
     <span class="p">// fetch the Page where name == $name</span>
   <span class="p">}</nbspspan>
 <span class="p">}</span></pre>
@@ -57,7 +57,7 @@
 							<td class="code">
 								<div class="highlight">
 <pre><span class="k">&ltheader&gt</span>
-  <span class="p">{% </span><span class="c"><span class="k">for</span> block <span class="k">in</span> blocks <span class="k">if</span> block.region == 'header' </span><span class="p">%}</span>
+  <span class="p">{% </span><span class="c"><span class="k">for</span> block <span class="k">in</span> blocks <span class="k">if</span> block.region == </span><span class="pa">'header' </span><span class="p">%}</span>
     <span class="p">{{ </span><span class="c">block.content | raw </span><span class="p">}}</span>
   <span class="p">{% </span><span class="k">endfor </span><span class="p">%}</span>
 <span class="k">&lt/header&gt</span></pre>
@@ -80,8 +80,8 @@
 								<div class="highlight">
 <pre><span class="k">&ltheader&gt</span>
   <span class="k">foreach</span><span class="p">{ </span><span class="c">blocks</span><span class="k"> as </span><span class="c">block </span><span class="p">){</span>
-    <span class="k">if</span><span class="p">{ </span><span class="c">block['region'] == 'header' </span><span class="p">){</span>
-      <span class="k">print </span><span class="c">block['content']</span><span class="p">;</span>
+    <span class="k">if</span><span class="p">{ </span><span class="c">block[</span><span class="pa">'region'</span>] == <span class="pa">'header'</span> <span class="p">){</span>
+      <span class="k">print </span><span class="c">block[<span class="pa">'content'</span>]</span><span class="p">;</span>
     <span class="p">}</span>
   <span class="p">}</span>
 <span class="k">&lt/header&gt</span></pre>
@@ -96,6 +96,101 @@
 		<h2>Converting Database Content into Twig</h2>
 		<p>The Base Template which defines the HTML and Twig for a Page is stored in the database. This means that it is retrieved only as string content. If the Page Controller was to simply pass this string to the browser, it would print the Twig notation literally to the screen. In order for the Twig notation to be parsed correctly as Twig, the content must be parsed through the Twig Engine.</p>
 
+		<p>In its most simplistic form, this is a three step process:</p>
+		<ol>
+			<li>Clone the current instance of the <span class="co">Twig_Environment</span> class.</li>
+		<div class="literal-block" style="margin-left: 20px;">
+			<div class="highlight-php">
+				<table class="highlighttable">
+					<tbody>
+						<tr>
+							<td class="code">
+								<div class="highlight">
+<pre><span class="c">$twig = </span><span class="k">clone </span><span class="c">$this->get</span><span class="p">(</span><span class="pa">'twig'</span><span class="p">);</span></pre>
+								</div>
+							</td>
+						</tr>
+					</tbody>
+				</table>
+			</div>
+		</div>			
+			<li>Inform the <span class="co">Twig_Environment</span> instance that we will be rendering our template from a string, instead of from the default method of a file from the file system.</li>
+		<div class="literal-block" style="margin-left: 20px;">
+			<div class="highlight-php">
+				<table class="highlighttable">
+					<tbody>
+						<tr>
+							<td class="code">
+								<div class="highlight">
+<pre><span class="c">$twig->setLoader</span><span class="p">(</span><span class="k">new </span><span class="c">\Twig_Loader_String</span><span class="p">());</span></pre>
+								</div>
+							</td>
+						</tr>
+					</tbody>
+				</table>
+			</div>
+		</div>
+			<li>Parse the string HTML/Twig content from the database through the <span class="co">render</span> function.</li>
+		<div class="literal-block" style="margin-left: 20px;">
+			<div class="highlight-php">
+				<table class="highlighttable">
+					<tbody>
+						<tr>
+							<td class="code">
+								<div class="highlight">
+<pre><span class="c">$renderedContent = $twig->render</span><span class="p">(</span>
+  <span class="pa">"&ltdiv class = 'tagline'&gt{{ tagline }}"</span><span class="p">,</span>
+  <span class="k">array</span><span class="p">(</span><span class="pa">"tagline"</span><span class="k"> => </span><span class="c">$taglineFromDb</span><span class="p">)</span>
+<span class="p">);</span></pre>
+								</div>
+							</td>
+						</tr>
+					</tbody>
+				</table>
+			</div>
+		</div>
+		</ol>
+		
+		<p>Step 3 shows how the <span class="co">render</span> function takes the Base Template content as the first parameter, and an array of Twig variables of which to pass to the Template as the second parameter. The <span class="co">$renderedContent</span> variable now holds the processed content to send back as a HTTP Response:</p>
+		<div class="literal-block">
+			<div class="highlight-php">
+				<table class="highlighttable">
+					<tbody>
+						<tr>
+							<td class="code">
+								<div class="highlight">
+<pre><span class="k">return new </span><span class="c">Response</span><span class="p">(</span><span class="pa">$renderedContent</span><span class="p">);</span></pre>
+								</div>
+							</td>
+						</tr>
+					</tbody>
+				</table>
+			</div>
+		</div>
+
+		<p>The process used by this application is slightly more complicated. This is because as well as the Base Template, Blocks can also contain Twig notation. For example, the Header Block contains Twig variables to render the Menu items instead of hard coding them, allowing them to that be edited from the Admin area.</p>
+
+		<p>This means that before the Blocks are sent to the Base Template in the array of Blocks that was mentioned previously, they <i>too</i> need their content to be parsed through the Twig engine.</p>
+
+		<p>This process can be achieved by chaining templates together. For each Block belonging to the particular Page, the string content is used to instantiate an instance of <span class="co">\Twig_Loader_Array()</span>. An array of all <span class="co">\Twig_Loader_Array()</span> instances is then passed to the constructor of a <span class="co">\Twig_Loader_Chain()</span> instance. This instance is then passed to the <span class="co">setLoader()</span> method instead of the <span class="co">\Twig_Loader_String()</span> instance shown in Step 2 above.</p>
+
+		<p>A simplified summary of this event is shown below:</p>
+
+		<div class="literal-block">
+			<div class="highlight-php">
+				<table class="highlighttable">
+					<tbody>
+						<tr>
+							<td class="code">
+								<div class="highlight">
+<pre><span class="k">return new </span><span class="c">Response</span><span class="p">(</span><span class="pa">$renderedContent</span><span class="p">);</span></pre>
+								</div>
+							</td>
+						</tr>
+					</tbody>
+				</table>
+			</div>
+		</div>	
 
 	</div>
 </body>
