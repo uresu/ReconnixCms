@@ -1,82 +1,222 @@
-body, div{
-	margin: 0;
-	padding: 0;
+html {
+    color: #000
+}
+
+body, div, dl, dt, dd, ul, ol, li, h1, h2, h3, h4, h5, h6, pre, code, form, fieldset,
+legend, input, textarea, p, blockquote, th, td {
+    margin: 0;
+    padding: 0
+}
+
+table {
+    border-collapse: collapse;
+    border-spacing: 0
+}
+
+li {
+    list-style: none
+}
+
+caption, th {
+    text-align: left
+}
+
+h1, h2, h3, h4, h5, h6 {
+    font-size: 100%;
+    font-weight: normal;
+    margin-bottom: 10px;
+}
+
+input, textarea, select {
+    font-family: inherit;
+    font-size: inherit;
+    font-weight: inherit
+}
+
+input, textarea, select {
+    *font-size: 100%
+}
+
+legend {
+    color: #000
+}
+
+del, ins {
+    text-decoration: none
+}
+
+html, body {
+    width: 100%;
+    min-height: 100%;
+    _height: 100%;
+    margin: 0;
+    padding: 0
+}
+
+body {
+    font: 1em 'Lucida Sans Unicode', 'Lucida Grande', Verdana, Arial, Helvetica, sans-serif;
+    color: rgb(68, 68, 68);
+    line-height: 1.5em;
+    text-align: left;
+    background-color: white;
 }
 
 .content{
-	width: 690px;	
-	margin: 20px auto;
-	font-family: 'Lucida Sans Unicode', 'Lucida Grande', Verdana, Arial, Helvetica, sans-serif;
-	color: rgb(68, 68, 68);
+    width: 960px;
+    margin: 20px auto;	
 }
 
-p{
-	font-family: 'Lucida Sans Unicode', 'Lucida Grande', Verdana, Arial, Helvetica, sans-serif;
-	color: rgb(68, 68, 68);
-	font-size: 14px;
+p {
+    font-size: 14px;
+    padding: 15px 0;
 }
 
-table, th, td, tr{
-	border-spacing: 0;
-	border-collapse: collapse;
-	border: 1px solid black;
+a {
+    color: #08c;
+    text-decoration: none
+}
+
+a img {
+    border: 0
+}
+
+a:hover {
+    text-decoration: underline
+}
+
+a:visited {
+    color: #059
+}
+
+table, th, td, tr {
+    border-collapse: collapse;
+    border: 1px solid black
+}
+
+fieldset {
+    border: 0
+}
+
+.clear {
+    clear: both;
+    height: 0;
+    font-size: 0;
+    line-height: 0
+}
+
+strong {
+    font-weight: bold
+}
+
+em {
+    font-style: italic
+}
+
+.clear_fix:after {
+    content: "\0020";
+    display: block;
+    height: 0;
+    clear: both;
+    visibility: hidden
+}
+
+.clear_fix {
+    display: inline-block
+}
+
+/*\*/
+* html .clear_fix {
+    height: 1%
+}
+
+.clear_fix {
+    display: block
+}
+
+.highlight {
+    background: #000;
+    padding: 5px 15px;
+}
+
+.highlight .c {
+    color: #fff
+}
+
+.highlight .p {
+    color: #999
+}
+
+.highlight .k{
+	color: #FF8400;
+}
+
+.co{
+	font-family: "Courier New";
+	font-weight: 900;
+}
+
+pre {
+    background-color: #232125;
+    overflow: auto;
+    line-height: 1.3em;
+    color: #fff;
+    font-size: 14px;
+    padding: .7em;
+}
+
+pre code {
+    background-color: #232125
+}
+
+pre.command-line {
+    background-color: #333;
+    color: #eee;
+    padding-bottom: 10px
+}
+
+pre.command-line code {
+    background-color: #333
+}
+
+blockquote {
+    padding: 20px;
+    padding-top: 7px;
+    background-color: #f5f5f5
 }
 
 .literal-block{
-	margin-bottom: 10px;
-	overflow: auto;
-	max-width: 100%
+	margin: 20px auto;
 }
 
-.highlighttable{
-	width: 100%;
-	border: none;
+.highlight {
+    background-color: #232125
 }
 
-.highlight{
-	background: #000;
-	overflow: auto;
-	background-color: #232125;
-	margin-bottom: 0;
-	width: 670px;
+.highlighttable {
+
 }
 
-.highlight span{
-	text-align: left;
+td.linenos {
+    border: 1px solid #ddd;
+    border-right: 0;
+    width: 35px;
+    min-width: 35px;
+    text-align: right
 }
 
-.highlight .keyword{
-	color: rgb(255, 132, 0)
+td.code {
+    border: 1px solid #232125;
+    border-left: 0
 }
 
-.highlight .code{
-	color: #fff;
+.highlighttable pre {
+    margin: 0
 }
 
-.highlight .punct{
-	color: rgb(153, 153, 153);
+.linenodiv pre {
+    background-color: #ececec;
+    color: #aaa
 }
 
-td.code{
-	border: 1px solid #232125;
-	border-left: 0;
-}
 
-pre{
-	background-color: #232125;
-	overflow: auto;
-	line-height: 1.3em;
-	color: #fff;
-	font-size: 14px;
-	padding: .7em;
- 	white-space: pre-line;
-}
 
-.highlighttable pre{
-	margin: 0;
-}
-
-.linenodiv pre{
-	background-color: #ececec;
-	color: #aaa;
-}

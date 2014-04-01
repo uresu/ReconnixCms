@@ -3,21 +3,19 @@
 <body>
 	<div class="content">
 		<h2>Reconnix CMS Basics</h2>
-			<p>The application has a "front" end and a "back" end. The back end is accessed from <b>/admin</b>. The purpose of the admin area is to provide CRUD functionality to the content that is displayed on the front end. The front end web pages are accessed from /page/{page-name}, where /page refers to the Page Controller, and {page-name} is a string variable passed to the IndexAction function of the Controller:</p>
+			<p>The application has a "front" end and a "back" end. The back end is accessed from <span class="co">/admin</span>. The Admin area provides CRUD functionality to the content that is displayed on the front end. The front end web pages are accessed from <span class="co">/page/{page-name}</span>, where <span class="co">/page</span> refers to the Page Controller, and <span class="co">{page-name}</span> is a string variable passed to the IndexAction function of the Controller. The controller retrieves the appropriate "page" by searching the database for a page name matching the argument that is passed to the controller</p>
 		<div class="literal-block">
 			<div class="highlight-php">
-				<table class="highlitghttable">
+				<table class="highlighttable">
 					<tbody>
 						<tr>
 							<td class="code">
 								<div class="highlight">
-									<pre>
-									<span class="keyword">class </span><span class="code">PageController </span><span class="keyword">extends </span><span class="code">Controller</span><span class="punct">{</span>
-									&nbsp<span class="keyword">function </span><span class="code">IndexAction</span><span class="punct">($name){</span>
-									&nbsp&nbsp<span class="code">...</span>
-									&nbsp<span class="punct">}</nbspspan>
-									<span class="punct">}</span>
-									</pre>
+<pre><span class="k">class </span><span class="c">PageController </span><span class="k">extends </span><span class="c">Controller</span><span class="p">{</span>
+  <span class="k">function </span><span class="c">IndexAction</span><span class="p">(</span><span class="c">$name</span><span>){</span>
+    <span class="p">// fetch the Page where name == $name</span>
+  <span class="p">}</nbspspan>
+<span class="p">}</span></pre>
 								</div>
 							</td>
 						</tr>
@@ -25,5 +23,79 @@
 				</table>
 			</div>
 		</div>
-	</content>
+
+		<h2>Page Anatomy</h2>
+		<p>A Page is made up of a number of User selected <span class="co">Blocks</span>. A Block is a section of html content that is assigned to a region: top, middle, or bottom. These regions refer to the three tier vertical layout of the Reconnix website design. If a Page is assigned two or more Blocks which belong to the same region, they will be stacked vertically together in the same region. Two other possible regions can be assigned to a Block: header and footer. These are reserved only for the Header and Footer Blocks.</p>
+
+		<p>Each Page uses a Base HTML/Twig Template that is created and edited in the Admin area. This Template defines the boiler plate HTML markup, and the Twig variables. A Twig variable is a piece of data that is passed to the Template from the Page Controller. This allows a Page to display text that is relevant to a particular Page.</p>
+
+		<div class="literal-block">
+			<div class="highlight-php">
+				<table class="highlighttable">
+					<tbody>
+						<tr>
+							<td class="code">
+								<div class="highlight">
+<pre><span class="k">&lth1&gt</span><span class="p">{{ </span><span class="c">tagline </span><span class="p">}}</span><span class="k">&lt/h1&gt</span></pre>
+								</div>
+							</td>
+						</tr>
+					</tbody>
+				</table>
+			</div>
+		</div>
+
+		<p>Above is a snippet from the Base Template showing how the tagline of each Page is rendered by having a variable called <span class="co">tagline</span> passed to it from the Page Controller.</p>
+
+		<p>As mentioned, a Page is made up of Blocks. The Blocks for each Page are passed into the Template as an array called <span class="co">blocks</span>. The Template uses Twig to loop each item in the array, evaluate its name, and output its content if the Twig determines that the Block belongs there:</p>
+
+		<div class="literal-block">
+			<div class="highlight-php">
+				<table class="highlighttable">
+					<tbody>
+						<tr>
+							<td class="code">
+								<div class="highlight">
+<pre><span class="k">&ltheader&gt</span>
+  <span class="p">{% </span><span class="c"><span class="k">for</span> block <span class="k">in</span> blocks <span class="k">if</span> block.region == 'header' </span><span class="p">%}</span>
+    <span class="p">{{ </span><span class="c">block.content | raw </span><span class="p">}}</span>
+  <span class="p">{% </span><span class="k">endfor </span><span class="p">%}</span>
+<span class="k">&lt/header&gt</span></pre>
+								</div>
+							</td>
+						</tr>
+					</tbody>
+				</table>
+			</div>
+		</div>
+
+		<p>The PHP equivalent to this would be:</p>
+
+		<div class="literal-block">
+			<div class="highlight-php">
+				<table class="highlighttable">
+					<tbody>
+						<tr>
+							<td class="code">
+								<div class="highlight">
+<pre><span class="k">&ltheader&gt</span>
+  <span class="k">foreach</span><span class="p">{ </span><span class="c">blocks</span><span class="k"> as </span><span class="c">block </span><span class="p">){</span>
+    <span class="k">if</span><span class="p">{ </span><span class="c">block['region'] == 'header' </span><span class="p">){</span>
+      <span class="k">print </span><span class="c">block['content']</span><span class="p">;</span>
+    <span class="p">}</span>
+  <span class="p">}</span>
+<span class="k">&lt/header&gt</span></pre>
+								</div>
+							</td>
+						</tr>
+					</tbody>
+				</table>
+			</div>
+		</div>
+
+		<h2>Converting Database Content into Twig</h2>
+		<p>The Base Template which defines the HTML and Twig for a Page is stored in the database. This means that it is retrieved only as string content. If the Page Controller was to simply pass this string to the browser, it would print the Twig notation literally to the screen. In order for the Twig notation to be parsed correctly as Twig, the content must be parsed through the Twig Engine.</p>
+
+
+	</div>
 </body>
